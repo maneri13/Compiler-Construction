@@ -24,6 +24,7 @@ public class WordBreaker
 	}
 
     public List<string> breakString(string myString){
+        output = new List<string>();
         string temp = "";
         bool breaker = false, addNext = false, isFloat = false;
         int index = 0, dump = 0;
