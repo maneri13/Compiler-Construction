@@ -7,3 +7,6 @@ D:\Saved Projects of All Programs\VS 2013\Compiler Construction\Compiler Constru
 D:\Saved Projects of All Programs\VS 2013\Compiler Construction\Compiler Construction\Compiler Construction\obj\Debug\Compiler Construction.csproj.GenerateResource.Cache
 D:\Saved Projects of All Programs\VS 2013\Compiler Construction\Compiler Construction\Compiler Construction\obj\Debug\Compiler Construction.exe
 D:\Saved Projects of All Programs\VS 2013\Compiler Construction\Compiler Construction\Compiler Construction\obj\Debug\Compiler Construction.pdb
+F:\CS Projects\compiler-construction\Compiler Construction\bin\Debug\Compiler Construction.exe.config
+F:\CS Projects\compiler-construction\Compiler Construction\obj\Debug\Compiler Construction.exe
+F:\CS Projects\compiler-construction\Compiler Construction\obj\Debug\Compiler Construction.pdb
