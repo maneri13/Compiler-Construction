@@ -8,8 +8,8 @@ using System.Windows.Forms;
 
 public class WordBreaker
 {
-    char[] breakers = { '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', ',', ';', ':', '(', ')',
-    '{', '}', '[', ']', '.', ' ', '\n', '\'', '\"'};
+    char[] breakers = { ' ', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', ',', ';', ':', '(', ')',
+    '{', '}', '[', ']', '.', '\'', '\"'};
     //string[] output = new string[100];
     List<string> output = new List<string>();
 
@@ -33,6 +33,7 @@ public class WordBreaker
                     switch (myString[i])
                     {
                         case '+':
+                            if (myString[i + 1] == '+') { }
                             break;
                         case '-':
                             break;
@@ -54,33 +55,9 @@ public class WordBreaker
                             break;
                         case '#':
                             break;
-                        case ',':
-                            break;
-                        case ';':
-                            break;
-                        case ':':
-                            break;
-                        case '(':
-                            break;
-                        case ')':
-                            break;
-                        case '{':
-                            break;
-                        case '}':
-                            break;
-                        case '[':
-                            break;
-                        case ']':
-                            break;
                         case '.':
                             break;
-                        case ' ':
-                            break;
-                        case '\n':
-                            break;
-                        case '\'':
-                            break;
-                        case '\"':
+                        default:
                             break;
 
                     }   // switch end
