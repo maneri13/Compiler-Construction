@@ -13,7 +13,7 @@ using System.Windows.Forms;
 public class WordBreaker
 {
     char[] breakers = { ' ', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
-    '{', '}', '[', ']', '.', '\'', '\"' , '\0' };
+    '{', '}', '[', ']', '.', '\'', '\"' };
     //string[] output = new string[100];
     List<string> output = new List<string>();
 
