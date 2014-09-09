@@ -46,16 +46,20 @@
             this.hELPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label_totalwords = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.totalWords = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // Lexical
             // 
-            this.Lexical.Location = new System.Drawing.Point(597, 238);
+            this.Lexical.Location = new System.Drawing.Point(597, 239);
             this.Lexical.Name = "Lexical";
             this.Lexical.Size = new System.Drawing.Size(75, 23);
             this.Lexical.TabIndex = 0;
@@ -65,6 +69,7 @@
             // 
             // codeBlock
             // 
+            this.codeBlock.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.codeBlock.Location = new System.Drawing.Point(6, 15);
             this.codeBlock.Name = "codeBlock";
             this.codeBlock.Size = new System.Drawing.Size(648, 96);
@@ -73,6 +78,7 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Font = new System.Drawing.Font("Consolas", 12F);
             this.richTextBox1.Location = new System.Drawing.Point(6, 19);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(200, 142);
@@ -91,6 +97,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -205,6 +212,36 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Source Code";
             // 
+            // label_totalwords
+            // 
+            this.label_totalwords.AutoSize = true;
+            this.label_totalwords.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label_totalwords.Location = new System.Drawing.Point(6, 16);
+            this.label_totalwords.Name = "label_totalwords";
+            this.label_totalwords.Size = new System.Drawing.Size(117, 19);
+            this.label_totalwords.TabIndex = 8;
+            this.label_totalwords.Text = "Total Words:";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.totalWords);
+            this.groupBox4.Controls.Add(this.label_totalwords);
+            this.groupBox4.Location = new System.Drawing.Point(432, 7);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(214, 166);
+            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Stats";
+            // 
+            // totalWords
+            // 
+            this.totalWords.AutoSize = true;
+            this.totalWords.Font = new System.Drawing.Font("Consolas", 12F);
+            this.totalWords.Location = new System.Drawing.Point(129, 16);
+            this.totalWords.Name = "totalWords";
+            this.totalWords.Size = new System.Drawing.Size(0, 19);
+            this.totalWords.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,6 +260,8 @@
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,6 +287,9 @@
         private System.Windows.Forms.ToolStripMenuItem tESTToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hELPToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label_totalwords;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label totalWords;
 
     }
 }
