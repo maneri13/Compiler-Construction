@@ -30,7 +30,7 @@
         {
             this.Lexical = new System.Windows.Forms.Button();
             this.codeBlock = new System.Windows.Forms.RichTextBox();
-            this.outputBlock = new System.Windows.Forms.RichTextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // Lexical
@@ -51,21 +51,20 @@
             this.codeBlock.TabIndex = 2;
             this.codeBlock.Text = "";
             // 
-            // outputBlock
+            // richTextBox1
             // 
-            this.outputBlock.Location = new System.Drawing.Point(60, 239);
-            this.outputBlock.Name = "outputBlock";
-            this.outputBlock.ReadOnly = true;
-            this.outputBlock.Size = new System.Drawing.Size(395, 96);
-            this.outputBlock.TabIndex = 3;
-            this.outputBlock.Text = "";
+            this.richTextBox1.Location = new System.Drawing.Point(60, 223);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(395, 124);
+            this.richTextBox1.TabIndex = 3;
+            this.richTextBox1.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 359);
-            this.Controls.Add(this.outputBlock);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.codeBlock);
             this.Controls.Add(this.Lexical);
             this.Name = "Form1";
@@ -78,7 +77,7 @@
 
         private System.Windows.Forms.Button Lexical;
         private System.Windows.Forms.RichTextBox codeBlock;
-        private System.Windows.Forms.RichTextBox outputBlock;
+        private System.Windows.Forms.RichTextBox richTextBox1;
 
     }
 }

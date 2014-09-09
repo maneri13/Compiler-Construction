@@ -21,7 +21,14 @@ namespace Compiler_Construction
 
         private void Lexical_Click(object sender, EventArgs e)
         {
-            myWordBreaker.breakString(codeBlock.Text);
+            richTextBox1.Text = "";
+            List<string> output = new List<string>();
+            output = myWordBreaker.breakString(codeBlock.Text);
+            foreach(string s in output)
+            {
+                richTextBox1.Text += s+"\n";
+            }
+            
         }
 
        

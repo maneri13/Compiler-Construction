@@ -30,77 +30,81 @@ public class WordBreaker
         int index = 0, dump = 0;
         for (int i = 0; i < myString.Length; i++ )
         {
+           
             foreach (char j in breakers)
             {
                 if (myString[i] == j)
                 {
                     breaker = true;
-                    switch (myString[i])
+                    if (i != myString.Length-1)
                     {
-                        case '+':
-                            if (myString[i + 1] == '+' || myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '-':
-                            if (myString[i + 1] == '-' || myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '*':
-                            if (myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '/':
-                            if (myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '>':
-                            if (myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '<':
-                            if (myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '=':
-                            if (myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '&':
-                            if (myString[i + 1] == '&') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '|':
-                            if (myString[i + 1] == '|') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '!':
-                            if (myString[i + 1] == '=') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '#':
-                            if (myString[i + 1] == '#' || myString[i + 1] == '$') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '$':
-                            if (myString[i + 1] == '#') { addNext = true; }
-                            else addNext = false;
-                            break;
-                        case '.':
-                            if(int.TryParse(temp, out dump) && int.TryParse(myString[i+1].ToString(),out dump))
-                            {
-                                breaker = false;
-                            }
-                            else if (int.TryParse(myString[i + 1].ToString(), out dump))
-                            {
-                                isFloat = true;
-                            }
-                            break;
-                        default:
-                            addNext = false;
-                            break;
+                        switch (myString[i])
+                        {
+                            case '+':
+                                if (myString[i + 1] == '+' || myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '-':
+                                if (myString[i + 1] == '-' || myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '*':
+                                if (myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '/':
+                                if (myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '>':
+                                if (myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '<':
+                                if (myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '=':
+                                if (myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '&':
+                                if (myString[i + 1] == '&') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '|':
+                                if (myString[i + 1] == '|') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '!':
+                                if (myString[i + 1] == '=') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '#':
+                                if (myString[i + 1] == '#' || myString[i + 1] == '$') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '$':
+                                if (myString[i + 1] == '#') { addNext = true; }
+                                else addNext = false;
+                                break;
+                            case '.':
+                                if (int.TryParse(temp, out dump) && int.TryParse(myString[i + 1].ToString(), out dump))
+                                {
+                                    breaker = false;
+                                }
+                                else if (int.TryParse(myString[i + 1].ToString(), out dump))
+                                {
+                                    isFloat = true;
+                                }
+                                break;
+                            default:
+                                addNext = false;
+                                break;
 
-                    }   // switch end
-                }   // if (i==j) end
+                        }   // switch end   
+                    }   // if ( i == length ) end
+                 }  // if (i==j) end
                 if (breaker) break;
             }   // foreach (j)
             if (!breaker)
@@ -130,6 +134,11 @@ public class WordBreaker
                 breaker = false;
             }
         }   // for (i)
+        if (temp != "")
+        {
+            output.Add(temp);
+            temp = "";
+        }
         return output;
     }
 
