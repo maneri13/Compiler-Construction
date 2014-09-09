@@ -14,6 +14,7 @@ namespace Compiler_Construction
     public partial class Form1 : Form
     {
         WordBreaker myWordBreaker = new WordBreaker();
+        LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
         public Form1()
         {
             InitializeComponent();
