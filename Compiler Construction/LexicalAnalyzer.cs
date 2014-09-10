@@ -10,25 +10,28 @@ namespace Compiler_Construction
     static class RegularExp
     {
         public static string Digits = "^[0-9]+$";
-        public static string EscSeq= "/\t/";
         public static string Signs = "[+-]";
-        public static string alphabet = @"^[a-zA-Z]+$";
-        public static string alphaNumeric = @"^[a-zA-Z0-9]+$";
-        public static string underscore="[_]";
-        public static string charStart="[']";
-        public static string stringStart="[\"]";
-        public static string at = "[@]";
-        public static string dot = "[.]";
+        public static string Alphabet = @"^[a-zA-Z]+$";
+        public static string AlphaNumeric = @"^[a-zA-Z0-9]+$";
+        public static string Underscore="[_]";
+        public static string CharStart="[']";
+        public static string StringStart="[\"]";
+        public static string BackSlash = "[\\\\]";
+        public static string EscSeq = "[nrtfbv]";
+        public static string SpChar = "[\\\\\"\']";
+        public static string At = "[@]";
+        public static string Dot = "[.]";
     };
     class LexicalAnalyzer
-    {       
+    {
+        
         
         public bool checkInt(string input)
         {
             int cState = 0;
             bool valid = false;
 
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Length && cState!=3; i++)
 			{
                 switch (cState)
                 {
@@ -41,7 +44,8 @@ namespace Compiler_Construction
                         {
                             cState = 1;
                         }
-                        else{
+                        else
+                        {
                             cState=3;
                         }
                         break;
@@ -58,15 +62,10 @@ namespace Compiler_Construction
                         break;
                     
                     case 2:
-                        valid = true;
                         if (Regex.IsMatch(input[i].ToString(), RegularExp.Digits))
                         {
                             cState = 2;
                         }
-                        //else if (i == input.Length - 1)
-                        //{
-                        //    break;
-                        //}
                         else{
                             cState=3;
                         }
@@ -78,6 +77,7 @@ namespace Compiler_Construction
                         break;
                 }
             }
+            if (cState == 2) valid = true;
             return valid;
         }
 
@@ -87,20 +87,22 @@ namespace Compiler_Construction
             bool valid = false;
 
 
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Length && cState!=5; i++)
             {
                 switch (cState)
                 {
                     case 0:
-                        valid = false;
                         if (Regex.IsMatch(input[i].ToString(), RegularExp.Signs) )
                         {
-
                             cState = 1;
                         }
                         else if (Regex.IsMatch(input[i].ToString(), RegularExp.Digits))
                         {
                             cState = 2;
+                        }
+                        else if (Regex.IsMatch(input[i].ToString(), RegularExp.Dot))
+                        {
+                            cState = 3;
                         }
                         else
                         {
@@ -109,10 +111,8 @@ namespace Compiler_Construction
                         break;
 
                     case 1:
-                        valid = false;
                         if (Regex.IsMatch(input[i].ToString(), RegularExp.Digits))
                         {
-
                             cState = 2;
                         }
                         else
@@ -121,14 +121,11 @@ namespace Compiler_Construction
                         }
                         break;
                     case 2:
-                        valid = true;
                         if (Regex.IsMatch(input[i].ToString(), RegularExp.Digits))
                         {
-
-                            cState = 2;
-                            
+                            cState = 2;                            
                         }
-                        else if (Regex.IsMatch(input[i].ToString(),RegularExp.dot ))
+                        else if (Regex.IsMatch(input[i].ToString(),RegularExp.Dot ))
                         {
                             cState = 3;
                         }
@@ -139,10 +136,8 @@ namespace Compiler_Construction
                         break;
 
                     case 3:
-                        valid = false;
                         if (Regex.IsMatch(input[i].ToString(), RegularExp.Digits))
                         {
-
                             cState = 4;
                         }
                         else
@@ -152,10 +147,8 @@ namespace Compiler_Construction
                         break;
 
                     case 4:
-                        valid = true;
                         if (Regex.IsMatch(input[i].ToString(), RegularExp.Digits))
                         {
-
                             cState = 4;
                         }
                         else
@@ -169,30 +162,32 @@ namespace Compiler_Construction
                         break;
                 }
             }
+            if (cState == 2 || cState == 4)
+            {
+                valid = true;
+            }
             return valid;
         }
     
-        
         
         // add logic to compare to keywords
         public bool checkIdentifier(string input)
         {
             int cState = 0;
             bool valid = false;
+            
 
-
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Length && cState!=3; i++)
             {
                 switch (cState)
                 {
                     case 0:
-                        if (Regex.IsMatch(input[i].ToString(), RegularExp.alphabet) ||
-                            Regex.IsMatch(input[i].ToString(), RegularExp.underscore))
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.Alphabet) ||
+                            Regex.IsMatch(input[i].ToString(), RegularExp.Underscore))
                         {
-
                             cState = 2;
                         }
-                        else if (Regex.IsMatch(input[i].ToString(), RegularExp.at))
+                        else if (Regex.IsMatch(input[i].ToString(), RegularExp.At))
                         {
                             cState = 1;
                         }
@@ -203,13 +198,11 @@ namespace Compiler_Construction
                         break;
 
                     case 1:
-                        if (Regex.IsMatch(input[i].ToString(), RegularExp.alphabet) ||
-                            Regex.IsMatch(input[i].ToString(), RegularExp.underscore))
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.Alphabet) ||
+                            Regex.IsMatch(input[i].ToString(), RegularExp.Underscore))
                         {
-
                             cState = 2;
                         }
-                       
                         else
                         {
                             cState = 3;
@@ -217,13 +210,11 @@ namespace Compiler_Construction
                         break;
 
                     case 2:
-                        valid = true;
-                        if (Regex.IsMatch(input[i].ToString(), RegularExp.alphaNumeric) )
+                        if(Regex.IsMatch(input[i].ToString(), RegularExp.AlphaNumeric) ||
+                            Regex.IsMatch(input[i].ToString(), RegularExp.Underscore))
                         {
-
                             cState = 2;
                         }
-
                         else
                         {
                             cState = 3;
@@ -233,54 +224,140 @@ namespace Compiler_Construction
                     case 3:
                         valid = false;
                         break;
-
-
                 }
             }
+            if (cState == 2) valid = true;
             return valid;
         }
 
-        /*
-        public bool checkString(String input)
+        
+        public bool checkString(String input) 
         {
-            
             int cState = 0;
-            for (int i = 1; i < input.Length-1; i++)
-			{
-			 
-			
-            switch (cState)
+            bool valid = false;
+
+            for (int i = 0; i < input.Length && cState!=4; i++)
             {
-                case 0:
-                    if(){}
-
-                    else{cState=3;}
-                    break;
-
-                
-                case 1:
-                    if(){}
-
-                    else{cState=3;}
-                    break;
-                    
-                case 2:
-                    if(){}
-
-                    else{cState=3;}
-                    break;
-
-                //error state    
-                case 3:
-                    
-                    break;
+                switch (cState)
+                {
+                    case 0:
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.StringStart))
+                        {
+                            cState = 1;
+                        }
+                        else
+                        {
+                            cState = 4;
+                        }
+                        break;
+                    case 1:
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.BackSlash))
+                        {
+                            cState = 2;
+                        }
+                        else if (Regex.IsMatch(input[i].ToString(), RegularExp.StringStart))
+                        {
+                            cState = 3;
+                        }
+                        else
+                        {
+                            cState = 1;                     // all other characters 
+                        }
+                        break;
+                    case 2:
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.EscSeq) ||
+                            Regex.IsMatch(input[i].ToString(), RegularExp.SpChar))
+                        {
+                            cState = 1;
+                        }
+                        else
+                        {
+                            cState = 4;
+                        }
+                        break;
+                    case 3:
+                        if (i <= input.Length - 1)
+                        {
+                            cState = 4;
+                        }
+                        break;
+                    case 4:
+                        valid = false;
+                        break;
+                }
             }
-            }
+            if (cState == 3) valid = true;
 
-
-            return false;
+            return valid;
         }
-        */
+
+
+        public bool checkChar(String input)
+        {
+            int cState = 0;
+            bool valid = false;
+
+            for (int i = 0; i < input.Length && cState != 5; i++)
+            {
+                switch (cState)
+                {
+                    case 0:
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.CharStart))
+                        {
+                            cState = 1;
+                        }
+                        else
+                        {
+                            cState = 5;
+                        }
+                        break;
+                    case 1:
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.BackSlash))
+                        {
+                            cState = 2;
+                        }
+                        
+                        else
+                        {
+                            cState = 3;                     // all other characters 
+                        }
+                        break;
+                    case 2:
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.EscSeq) ||
+                            Regex.IsMatch(input[i].ToString(), RegularExp.SpChar))
+                        {
+                            cState = 3;
+                        }
+                        else
+                        {
+                            cState = 5;
+                        }
+                        break;
+                    case 3:
+                        if (Regex.IsMatch(input[i].ToString(), RegularExp.CharStart))
+                        {
+                            cState = 4;
+                        }
+                        else
+                        {
+                            cState = 5;
+                        }
+                        break;
+                    case 4:
+                        if (i <= input.Length - 1)
+                        {
+                            cState = 5;
+                        }
+                        break;
+                    case 5:
+                        valid = false;
+                        break;
+                }
+            }
+            if (cState == 4) valid = true;
+
+            return valid;
+        }
         //public bool checkRE(string str, string pattern){
         //    bool match = (Regex.IsMatch(str, pattern));
         //    return match;
