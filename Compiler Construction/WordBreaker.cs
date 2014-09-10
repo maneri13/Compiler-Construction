@@ -126,6 +126,7 @@ namespace Compiler_Construction
                                             
                                             if (myString[i] == '\n')
                                             {
+                                                totalBreaker.Add("New Line");
                                                 newLine = true;
                                                 temp = temp.Remove(temp.Length - 1);
                                             }
@@ -145,6 +146,7 @@ namespace Compiler_Construction
                                             isString = true;
                                             if (myString[i] == '\n')
                                             {
+                                                totalBreaker.Add("New Line");
                                                 newLine = true;
                                                 temp = temp.Remove(temp.Length - 1);
                                             }
