@@ -22,7 +22,8 @@ namespace Compiler_Construction
 
         private void Lexical_Click(object sender, EventArgs e)
         {
-            myWordBreaker.breakString(codeBlock.Text);
+           myWordBreaker.breakString(codeBlock.Text);
+            
         }
 
        
