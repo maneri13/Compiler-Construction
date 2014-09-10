@@ -13,7 +13,7 @@ namespace Compiler_Construction
 
     public partial class Form1 : Form
     {
-        WordBreaker myWordBreaker = new WordBreaker();
+        WordBreaker myWordBreaker;
         LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
         public Form1()
         {
@@ -22,7 +22,8 @@ namespace Compiler_Construction
 
         private void Lexical_Click(object sender, EventArgs e)
         {
-            
+            myWordBreaker = new WordBreaker();
+            BreakerBox.Items.Clear();
             richTextBox1.Text = "";
             List<token> output = new List<token>();
             output = myWordBreaker.breakString(codeBlock.Text);
