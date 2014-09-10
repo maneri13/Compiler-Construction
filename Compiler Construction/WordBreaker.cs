@@ -20,13 +20,12 @@ public class WordBreaker
 	public WordBreaker()
 	{
 
-
 	}
 
     public List<string> breakString(string myString){
         output = new List<string>();
         string temp = "";
-        bool breaker = false, addNext = false, isFloat = false;
+        bool breaker = false, addNext = false, isFloat = false, isString = false;
         int index = 0, dump = 0;
         for (int i = 0; i < myString.Length; i++ )
         {
@@ -98,6 +97,22 @@ public class WordBreaker
                                     isFloat = true;
                                 }
                                 break;
+                            case '\"':
+                                while (true)
+                                {
+                                   temp += myString[i];
+                                    i++;
+                                    if ((myString[i] == '\"' && myString[i-1] !='\\') || (myString[i] == '\n') || (i == myString.Length-1 ))
+                                    {
+                                        temp += myString[i];
+                                        isString = true;                                        
+                                        break;
+                                        
+                                    }
+                                    
+                                    
+                                }
+                                break;
                             default:
                                 addNext = false;
                                 break;
@@ -111,9 +126,9 @@ public class WordBreaker
             {
                 temp += myString[i];
             }
-            else if (breaker)
+            else if (breaker && !isString)
             {
-                if (temp != "") { output.Add(temp); }
+                if (temp != "") { output.Add(temp);}
                 temp = myString[i].ToString();
                 if (isFloat)
                 {
@@ -131,6 +146,13 @@ public class WordBreaker
                 output.Add(temp);
                 temp = "";
                 index++;
+                breaker = false;
+            }
+            else if (isString == true)
+            {
+                output.Add(temp);
+                temp = "";
+                isString = false;
                 breaker = false;
             }
         }   // for (i)
