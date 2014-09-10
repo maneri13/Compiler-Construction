@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Compiler_Construction
 {
-   
+
     public partial class Form1 : Form
     {
         WordBreaker myWordBreaker = new WordBreaker();
@@ -23,18 +23,40 @@ namespace Compiler_Construction
         private void Lexical_Click(object sender, EventArgs e)
         {
             
-           richTextBox1.Text = "";
-            List<string> output = new List<string>();
+            richTextBox1.Text = "";
+            List<token> output = new List<token>();
             output = myWordBreaker.breakString(codeBlock.Text);
-            totalWords.Text = output.Count.ToString();
-            foreach(string s in output)
+            totalWords.Text = output.Count().ToString();
+            totalLines.Text = output.Last().lineNumber.ToString();
+            totalbreaker_label.Text = myWordBreaker.totalBreaker.Count.ToString();
+            foreach (token s in output)
             {
-                richTextBox1.Text +=">" + s + "<\n";
+                richTextBox1.Text +="(" +s.lineNumber +"→) >"+ s.wordString + "<\n";
                 
-           }
+            }
+            myWordBreaker.breakerAnalyzer();
+            foreach (string c in myWordBreaker.distinctBreaker)
+            {
+                BreakerBox.Items.Add(c);
+            }
         }
 
-      
-       
+        private void selectBreaker(object sender, EventArgs e)
+        {
+            int count = 0;
+            foreach (string c in myWordBreaker.totalBreaker)
+            {
+                if (c == BreakerBox.SelectedItem.ToString())
+                {
+                    count++;
+                    BreakerOcc.Text = count.ToString();
+                }
+            }
+        }
+
+
+
+
+
     }
 }

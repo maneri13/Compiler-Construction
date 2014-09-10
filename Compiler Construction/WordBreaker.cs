@@ -9,160 +9,232 @@ using System.Windows.Forms;
  * switch addnext on when two breakers are to be combined as one operator eg. += ==
  * we use default in all cases when there is only one breaker eg. /n ,' '
  * */
-
-public class WordBreaker
+namespace Compiler_Construction
 {
-    char[] breakers = { ' ', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
+
+    public class WordBreaker
+    {
+        char[] breakers = { ' ', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
     '{', '}', '[', ']', '.', '\'', '\"' };
-    //string[] output = new string[100];
-    List<string> output = new List<string>();
+        //string[] output = new string[100];
+        
+        public List<string> totalBreaker = new List<string>();
 
-	public WordBreaker()
-	{
+        public List<string> distinctBreaker = new List<string>();
 
-	}
-
-    public List<string> breakString(string myString){
-        output = new List<string>();
-        string temp = "";
-        bool breaker = false, addNext = false, isFloat = false, isString = false;
-        int index = 0, dump = 0;
-        for (int i = 0; i < myString.Length; i++ )
+        public WordBreaker()
         {
-           
-            foreach (char j in breakers)
+
+        }
+
+        public List<token> breakString(string myString)
+        {
+            List<token> output = new List<token>();
+            string temp = "";
+            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false;
+            int dump = 0;
+            ushort  line = 1;
+            for (int i = 0; i < myString.Length; i++)
             {
-                if (myString[i] == j)
+                if (newLine)
                 {
-                    breaker = true;
-                    if (i != myString.Length-1)
+                    line++;
+                    newLine = false;
+                }
+
+                foreach (char j in breakers)
+                {
+                    if (myString[i] == j)
                     {
-                        switch (myString[i])
+                        totalBreaker.Add(j.ToString());
+                        breaker = true;
+                        if (i != myString.Length - 1)
                         {
-                            case '+':
-                                if (myString[i + 1] == '+' || myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '-':
-                                if (myString[i + 1] == '-' || myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '*':
-                                if (myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '/':
-                                if (myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '>':
-                                if (myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '<':
-                                if (myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '=':
-                                if (myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '&':
-                                if (myString[i + 1] == '&') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '|':
-                                if (myString[i + 1] == '|') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '!':
-                                if (myString[i + 1] == '=') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '#':
-                                if (myString[i + 1] == '#' || myString[i + 1] == '$') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '$':
-                                if (myString[i + 1] == '#') { addNext = true; }
-                                else addNext = false;
-                                break;
-                            case '.':
-                                if (int.TryParse(temp, out dump) && int.TryParse(myString[i + 1].ToString(), out dump))
-                                {
-                                    breaker = false;
-                                }
-                                else if (int.TryParse(myString[i + 1].ToString(), out dump))
-                                {
-                                    isFloat = true;
-                                }
-                                break;
-                            case '\"':
-                                while (true)
-                                {
-                                   temp += myString[i];
-                                    i++;
-                                    if ((myString[i] == '\"' && myString[i-1] !='\\') || (myString[i] == '\n') || (i == myString.Length-1 ))
+                            switch (myString[i])
+                            {
+                                case '\n':
+                                    newLine = true;
+                                    break;
+                                case '+':
+                                    if (myString[i + 1] == '+' || myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '-':
+                                    if (myString[i + 1] == '-' || myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '*':
+                                    if (myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '/':
+                                    if (myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '>':
+                                    if (myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '<':
+                                    if (myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '=':
+                                    if (myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '&':
+                                    if (myString[i + 1] == '&') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '|':
+                                    if (myString[i + 1] == '|') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '!':
+                                    if (myString[i + 1] == '=') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '#':
+                                    if (myString[i + 1] == '#' || myString[i + 1] == '$') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '$':
+                                    if (myString[i + 1] == '#') { addNext = true; }
+                                    else addNext = false;
+                                    break;
+                                case '.':
+                                    if (int.TryParse(temp, out dump) && int.TryParse(myString[i + 1].ToString(), out dump))
+                                    {
+                                        breaker = false;
+                                    }
+                                    else if (int.TryParse(myString[i + 1].ToString(), out dump))
+                                    {
+                                        isFloat = true;
+                                    }
+                                    break;
+                                case '\"':
+                                    while (true)
                                     {
                                         temp += myString[i];
-                                        isString = true;                                        
-                                        break;
-                                        
+                                        i++;
+                                        if ((myString[i] == '\"' && myString[i - 1] != '\\') || (myString[i] == '\n') || (i == myString.Length - 1))
+                                        {
+                                           
+                                            temp += myString[i];
+                                            isString = true;
+                                            
+                                            if (myString[i] == '\n')
+                                            {
+                                                newLine = true;
+                                                temp = temp.Remove(temp.Length - 1);
+                                            }
+                                            break;
+                                         }
                                     }
-                                    
-                                    
-                                }
-                                break;
-                            default:
-                                addNext = false;
-                                break;
+                                    break;
 
-                        }   // switch end   
-                    }   // if ( i == length ) end
-                 }  // if (i==j) end
-                if (breaker) break;
-            }   // foreach (j)
-            if (!breaker)
-            {
-                temp += myString[i];
-            }
-            else if (breaker && !isString)
-            {
-                if (temp != "") { output.Add(temp);}
-                temp = myString[i].ToString();
-                if (isFloat)
+                                case '\'':
+                                    while (true)
+                                    {
+                                        temp += myString[i];
+                                        i++;
+                                        if ((myString[i] == '\'' && myString[i - 1] != '\\') || (myString[i] == '\n') || (i == myString.Length - 1))
+                                        {
+                                            temp += myString[i];
+                                            isString = true;
+                                            if (myString[i] == '\n')
+                                            {
+                                                newLine = true;
+                                                temp = temp.Remove(temp.Length - 1);
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    addNext = false;
+                                    break;
+
+                            }   // switch end   
+                        }   // if ( i == length ) end
+                    }  // if (i==j) end
+                    if (breaker) break;
+                }   // foreach (j)
+                if (!breaker)
                 {
-                    breaker = false;
-                    isFloat = false;
-                    continue;
-                }
-                else if (addNext)
-                {
-                    i++;
                     temp += myString[i];
-                    index++;
-                    addNext = false;
                 }
-                output.Add(temp);
-                temp = "";
-                index++;
-                breaker = false;
-            }
-            else if (isString == true)
+                else if (breaker && !isString)
+                {
+                    if (temp != "") { output.Add(new token(line,temp)); }
+                    temp = myString[i].ToString();
+                    if (isFloat)
+                    {
+                        breaker = false;
+                        isFloat = false;
+                        continue;
+                    }
+                    else if (addNext)
+                    {
+                        i++;
+                        temp += myString[i];
+                        addNext = false;
+                    }
+                    output.Add(new token(line, temp));
+                    temp = "";
+                    breaker = false;
+                }
+                else if (isString == true)
+                {
+                    output.Add(new token(line, temp));
+                    temp = "";
+                    isString = false;
+                    breaker = false;
+                    if (newLine)
+                    {
+                        output.Add(new token(line, "\n"));
+                    }
+                }
+            }   // for (i)
+            if (temp != "")
             {
-                output.Add(temp);
+                output.Add(new token(line, temp));
                 temp = "";
-                isString = false;
-                breaker = false;
             }
-        }   // for (i)
-        if (temp != "")
-        {
-            output.Add(temp);
-            temp = "";
+            
+            return output;
         }
-        return output;
+
+        public void breakerAnalyzer()
+        {
+           
+            IEnumerable<string> IEdistinctBreaker =  totalBreaker.Distinct();
+            distinctBreaker = IEdistinctBreaker.ToList();
+            for (int i = 0; i < distinctBreaker.Count; i++)
+            {
+                if (distinctBreaker[i] == "\n")
+                {
+                    distinctBreaker[i] = "New Line";
+                }
+
+                if (distinctBreaker[i] == " ")
+                {
+                    distinctBreaker[i] = "Space";
+                }
+            }
+            for (int i = 0; i < totalBreaker.Count; i++)
+            {
+                if (totalBreaker[i] == "\n")
+                {
+                    totalBreaker[i] = "New Line";
+                }
+
+                if (totalBreaker[i] == " ")
+                {
+                    totalBreaker[i] = "Space";
+                }
+            }
+        }
     }
-
-
 }
