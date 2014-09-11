@@ -33,6 +33,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.TotalError = new System.Windows.Forms.Label();
+            this.ErrorLabel = new System.Windows.Forms.Label();
             this.totalbreaker_label = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -61,8 +63,6 @@
             this.Lexical = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.ErrorLabel = new System.Windows.Forms.Label();
-            this.TotalError = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -108,7 +108,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(817, 230);
+            this.tabControl1.Size = new System.Drawing.Size(899, 230);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
@@ -120,7 +120,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(809, 201);
+            this.tabPage1.Size = new System.Drawing.Size(891, 201);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Lexical Analyzer";
             // 
@@ -136,12 +136,32 @@
             this.groupBox4.Controls.Add(this.label_totalLines);
             this.groupBox4.Controls.Add(this.totalWords);
             this.groupBox4.Controls.Add(this.label_totalwords);
-            this.groupBox4.Location = new System.Drawing.Point(589, 6);
+            this.groupBox4.Location = new System.Drawing.Point(671, 6);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(214, 189);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Stats";
+            // 
+            // TotalError
+            // 
+            this.TotalError.AutoSize = true;
+            this.TotalError.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.TotalError.ForeColor = System.Drawing.Color.DimGray;
+            this.TotalError.Location = new System.Drawing.Point(146, 88);
+            this.TotalError.Name = "TotalError";
+            this.TotalError.Size = new System.Drawing.Size(0, 19);
+            this.TotalError.TabIndex = 18;
+            // 
+            // ErrorLabel
+            // 
+            this.ErrorLabel.AutoSize = true;
+            this.ErrorLabel.Font = new System.Drawing.Font("Consolas", 12F);
+            this.ErrorLabel.Location = new System.Drawing.Point(6, 88);
+            this.ErrorLabel.Name = "ErrorLabel";
+            this.ErrorLabel.Size = new System.Drawing.Size(72, 19);
+            this.ErrorLabel.TabIndex = 17;
+            this.ErrorLabel.Text = "Errors:";
             // 
             // totalbreaker_label
             // 
@@ -260,7 +280,7 @@
             this.TokenBox.Controls.Add(this.TokenBox1);
             this.TokenBox.Location = new System.Drawing.Point(255, 7);
             this.TokenBox.Name = "TokenBox";
-            this.TokenBox.Size = new System.Drawing.Size(328, 188);
+            this.TokenBox.Size = new System.Drawing.Size(410, 188);
             this.TokenBox.TabIndex = 7;
             this.TokenBox.TabStop = false;
             this.TokenBox.Text = "Tokenizer";
@@ -272,7 +292,7 @@
             this.TokenBox1.Location = new System.Drawing.Point(6, 17);
             this.TokenBox1.Name = "TokenBox1";
             this.TokenBox1.ReadOnly = true;
-            this.TokenBox1.Size = new System.Drawing.Size(316, 165);
+            this.TokenBox1.Size = new System.Drawing.Size(398, 165);
             this.TokenBox1.TabIndex = 0;
             this.TokenBox1.Text = "";
             // 
@@ -291,7 +311,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(809, 176);
+            this.tabPage2.Size = new System.Drawing.Size(809, 201);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Syntax Analyzer";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -309,7 +329,7 @@
             this.hELPToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(841, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(923, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -403,31 +423,11 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toggle Auto Compile ";
             // 
-            // ErrorLabel
-            // 
-            this.ErrorLabel.AutoSize = true;
-            this.ErrorLabel.Font = new System.Drawing.Font("Consolas", 12F);
-            this.ErrorLabel.Location = new System.Drawing.Point(6, 88);
-            this.ErrorLabel.Name = "ErrorLabel";
-            this.ErrorLabel.Size = new System.Drawing.Size(72, 19);
-            this.ErrorLabel.TabIndex = 17;
-            this.ErrorLabel.Text = "Errors:";
-            // 
-            // TotalError
-            // 
-            this.TotalError.AutoSize = true;
-            this.TotalError.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.TotalError.ForeColor = System.Drawing.Color.DimGray;
-            this.TotalError.Location = new System.Drawing.Point(146, 88);
-            this.TotalError.Name = "TotalError";
-            this.TotalError.Size = new System.Drawing.Size(0, 19);
-            this.TotalError.TabIndex = 18;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(841, 539);
+            this.ClientSize = new System.Drawing.Size(923, 539);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.tabControl1);
