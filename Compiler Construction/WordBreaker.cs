@@ -15,9 +15,9 @@ namespace Compiler_Construction
     public class WordBreaker
     {
         char[] breakers = { ' ', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
-    '{', '}', '[', ']', '.', '\'', '\"' };
+        '{', '}', '[', ']', '.', '\'', '\"' };
         //string[] output = new string[100];
-        
+
         public List<string> totalBreaker = new List<string>();
 
         public List<string> distinctBreaker = new List<string>();
@@ -31,9 +31,9 @@ namespace Compiler_Construction
         {
             List<token> output = new List<token>();
             string temp = "";
-            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false;
+            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false, addOutput =false;
             int dump = 0;
-            ushort  line = 1;
+            ushort line = 1;
             for (int i = 0; i < myString.Length; i++)
             {
                 if (newLine)
@@ -46,10 +46,12 @@ namespace Compiler_Construction
                 {
                     if (myString[i] == j)
                     {
+
                         totalBreaker.Add(j.ToString());
                         breaker = true;
                         if (i != myString.Length - 1)
                         {
+                            
                             switch (myString[i])
                             {
                                 case '\n':
@@ -118,12 +120,13 @@ namespace Compiler_Construction
                                     {
                                         temp += myString[i];
                                         i++;
-                                        if ((myString[i] == '\"' && myString[i - 1] != '\\') || (myString[i] == '\n') || (i == myString.Length - 1))
+
+                                        if ((myString[i] == '\"' && myString[i - 1] != '\\') || (myString[i] == '\n') || (i == myString.Length - 1) || (myString[i] == '\"' && myString[i - 1] == '\\' && myString[i - 1] == '\\'))
                                         {
-                                           
+
                                             temp += myString[i];
                                             isString = true;
-                                            
+
                                             if (myString[i] == '\n')
                                             {
                                                 totalBreaker.Add("New Line");
@@ -131,15 +134,36 @@ namespace Compiler_Construction
                                                 temp = temp.Remove(temp.Length - 1);
                                             }
                                             break;
-                                         }
+                                        }
                                     }
                                     break;
 
                                 case '\'':
+                                    if (temp != "")
+                                    {
+                                        isString = true;
+                                        i--;
+                                        break;
+
+                                    }
+                                    short length = 0;
                                     while (true)
                                     {
+
                                         temp += myString[i];
                                         i++;
+                                        if (length >= 2 && myString[i - 2] != '\\')
+                                        {
+                                            i--;
+                                            isString = true;
+                                            break;
+                                        }
+                                        if (length >= 3 && myString[i - 2] == '\\' && myString[i - 3] == '\\')
+                                        {
+                                            i--;
+                                            isString = true;
+                                            break;
+                                        }
                                         if ((myString[i] == '\'' && myString[i - 1] != '\\') || (myString[i] == '\n') || (i == myString.Length - 1))
                                         {
                                             temp += myString[i];
@@ -152,6 +176,7 @@ namespace Compiler_Construction
                                             }
                                             break;
                                         }
+                                        length++;
                                     }
                                     break;
                                 default:
@@ -169,7 +194,7 @@ namespace Compiler_Construction
                 }
                 else if (breaker && !isString)
                 {
-                    if (temp != "") { output.Add(new token(line,temp)); }
+                    if (temp != "") { output.Add(new token(line, temp)); }
                     temp = myString[i].ToString();
                     if (isFloat)
                     {
@@ -204,14 +229,14 @@ namespace Compiler_Construction
                 output.Add(new token(line, temp));
                 temp = "";
             }
-            
+
             return output;
         }
 
         public void breakerAnalyzer()
         {
-           
-            IEnumerable<string> IEdistinctBreaker =  totalBreaker.Distinct();
+
+            IEnumerable<string> IEdistinctBreaker = totalBreaker.Distinct();
             distinctBreaker = IEdistinctBreaker.ToList();
             for (int i = 0; i < distinctBreaker.Count; i++)
             {

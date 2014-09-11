@@ -34,7 +34,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.totalbreaker_label = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.BreakerOcc = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BreakerBox = new System.Windows.Forms.ComboBox();
             this.totalLines = new System.Windows.Forms.Label();
@@ -54,10 +58,6 @@
             this.tESTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hELPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.BreakerOcc = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.totalbreaker_label = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -86,7 +86,7 @@
             this.codeBlock.ForeColor = System.Drawing.Color.Gold;
             this.codeBlock.Location = new System.Drawing.Point(6, 15);
             this.codeBlock.Name = "codeBlock";
-            this.codeBlock.Size = new System.Drawing.Size(648, 96);
+            this.codeBlock.Size = new System.Drawing.Size(648, 163);
             this.codeBlock.TabIndex = 2;
             this.codeBlock.Text = "";
             // 
@@ -142,6 +142,26 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Stats";
             // 
+            // totalbreaker_label
+            // 
+            this.totalbreaker_label.AutoSize = true;
+            this.totalbreaker_label.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.totalbreaker_label.ForeColor = System.Drawing.Color.OrangeRed;
+            this.totalbreaker_label.Location = new System.Drawing.Point(146, 65);
+            this.totalbreaker_label.Name = "totalbreaker_label";
+            this.totalbreaker_label.Size = new System.Drawing.Size(0, 19);
+            this.totalbreaker_label.TabIndex = 16;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label3.Location = new System.Drawing.Point(6, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(135, 19);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Total Breaker:";
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.BreakerOcc);
@@ -154,6 +174,26 @@
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Word Breaker Analyzer";
+            // 
+            // BreakerOcc
+            // 
+            this.BreakerOcc.AutoSize = true;
+            this.BreakerOcc.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BreakerOcc.ForeColor = System.Drawing.Color.OrangeRed;
+            this.BreakerOcc.Location = new System.Drawing.Point(136, 41);
+            this.BreakerOcc.Name = "BreakerOcc";
+            this.BreakerOcc.Size = new System.Drawing.Size(0, 19);
+            this.BreakerOcc.TabIndex = 15;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label2.Location = new System.Drawing.Point(6, 41);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(108, 19);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Occurrence:";
             // 
             // label1
             // 
@@ -313,56 +353,16 @@
             this.groupBox3.Controls.Add(this.codeBlock);
             this.groupBox3.Location = new System.Drawing.Point(12, 264);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(660, 117);
+            this.groupBox3.Size = new System.Drawing.Size(660, 184);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Source Code";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label2.Location = new System.Drawing.Point(6, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(108, 19);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Occurrence:";
-            // 
-            // BreakerOcc
-            // 
-            this.BreakerOcc.AutoSize = true;
-            this.BreakerOcc.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BreakerOcc.ForeColor = System.Drawing.Color.OrangeRed;
-            this.BreakerOcc.Location = new System.Drawing.Point(136, 41);
-            this.BreakerOcc.Name = "BreakerOcc";
-            this.BreakerOcc.Size = new System.Drawing.Size(0, 19);
-            this.BreakerOcc.TabIndex = 15;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label3.Location = new System.Drawing.Point(6, 65);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(135, 19);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Total Breaker:";
-            // 
-            // totalbreaker_label
-            // 
-            this.totalbreaker_label.AutoSize = true;
-            this.totalbreaker_label.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.totalbreaker_label.ForeColor = System.Drawing.Color.OrangeRed;
-            this.totalbreaker_label.Location = new System.Drawing.Point(146, 65);
-            this.totalbreaker_label.Name = "totalbreaker_label";
-            this.totalbreaker_label.Size = new System.Drawing.Size(0, 19);
-            this.totalbreaker_label.TabIndex = 16;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 393);
+            this.ClientSize = new System.Drawing.Size(684, 460);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.Lexical);

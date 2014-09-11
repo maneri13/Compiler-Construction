@@ -13,6 +13,7 @@ namespace Compiler_Construction
 
     public partial class Form1 : Form
     {
+        
         WordBreaker myWordBreaker;
         LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
         public Form1()
