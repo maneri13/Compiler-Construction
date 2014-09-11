@@ -84,7 +84,7 @@
             this.codeBlock.ForeColor = System.Drawing.Color.Gold;
             this.codeBlock.Location = new System.Drawing.Point(6, 15);
             this.codeBlock.Name = "codeBlock";
-            this.codeBlock.Size = new System.Drawing.Size(806, 189);
+            this.codeBlock.Size = new System.Drawing.Size(887, 189);
             this.codeBlock.TabIndex = 2;
             this.codeBlock.Text = "";
             // 
@@ -311,7 +311,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(809, 201);
+            this.tabPage2.Size = new System.Drawing.Size(891, 201);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Syntax Analyzer";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -386,16 +386,16 @@
             this.groupBox3.Controls.Add(this.codeBlock);
             this.groupBox3.Location = new System.Drawing.Point(12, 317);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(818, 210);
+            this.groupBox3.Size = new System.Drawing.Size(899, 210);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Source Code";
             // 
             // Lexical
             // 
-            this.Lexical.Location = new System.Drawing.Point(749, 288);
+            this.Lexical.Location = new System.Drawing.Point(826, 263);
             this.Lexical.Name = "Lexical";
-            this.Lexical.Size = new System.Drawing.Size(75, 23);
+            this.Lexical.Size = new System.Drawing.Size(75, 52);
             this.Lexical.TabIndex = 0;
             this.Lexical.Text = "COMPILE";
             this.Lexical.UseVisualStyleBackColor = true;
