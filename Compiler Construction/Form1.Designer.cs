@@ -34,14 +34,18 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.totalbreaker_label = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.BreakerOcc = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BreakerBox = new System.Windows.Forms.ComboBox();
             this.totalLines = new System.Windows.Forms.Label();
             this.label_totalLines = new System.Windows.Forms.Label();
             this.totalWords = new System.Windows.Forms.Label();
             this.label_totalwords = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.TokenBox = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -54,14 +58,12 @@
             this.tESTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hELPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.BreakerOcc = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.totalbreaker_label = new System.Windows.Forms.Label();
+            this.TokenBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.TokenBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -117,7 +119,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.TokenBox);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
@@ -142,6 +144,26 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Stats";
             // 
+            // totalbreaker_label
+            // 
+            this.totalbreaker_label.AutoSize = true;
+            this.totalbreaker_label.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.totalbreaker_label.ForeColor = System.Drawing.Color.OrangeRed;
+            this.totalbreaker_label.Location = new System.Drawing.Point(146, 65);
+            this.totalbreaker_label.Name = "totalbreaker_label";
+            this.totalbreaker_label.Size = new System.Drawing.Size(0, 19);
+            this.totalbreaker_label.TabIndex = 16;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label3.Location = new System.Drawing.Point(6, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(135, 19);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Total Breaker:";
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.BreakerOcc);
@@ -154,6 +176,26 @@
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Word Breaker Analyzer";
+            // 
+            // BreakerOcc
+            // 
+            this.BreakerOcc.AutoSize = true;
+            this.BreakerOcc.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BreakerOcc.ForeColor = System.Drawing.Color.OrangeRed;
+            this.BreakerOcc.Location = new System.Drawing.Point(136, 41);
+            this.BreakerOcc.Name = "BreakerOcc";
+            this.BreakerOcc.Size = new System.Drawing.Size(0, 19);
+            this.BreakerOcc.TabIndex = 15;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label2.Location = new System.Drawing.Point(6, 41);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(108, 19);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Occurrence:";
             // 
             // label1
             // 
@@ -214,14 +256,15 @@
             this.label_totalwords.TabIndex = 8;
             this.label_totalwords.Text = "Total Words:";
             // 
-            // groupBox2
+            // TokenBox
             // 
-            this.groupBox2.Location = new System.Drawing.Point(225, 7);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(201, 166);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tokenizer";
+            this.TokenBox.Controls.Add(this.TokenBox1);
+            this.TokenBox.Location = new System.Drawing.Point(225, 7);
+            this.TokenBox.Name = "TokenBox";
+            this.TokenBox.Size = new System.Drawing.Size(201, 166);
+            this.TokenBox.TabIndex = 7;
+            this.TokenBox.TabStop = false;
+            this.TokenBox.Text = "Tokenizer";
             // 
             // groupBox1
             // 
@@ -318,45 +361,14 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Source Code";
             // 
-            // label2
+            // TokenBox1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label2.Location = new System.Drawing.Point(6, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(108, 19);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Occurrence:";
-            // 
-            // BreakerOcc
-            // 
-            this.BreakerOcc.AutoSize = true;
-            this.BreakerOcc.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BreakerOcc.ForeColor = System.Drawing.Color.OrangeRed;
-            this.BreakerOcc.Location = new System.Drawing.Point(136, 41);
-            this.BreakerOcc.Name = "BreakerOcc";
-            this.BreakerOcc.Size = new System.Drawing.Size(0, 19);
-            this.BreakerOcc.TabIndex = 15;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label3.Location = new System.Drawing.Point(6, 65);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(135, 19);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Total Breaker:";
-            // 
-            // totalbreaker_label
-            // 
-            this.totalbreaker_label.AutoSize = true;
-            this.totalbreaker_label.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.totalbreaker_label.ForeColor = System.Drawing.Color.OrangeRed;
-            this.totalbreaker_label.Location = new System.Drawing.Point(146, 65);
-            this.totalbreaker_label.Name = "totalbreaker_label";
-            this.totalbreaker_label.Size = new System.Drawing.Size(0, 19);
-            this.totalbreaker_label.TabIndex = 16;
+            this.TokenBox1.Location = new System.Drawing.Point(0, 16);
+            this.TokenBox1.Name = "TokenBox1";
+            this.TokenBox1.ReadOnly = true;
+            this.TokenBox1.Size = new System.Drawing.Size(201, 153);
+            this.TokenBox1.TabIndex = 0;
+            this.TokenBox1.Text = "";
             // 
             // Form1
             // 
@@ -376,6 +388,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.TokenBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -393,7 +406,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox TokenBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fILEToolStripMenuItem;
@@ -417,6 +430,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label totalbreaker_label;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RichTextBox TokenBox1;
 
     }
 }
