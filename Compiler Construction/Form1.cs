@@ -26,15 +26,18 @@ namespace Compiler_Construction
             myWordBreaker = new WordBreaker();
             BreakerBox.Items.Clear();
             richTextBox1.Text = "";
-            List<token> output = new List<token>();
-            output = myWordBreaker.breakString(codeBlock.Text);
-            totalWords.Text = output.Count().ToString();
-            totalLines.Text = output.Last().lineNumber.ToString();
+            List<token> wordBreakerOutput = new List<token>();
+            wordBreakerOutput = myWordBreaker.breakString(codeBlock.Text);
+            totalWords.Text = wordBreakerOutput.Count().ToString();
+            totalLines.Text = wordBreakerOutput.Last().lineNumber.ToString();
             totalbreaker_label.Text = myWordBreaker.totalBreaker.Count.ToString();
-            foreach (token s in output)
+
+            wordBreakerOutput = myLexicalAnalyzer.getTokens(wordBreakerOutput);
+            
+            foreach (token s in wordBreakerOutput)
             {
                 richTextBox1.Text +="(" +s.lineNumber +"→) >"+ s.wordString + "<\n";
-                
+                TokenBox1.Text += "(" + s.lineNumber + ", " + s.wordString + ", " + s.classString + ")\n";
             }
             myWordBreaker.breakerAnalyzer();
             foreach (string c in myWordBreaker.distinctBreaker)

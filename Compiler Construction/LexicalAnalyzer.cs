@@ -7,30 +7,16 @@ using System.Text.RegularExpressions;
 
 namespace Compiler_Construction
 {
-    static class RegularExp
-    {
-        public static string Digits = "^[0-9]+$";
-        public static string Signs = "[+-]";
-        public static string Alphabet = @"^[a-zA-Z]+$";
-        public static string AlphaNumeric = @"^[a-zA-Z0-9]+$";
-        public static string Underscore="[_]";
-        public static string CharStart="[']";
-        public static string StringStart="[\"]";
-        public static string BackSlash = "[\\\\]";
-        public static string EscSeq = "[nrtfbv]";
-        public static string SpChar = "[\\\\\"\']";
-        public static string At = "[@]";
-        public static string Dot = "[.]";
-    };
+    
+
     class LexicalAnalyzer
     {
-        
-        
+
         public bool checkInt(string input)
         {
             int cState = 0;
             bool valid = false;
-
+            
             for (int i = 0; i < input.Length && cState!=3; i++)
 			{
                 switch (cState)
@@ -358,6 +344,151 @@ namespace Compiler_Construction
 
             return valid;
         }
+
+        public string checkKeyword(string word)
+        {
+            for (int i = 0; i < ClassName.keywords.Length/2; i++)
+            {
+                if (word == ClassName.keywords[i,0])
+                {
+                    return ClassName.keywords[i, 1];
+                }
+            }
+            return "";
+        }
+
+        public string checkOperator(string word)
+        {
+            for (int i = 0; i < ClassName.Operators.Length/2; i++)
+            {
+                if (word == ClassName.Operators[i, 0])
+                {
+                    return ClassName.Operators[i, 1];
+                }
+            }
+            return "";
+        }
+
+        public string checkPunctuators(string word)
+        {
+            for (int i = 0; i < ClassName.punctuators.Length/2; i++)
+            {
+                if (word == ClassName.punctuators[i, 0])
+                {
+                    return ClassName.punctuators[i, 1];
+                }
+            }
+            return "";
+        }
+
+
+        public List<token> getTokens(List<token> words){
+
+            for (int i = 0; i < words.Count; i++)
+            {
+                string firstLetter = words[i].wordString[0].ToString();
+                string word = words[i].wordString;
+                string dump = "";
+
+                if (firstLetter == " ")
+                {
+                    words.Remove(words[i]);
+                    continue;
+                }
+
+                if (Regex.IsMatch(firstLetter, RegularExp.Alphabet) ||
+                    Regex.IsMatch(firstLetter, RegularExp.Underscore))
+                {
+                    if (this.checkIdentifier(word))
+                    {
+                        dump = this.checkKeyword(word);
+                        if (dump != "")
+                        {
+                            words[i].classString = dump;
+                        }
+                        else
+                        {
+                            words[i].classString = ClassName.nonKeywords._identifier.ToString();
+                        }
+                    }
+                    else
+                    {
+                        words[i].classString = ClassName.nonKeywords._invalid.ToString();
+                    }
+                }
+                else if (Regex.IsMatch(firstLetter, RegularExp.Digits) 
+                    || Regex.IsMatch(firstLetter, RegularExp.Dot))
+                {
+                    if (this.checkInt(word))
+                    {
+                        words[i].classString = ClassName.nonKeywords._int_constant.ToString();
+                    }
+                    else if (this.checkFloat(word))
+                    {
+                        words[i].classString = ClassName.nonKeywords._float_constant.ToString();
+                    }
+                    else
+                    {
+                        dump = this.checkPunctuators(word);
+                        if (dump != "")
+                        {
+                            words[i].classString = dump;
+                        }
+                        else
+                        {
+                            words[i].classString = ClassName.nonKeywords._invalid.ToString();
+                        }
+                    }
+                }
+                else if (Regex.IsMatch(firstLetter, RegularExp.StringStart))
+                {
+                    if (this.checkString(word))
+                    {
+                        words[i].classString = ClassName.nonKeywords._string_constant.ToString();
+                    }
+                    else
+                    {
+                        words[i].classString = ClassName.nonKeywords._invalid.ToString();
+                    }
+                }
+                else if (Regex.IsMatch(firstLetter, RegularExp.CharStart))
+                {
+                    if (this.checkString(word))
+                    {
+                        words[i].classString = ClassName.nonKeywords._char_constant.ToString();
+                    }
+                    else
+                    {
+                        words[i].classString = ClassName.nonKeywords._invalid.ToString();
+                    }
+                }
+                else
+                {
+                    dump = this.checkOperator(word);
+                    if (dump != "")
+                    {
+                        words[i].classString = dump;
+                    }
+                    else
+                    {
+                        dump = this.checkPunctuators(word);
+                        if (dump != "")
+                        {
+                            words[i].classString = dump;
+                        }
+                        else
+                        {
+                            words[i].classString = ClassName.nonKeywords._invalid.ToString();
+                        }
+                    }
+                }
+            
+            }     
+
+            return words;
+        }
+
+       
         //public bool checkRE(string str, string pattern){
         //    bool match = (Regex.IsMatch(str, pattern));
         //    return match;

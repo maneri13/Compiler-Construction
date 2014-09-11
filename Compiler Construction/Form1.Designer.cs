@@ -45,7 +45,7 @@
             this.label_totalLines = new System.Windows.Forms.Label();
             this.totalWords = new System.Windows.Forms.Label();
             this.label_totalwords = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.TokenBox = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -58,10 +58,12 @@
             this.tESTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hELPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.TokenBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.TokenBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -86,7 +88,7 @@
             this.codeBlock.ForeColor = System.Drawing.Color.Gold;
             this.codeBlock.Location = new System.Drawing.Point(6, 15);
             this.codeBlock.Name = "codeBlock";
-            this.codeBlock.Size = new System.Drawing.Size(648, 163);
+            this.codeBlock.Size = new System.Drawing.Size(648, 96);
             this.codeBlock.TabIndex = 2;
             this.codeBlock.Text = "";
             // 
@@ -117,7 +119,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.TokenBox);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
@@ -254,14 +256,15 @@
             this.label_totalwords.TabIndex = 8;
             this.label_totalwords.Text = "Total Words:";
             // 
-            // groupBox2
+            // TokenBox
             // 
-            this.groupBox2.Location = new System.Drawing.Point(225, 7);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(201, 166);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tokenizer";
+            this.TokenBox.Controls.Add(this.TokenBox1);
+            this.TokenBox.Location = new System.Drawing.Point(225, 7);
+            this.TokenBox.Name = "TokenBox";
+            this.TokenBox.Size = new System.Drawing.Size(201, 166);
+            this.TokenBox.TabIndex = 7;
+            this.TokenBox.TabStop = false;
+            this.TokenBox.Text = "Tokenizer";
             // 
             // groupBox1
             // 
@@ -353,16 +356,25 @@
             this.groupBox3.Controls.Add(this.codeBlock);
             this.groupBox3.Location = new System.Drawing.Point(12, 264);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(660, 184);
+            this.groupBox3.Size = new System.Drawing.Size(660, 117);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Source Code";
+            // 
+            // TokenBox1
+            // 
+            this.TokenBox1.Location = new System.Drawing.Point(0, 16);
+            this.TokenBox1.Name = "TokenBox1";
+            this.TokenBox1.ReadOnly = true;
+            this.TokenBox1.Size = new System.Drawing.Size(201, 153);
+            this.TokenBox1.TabIndex = 0;
+            this.TokenBox1.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 460);
+            this.ClientSize = new System.Drawing.Size(684, 393);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.Lexical);
@@ -376,6 +388,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.TokenBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -393,7 +406,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox TokenBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fILEToolStripMenuItem;
@@ -417,6 +430,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label totalbreaker_label;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RichTextBox TokenBox1;
 
     }
 }
