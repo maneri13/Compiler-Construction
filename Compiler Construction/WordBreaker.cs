@@ -31,7 +31,7 @@ namespace Compiler_Construction
         {
             List<token> output = new List<token>();
             string temp = "";
-            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false, addOutput =false;
+            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false;
             int dump = 0;
             ushort line = 1;
             for (int i = 0; i < myString.Length; i++)
@@ -54,6 +54,7 @@ namespace Compiler_Construction
                             
                             switch (myString[i])
                             {
+                                
                                 case '\n':
                                     newLine = true;
                                     break;
@@ -100,6 +101,24 @@ namespace Compiler_Construction
                                 case '#':
                                     if (myString[i + 1] == '#' || myString[i + 1] == '$') { addNext = true; }
                                     else addNext = false;
+                                    if (myString[i + 1] == '#')
+                                    {
+                                        while (true)
+                                        {
+                                            if (myString[i] == '\n' || i == myString.Length - 1)
+                                            {
+                                                breaker = false;
+                                                i++;
+                                                line++;
+                                                break;
+                                                
+                                            }
+                                            i++;
+                                        }
+                                    }
+
+
+                                    
                                     break;
                                 case '$':
                                     if (myString[i + 1] == '#') { addNext = true; }
@@ -229,6 +248,8 @@ namespace Compiler_Construction
                 output.Add(new token(line, temp));
                 temp = "";
             }
+
+            
 
             return output;
         }

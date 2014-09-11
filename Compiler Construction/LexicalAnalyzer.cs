@@ -389,13 +389,13 @@ namespace Compiler_Construction
                 string firstLetter = words[i].wordString[0].ToString();
                 string word = words[i].wordString;
                 string dump = "";
-
+                /*
                 if (firstLetter == " ")
                 {
                     words.Remove(words[i]);
                     continue;
                 }
-
+                */
                 if (Regex.IsMatch(firstLetter, RegularExp.Alphabet) ||
                     Regex.IsMatch(firstLetter, RegularExp.Underscore))
                 {

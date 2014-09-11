@@ -24,26 +24,81 @@ namespace Compiler_Construction
         private void Lexical_Click(object sender, EventArgs e)
         {
             myWordBreaker = new WordBreaker();
+            int totalError = 0;
             BreakerBox.Items.Clear();
-            richTextBox1.Text = "";
-            List<token> wordBreakerOutput = new List<token>();
-            wordBreakerOutput = myWordBreaker.breakString(codeBlock.Text);
-            totalWords.Text = wordBreakerOutput.Count().ToString();
-            totalLines.Text = wordBreakerOutput.Last().lineNumber.ToString();
-            totalbreaker_label.Text = myWordBreaker.totalBreaker.Count.ToString();
 
-            wordBreakerOutput = myLexicalAnalyzer.getTokens(wordBreakerOutput);
+            richTextBox1.Text = "";
+            TokenBox1.Text = "";
+
+            TotalError.Text = "";
+            totalWords.Text = "";
+            totalbreaker_label.Text = "";
+            totalLines.Text = "";
+
+            List<token> wordBreakerOutput = new List<token>();
+            List<token> TokenOutput = new List<token>();
+            wordBreakerOutput = myWordBreaker.breakString(codeBlock.Text);
+            if (wordBreakerOutput.Count > 0)
+            {
+                totalLines.Text = wordBreakerOutput.Last().lineNumber.ToString();
+            }
+            totalWords.Text = wordBreakerOutput.Count().ToString();
+            
+            totalbreaker_label.Text = myWordBreaker.totalBreaker.Count.ToString();
+            
             
             foreach (token s in wordBreakerOutput)
             {
                 richTextBox1.Text +="(" +s.lineNumber +"→) >"+ s.wordString + "<\n";
-                TokenBox1.Text += "(" + s.lineNumber + ", " + s.wordString + ", " + s.classString + ")\n";
             }
             myWordBreaker.breakerAnalyzer();
             foreach (string c in myWordBreaker.distinctBreaker)
             {
                 BreakerBox.Items.Add(c);
             }
+
+            int j = 0;
+            while (true)
+            {
+                
+                if (j == wordBreakerOutput.Count)
+                {
+                    break;
+                }
+                if (wordBreakerOutput[j].wordString == " " || wordBreakerOutput[j].wordString == "\n")
+                {
+                    for (int i = 0; i < wordBreakerOutput.Count; i++)
+                    {
+                        if (wordBreakerOutput[i].wordString == " " || wordBreakerOutput[i].wordString == "\n" || wordBreakerOutput[i].wordString == "##")
+                        {
+                            wordBreakerOutput.RemoveAt(i);
+                            j = 0;
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            
+            
+
+            TokenOutput = myLexicalAnalyzer.getTokens(wordBreakerOutput);
+            foreach (token s in TokenOutput)
+            {
+               if (s.classString == "_invalid")
+                {
+                    totalError++;
+                    TotalError.Text = totalError.ToString();
+                }
+                TokenBox1.Text += "("+ s.lineNumber + " , " + s.wordString + " , " + s.classString + ")\n";
+            }
+
+
+
+            
         }
 
         private void selectBreaker(object sender, EventArgs e)
@@ -59,9 +114,28 @@ namespace Compiler_Construction
             }
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                Lexical.Enabled = false;
+                codeBlock.TextChanged += Lexical_Click;
+                tabControl1.TabPages[0].BackColor = Color.Turquoise;
+            }
 
+            if (!checkBox1.Checked)
+            {
+                Lexical.Enabled = true;
+                codeBlock.TextChanged -= Lexical_Click;
+                tabControl1.TabPages[0].BackColor = Color.Transparent;
+            }
+        }
 
-
+        
 
     }
+
+
+   
+    
 }
