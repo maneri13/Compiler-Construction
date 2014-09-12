@@ -55,7 +55,10 @@ namespace Compiler_Construction
                                {"private","_accessmodifier"},
                                {"true","_boolean"},
                                {"false","_boolean"},
-                               {"null","_null"}
+                               {"null","_null"},
+                               {"void", "_void"},
+                               {"main", "_main"},
+                               {"in", "_in"}
                            };
 
 

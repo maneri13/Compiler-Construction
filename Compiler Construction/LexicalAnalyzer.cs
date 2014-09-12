@@ -155,7 +155,6 @@ namespace Compiler_Construction
             return valid;
         }
     
-        
         // add logic to compare to keywords
         public bool checkIdentifier(string input)
         {
@@ -216,7 +215,6 @@ namespace Compiler_Construction
             return valid;
         }
 
-        
         public bool checkString(String input) 
         {
             int cState = 0;
@@ -276,7 +274,6 @@ namespace Compiler_Construction
 
             return valid;
         }
-
 
         public bool checkChar(String input)
         {
@@ -381,7 +378,6 @@ namespace Compiler_Construction
             return "";
         }
 
-
         public List<token> getTokens(List<token> words){
 
             for (int i = 0; i < words.Count; i++)
@@ -389,13 +385,7 @@ namespace Compiler_Construction
                 string firstLetter = words[i].wordString[0].ToString();
                 string word = words[i].wordString;
                 string dump = "";
-                /*
-                if (firstLetter == " ")
-                {
-                    words.Remove(words[i]);
-                    continue;
-                }
-                */
+                
                 if (Regex.IsMatch(firstLetter, RegularExp.Alphabet) ||
                     Regex.IsMatch(firstLetter, RegularExp.Underscore))
                 {
@@ -453,7 +443,7 @@ namespace Compiler_Construction
                 }
                 else if (Regex.IsMatch(firstLetter, RegularExp.CharStart))
                 {
-                    if (this.checkString(word))
+                    if (this.checkChar(word))
                     {
                         words[i].classString = ClassName.nonKeywords._char_constant.ToString();
                     }
@@ -487,7 +477,6 @@ namespace Compiler_Construction
 
             return words;
         }
-
        
         //public bool checkRE(string str, string pattern){
         //    bool match = (Regex.IsMatch(str, pattern));
