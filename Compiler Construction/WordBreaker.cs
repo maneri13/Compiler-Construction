@@ -31,7 +31,7 @@ namespace Compiler_Construction
         {
             List<token> output = new List<token>();
             string temp = "";
-            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false;
+            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false, isMultiComment = false;
             int dump = 0;
             ushort line = 1;
             for (int i = 0; i < myString.Length; i++)
@@ -99,8 +99,6 @@ namespace Compiler_Construction
                                     else addNext = false;
                                     break;
                                 case '#':
-                                    if (myString[i + 1] == '#' || myString[i + 1] == '$') { addNext = true; }
-                                    else addNext = false;
                                     if (myString[i + 1] == '#')
                                     {
                                         while (true)
@@ -110,18 +108,25 @@ namespace Compiler_Construction
                                                 addNext = false;
                                                 newLine = true;
                                                 break;
-                                                
                                             }
                                             i++;
                                         }
                                     }
-
-
-                                    
-                                    break;
-                                case '$':
-                                    if (myString[i + 1] == '#') { addNext = true; }
-                                    else addNext = false;
+                                    if (myString[i + 1] == '$')
+                                    {
+                                        isMultiComment = true;
+                                        i+=2;
+                                        while (i < myString.Length)
+                                        {
+                                            if (myString[i] == '$' && myString[i + 1] == '#') {
+                                                i += 1;
+                                                break;
+                                            }
+                                            else {
+                                                i++;
+                                            }
+                                        }
+                                    }
                                     break;
                                 case '.':
                                     if (int.TryParse(temp, out dump) && int.TryParse(myString[i + 1].ToString(), out dump))
@@ -224,7 +229,7 @@ namespace Compiler_Construction
                 {
                     temp += myString[i];
                 }
-                else if (breaker && !isString)
+                else if (breaker && !isString && !isMultiComment)
                 {
                     if (temp != "") { output.Add(new token(line, temp)); }
                     temp = myString[i].ToString();
@@ -255,6 +260,9 @@ namespace Compiler_Construction
                         output.Add(new token(line, "\n"));
                     }
                 }
+
+                // off multi line comment flag
+                isMultiComment = false;
             }   // for (i)
             if (temp != "")
             {

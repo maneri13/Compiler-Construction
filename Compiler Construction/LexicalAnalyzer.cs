@@ -155,7 +155,6 @@ namespace Compiler_Construction
             return valid;
         }
     
-        
         // add logic to compare to keywords
         public bool checkIdentifier(string input)
         {
@@ -216,7 +215,6 @@ namespace Compiler_Construction
             return valid;
         }
 
-        
         public bool checkString(String input) 
         {
             int cState = 0;
@@ -276,7 +274,6 @@ namespace Compiler_Construction
 
             return valid;
         }
-
 
         public bool checkChar(String input)
         {
@@ -380,7 +377,6 @@ namespace Compiler_Construction
             }
             return "";
         }
-
 
         public List<token> getTokens(List<token> words){
 
