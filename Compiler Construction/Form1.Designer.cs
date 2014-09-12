@@ -82,10 +82,11 @@
             this.codeBlock.DetectUrls = false;
             this.codeBlock.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.codeBlock.ForeColor = System.Drawing.Color.Gold;
-            this.codeBlock.Location = new System.Drawing.Point(6, 15);
+            this.codeBlock.Location = new System.Drawing.Point(6, 16);
             this.codeBlock.Name = "codeBlock";
-            this.codeBlock.Size = new System.Drawing.Size(887, 189);
+            this.codeBlock.Size = new System.Drawing.Size(628, 557);
             this.codeBlock.TabIndex = 2;
+            this.codeBlock.TabStop = false;
             this.codeBlock.Text = "";
             // 
             // richTextBox1
@@ -96,7 +97,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(6, 19);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(231, 164);
+            this.richTextBox1.Size = new System.Drawing.Size(231, 434);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             // 
@@ -108,19 +109,18 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(899, 230);
+            this.tabControl1.Size = new System.Drawing.Size(580, 500);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
-            this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.TokenBox);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(891, 201);
+            this.tabPage1.Size = new System.Drawing.Size(572, 471);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Lexical Analyzer";
             // 
@@ -131,14 +131,13 @@
             this.groupBox4.Controls.Add(this.ErrorLabel);
             this.groupBox4.Controls.Add(this.totalbreaker_label);
             this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Controls.Add(this.totalLines);
             this.groupBox4.Controls.Add(this.label_totalLines);
             this.groupBox4.Controls.Add(this.totalWords);
             this.groupBox4.Controls.Add(this.label_totalwords);
-            this.groupBox4.Location = new System.Drawing.Point(671, 6);
+            this.groupBox4.Location = new System.Drawing.Point(16, 529);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(214, 189);
+            this.groupBox4.Size = new System.Drawing.Size(208, 108);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Stats";
@@ -189,9 +188,9 @@
             this.groupBox5.Controls.Add(this.label2);
             this.groupBox5.Controls.Add(this.label1);
             this.groupBox5.Controls.Add(this.BreakerBox);
-            this.groupBox5.Location = new System.Drawing.Point(10, 110);
+            this.groupBox5.Location = new System.Drawing.Point(230, 529);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(198, 73);
+            this.groupBox5.Size = new System.Drawing.Size(200, 108);
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Word Breaker Analyzer";
@@ -201,7 +200,7 @@
             this.BreakerOcc.AutoSize = true;
             this.BreakerOcc.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BreakerOcc.ForeColor = System.Drawing.Color.DimGray;
-            this.BreakerOcc.Location = new System.Drawing.Point(136, 41);
+            this.BreakerOcc.Location = new System.Drawing.Point(120, 75);
             this.BreakerOcc.Name = "BreakerOcc";
             this.BreakerOcc.Size = new System.Drawing.Size(0, 19);
             this.BreakerOcc.TabIndex = 15;
@@ -210,7 +209,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label2.Location = new System.Drawing.Point(6, 41);
+            this.label2.Location = new System.Drawing.Point(6, 75);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(108, 19);
             this.label2.TabIndex = 14;
@@ -220,7 +219,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Location = new System.Drawing.Point(9, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(117, 19);
             this.label1.TabIndex = 12;
@@ -229,9 +228,9 @@
             // BreakerBox
             // 
             this.BreakerBox.FormattingEnabled = true;
-            this.BreakerBox.Location = new System.Drawing.Point(129, 17);
+            this.BreakerBox.Location = new System.Drawing.Point(6, 41);
             this.BreakerBox.Name = "BreakerBox";
-            this.BreakerBox.Size = new System.Drawing.Size(63, 21);
+            this.BreakerBox.Size = new System.Drawing.Size(188, 21);
             this.BreakerBox.TabIndex = 13;
             this.BreakerBox.SelectedIndexChanged += new System.EventHandler(this.selectBreaker);
             // 
@@ -278,9 +277,9 @@
             // TokenBox
             // 
             this.TokenBox.Controls.Add(this.TokenBox1);
-            this.TokenBox.Location = new System.Drawing.Point(255, 7);
+            this.TokenBox.Location = new System.Drawing.Point(261, 6);
             this.TokenBox.Name = "TokenBox";
-            this.TokenBox.Size = new System.Drawing.Size(410, 188);
+            this.TokenBox.Size = new System.Drawing.Size(305, 459);
             this.TokenBox.TabIndex = 7;
             this.TokenBox.TabStop = false;
             this.TokenBox.Text = "Tokenizer";
@@ -289,10 +288,10 @@
             // 
             this.TokenBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TokenBox1.Font = new System.Drawing.Font("Consolas", 12F);
-            this.TokenBox1.Location = new System.Drawing.Point(6, 17);
+            this.TokenBox1.Location = new System.Drawing.Point(6, 16);
             this.TokenBox1.Name = "TokenBox1";
             this.TokenBox1.ReadOnly = true;
-            this.TokenBox1.Size = new System.Drawing.Size(398, 165);
+            this.TokenBox1.Size = new System.Drawing.Size(293, 437);
             this.TokenBox1.TabIndex = 0;
             this.TokenBox1.Text = "";
             // 
@@ -301,7 +300,7 @@
             this.groupBox1.Controls.Add(this.richTextBox1);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(243, 189);
+            this.groupBox1.Size = new System.Drawing.Size(243, 459);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Seprator";
@@ -311,7 +310,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(891, 201);
+            this.tabPage2.Size = new System.Drawing.Size(1212, 471);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Syntax Analyzer";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -329,7 +328,7 @@
             this.hELPToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(923, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1244, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -384,18 +383,19 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.codeBlock);
-            this.groupBox3.Location = new System.Drawing.Point(12, 317);
+            this.groupBox3.Location = new System.Drawing.Point(594, 58);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(899, 210);
+            this.groupBox3.Size = new System.Drawing.Size(640, 579);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Source Code";
             // 
             // Lexical
             // 
-            this.Lexical.Location = new System.Drawing.Point(826, 263);
+            this.Lexical.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lexical.Location = new System.Drawing.Point(17, 51);
             this.Lexical.Name = "Lexical";
-            this.Lexical.Size = new System.Drawing.Size(75, 52);
+            this.Lexical.Size = new System.Drawing.Size(118, 43);
             this.Lexical.TabIndex = 0;
             this.Lexical.Text = "COMPILE";
             this.Lexical.UseVisualStyleBackColor = true;
@@ -407,32 +407,34 @@
             this.checkBox1.Font = new System.Drawing.Font("Consolas", 12F);
             this.checkBox1.Location = new System.Drawing.Point(6, 19);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(136, 23);
+            this.checkBox1.Size = new System.Drawing.Size(109, 23);
             this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Auto Compile";
+            this.checkBox1.Text = "Live View";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 263);
+            this.groupBox2.Controls.Add(this.Lexical);
+            this.groupBox2.Location = new System.Drawing.Point(436, 529);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(152, 48);
+            this.groupBox2.Size = new System.Drawing.Size(152, 108);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Toggle Auto Compile ";
+            this.groupBox2.Text = "Compiler";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 539);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(1244, 648);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.Lexical);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox5);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";

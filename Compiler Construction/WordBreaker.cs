@@ -14,7 +14,7 @@ namespace Compiler_Construction
 
     public class WordBreaker
     {
-        char[] breakers = { ' ', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
+        char[] breakers = { ' ','\t', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
         '{', '}', '[', ']', '.', '\'', '\"' };
         //string[] output = new string[100];
 
@@ -24,14 +24,14 @@ namespace Compiler_Construction
 
         public WordBreaker()
         {
-
+           
         }
 
         public List<token> breakString(string myString)
         {
             List<token> output = new List<token>();
             string temp = "";
-            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false, exit = false; ;
+            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false, exit = false, isMultiComment = false;
             int dump = 0;
             ushort line = 1;
             for (int i = 0; i < myString.Length; i++)
@@ -54,6 +54,9 @@ namespace Compiler_Construction
                             
                             switch (myString[i])
                             {
+                                case '\t':
+
+                                    break;
                                 
                                 case '\n':
                                     newLine = true;
@@ -99,8 +102,6 @@ namespace Compiler_Construction
                                     else addNext = false;
                                     break;
                                 case '#':
-                                    if (myString[i + 1] == '#' || myString[i + 1] == '$') { addNext = true; }
-                                    else addNext = false;
                                     if (myString[i + 1] == '#')
                                     {
                                         while (true)
@@ -119,6 +120,33 @@ namespace Compiler_Construction
                                             }
                                             
                                             i++;
+                                        }
+                                    }
+
+                                    if (myString[i + 1] == '$')
+                                    {
+                                        isMultiComment = true;
+                                        i += 2;
+                                        while (i < myString.Length)
+                                        {
+                                            if (myString[i] == '\n')
+                                            {
+                                                line++;
+                                            }
+                                           
+                                            if (i+1 < myString.Length && myString[i] == '$' && myString[i + 1] == '#')
+                                            {
+                                                i += 1;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                i++;
+                                            }
+                                        }
+                                        if (myString[i] == '\n')
+                                        {
+                                            line++;
                                         }
                                     }
 
@@ -235,7 +263,7 @@ namespace Compiler_Construction
                 {
                     temp += myString[i];
                 }
-                else if (breaker && !isString)
+                else if (breaker && !isString && !isMultiComment)
                 {
                     if (temp != "") { output.Add(new token(line, temp)); }
                     temp = myString[i].ToString();
@@ -266,7 +294,15 @@ namespace Compiler_Construction
                         output.Add(new token(line, "\n"));
                     }
                 }
+                // off multi line comment flag
+                if (isMultiComment)
+                {
+                    breaker = false;
+                    isMultiComment = false;
+                }
+                
             }   // for (i)
+            
             if (temp != "")
             {
                 output.Add(new token(line, temp));

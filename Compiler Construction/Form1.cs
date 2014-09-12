@@ -25,10 +25,11 @@ namespace Compiler_Construction
 
         private void Lexical_Click(object sender, EventArgs e)
         {
+
             myWordBreaker = new WordBreaker();
             int totalError = 0;
             BreakerBox.Items.Clear();
-
+            
             richTextBox1.Text = "";
             TokenBox1.Text = "";
 
@@ -36,7 +37,7 @@ namespace Compiler_Construction
             totalWords.Text = "";
             totalbreaker_label.Text = "";
             totalLines.Text = "";
-
+            
             wordBreakerOutput = new List<token>();
             TokenOutput = new List<token>();
             
@@ -49,7 +50,8 @@ namespace Compiler_Construction
             totalWords.Text = wordBreakerOutput.Count().ToString();
             
             totalbreaker_label.Text = myWordBreaker.totalBreaker.Count.ToString();
-            
+
+           
             
             foreach (token s in wordBreakerOutput)
             {
@@ -60,7 +62,7 @@ namespace Compiler_Construction
             {
                 BreakerBox.Items.Add(c);
             }
-
+         
             int j = 0;
             while (true)
             {
@@ -69,11 +71,11 @@ namespace Compiler_Construction
                 {
                     break;
                 }
-                if (wordBreakerOutput[j].wordString == " " || wordBreakerOutput[j].wordString == "\n")
+                if (wordBreakerOutput[j].wordString == " " || wordBreakerOutput[j].wordString == "\n" || wordBreakerOutput[j].wordString == "\t")
                 {
                     for (int i = 0; i < wordBreakerOutput.Count; i++)
                     {
-                        if (wordBreakerOutput[i].wordString == " " || wordBreakerOutput[i].wordString == "\n" || wordBreakerOutput[i].wordString == "##")
+                        if (wordBreakerOutput[i].wordString == "\t" || wordBreakerOutput[i].wordString == " " || wordBreakerOutput[i].wordString == "\n" || wordBreakerOutput[i].wordString == "##")
                         {
                             wordBreakerOutput.RemoveAt(i);
                             j = 0;
@@ -99,8 +101,8 @@ namespace Compiler_Construction
                 }
                 TokenBox1.Text += "("+ s.lineNumber + " , " + s.wordString + " , " + s.classString + ")\n";
             }
-
-
+            
+           
 
             
         }
@@ -124,14 +126,14 @@ namespace Compiler_Construction
             {
                 Lexical.Enabled = false;
                 codeBlock.TextChanged += Lexical_Click;
-                tabControl1.TabPages[0].BackColor = Color.Turquoise;
+                
             }
 
             if (!checkBox1.Checked)
             {
                 Lexical.Enabled = true;
                 codeBlock.TextChanged -= Lexical_Click;
-                tabControl1.TabPages[0].BackColor = Color.Transparent;
+                
             }
         }
 
