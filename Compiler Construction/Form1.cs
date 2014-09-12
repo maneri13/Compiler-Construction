@@ -15,6 +15,8 @@ namespace Compiler_Construction
     {
         
         WordBreaker myWordBreaker;
+        List<token> wordBreakerOutput;
+        List<token> TokenOutput;
         LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
         public Form1()
         {
@@ -35,9 +37,11 @@ namespace Compiler_Construction
             totalbreaker_label.Text = "";
             totalLines.Text = "";
 
-            List<token> wordBreakerOutput = new List<token>();
-            List<token> TokenOutput = new List<token>();
+            wordBreakerOutput = new List<token>();
+            TokenOutput = new List<token>();
+            
             wordBreakerOutput = myWordBreaker.breakString(codeBlock.Text);
+
             if (wordBreakerOutput.Count > 0)
             {
                 totalLines.Text = wordBreakerOutput.Last().lineNumber.ToString();
