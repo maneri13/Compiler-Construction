@@ -168,6 +168,11 @@ namespace Compiler_Construction
                                     }
                                     break;
                                 case '\"':
+                                    if (temp != "")
+                                    {
+                                        output.Add(new token(line, temp));
+                                        temp = "";
+                                    }
                                     temp += myString[i];
                                     i++;
                                     while (i < myString.Length && myString[i]!='\n' )
