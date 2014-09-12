@@ -107,9 +107,8 @@ namespace Compiler_Construction
                                         {
                                             if (myString[i] == '\n' || i == myString.Length - 1)
                                             {
-                                                breaker = false;
-                                                i++;
-                                                line++;
+                                                addNext = false;
+                                                newLine = true;
                                                 break;
                                                 
                                             }
@@ -139,8 +138,22 @@ namespace Compiler_Construction
                                     {
                                         temp += myString[i];
                                         i++;
+                                        if (myString[i] == '\\')
+                                        {
+                                           
+                                            temp += myString[i+1];
+                                            i++;
+                                            if (myString[i] == '\n')
+                                            {
+                                                totalBreaker.Add("New Line");
+                                                newLine = true;
+                                                temp = temp.Remove(temp.Length - 1);
+                                            }
+                                            continue;
 
-                                        if ((myString[i] == '\"' && myString[i - 1] != '\\') || (myString[i] == '\n') || (i == myString.Length - 1) || (myString[i] == '\"' && myString[i - 1] == '\\' && myString[i - 1] == '\\'))
+                                        }
+
+                                        if ((myString[i] == '\"') || (myString[i] == '\n') || (i == myString.Length - 1) )
                                         {
 
                                             temp += myString[i];
