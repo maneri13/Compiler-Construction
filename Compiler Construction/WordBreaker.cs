@@ -31,7 +31,7 @@ namespace Compiler_Construction
         {
             List<token> output = new List<token>();
             string temp = "";
-            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false;
+            bool breaker = false, addNext = false, isFloat = false, isString = false, newLine = false, exit = false; ;
             int dump = 0;
             ushort line = 1;
             for (int i = 0; i < myString.Length; i++)
@@ -105,13 +105,19 @@ namespace Compiler_Construction
                                     {
                                         while (true)
                                         {
-                                            if (myString[i] == '\n' || i == myString.Length - 1)
+                                            if (i >= myString.Length)
+                                            {
+                                                exit = true;
+                                                break;
+                                            }
+                                            if (myString[i] == '\n')
                                             {
                                                 addNext = false;
                                                 newLine = true;
                                                 break;
                                                 
                                             }
+                                            
                                             i++;
                                         }
                                     }
@@ -134,42 +140,42 @@ namespace Compiler_Construction
                                     }
                                     break;
                                 case '\"':
-                                    while (true)
+                                    temp += myString[i];
+                                    i++;
+                                    while (i < myString.Length && myString[i]!='\n' )
                                     {
-                                        temp += myString[i];
+                                        
+                                            if(myString[i]=='\\')
+                                            {
+                                                temp += myString[i];
+                                                if (i+1 < myString.Length-1)
+                                                {
+                                                    temp += myString[i + 1];
+                                                }
+                                                i++;
+                                                
+                                            }
+                                            else if(myString[i]=='\"')
+                                            {
+                                                temp += myString[i];
+                                                
+                                                break;
+                                            }
+                                            else 
+                                            {
+                                                temp += myString[i];
+                                            }
+                                                
+                                                
+                                        
                                         i++;
-                                        if (myString[i] == '\\')
-                                        {
-                                           
-                                            temp += myString[i+1];
-                                            i++;
-                                            if (myString[i] == '\n')
-                                            {
-                                                totalBreaker.Add("New Line");
-                                                newLine = true;
-                                                temp = temp.Remove(temp.Length - 1);
-                                            }
-                                            continue;
-
-                                        }
-
-                                        if ((myString[i] == '\"') || (myString[i] == '\n') || (i == myString.Length - 1) )
-                                        {
-
-                                            temp += myString[i];
-                                            isString = true;
-
-                                            if (myString[i] == '\n')
-                                            {
-                                                totalBreaker.Add("New Line");
-                                                newLine = true;
-                                                temp = temp.Remove(temp.Length - 1);
-                                            }
-                                            break;
-                                        }
                                     }
+                                    if (i < myString.Length && myString[i] == '\n')
+                                    {
+                                        newLine = true;
+                                    }
+                                    isString = true;
                                     break;
-
                                 case '\'':
                                     if (temp != "")
                                     {
@@ -220,6 +226,11 @@ namespace Compiler_Construction
                     }  // if (i==j) end
                     if (breaker) break;
                 }   // foreach (j)
+                if (exit)
+                {
+                    exit = false;
+                    break;
+                }
                 if (!breaker)
                 {
                     temp += myString[i];
