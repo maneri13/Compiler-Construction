@@ -123,7 +123,7 @@ namespace Compiler_Construction
                                         }
                                     }
 
-                                    if (myString[i + 1] == '$')
+                                    else if (myString[i + 1] == '$')
                                     {
                                         isMultiComment = true;
                                         i += 2;
@@ -144,7 +144,7 @@ namespace Compiler_Construction
                                                 i++;
                                             }
                                         }
-                                        if (myString[i] == '\n')
+                                        if (i<myString.Length && myString[i] == '\n')
                                         {
                                             line++;
                                         }
@@ -152,10 +152,6 @@ namespace Compiler_Construction
 
 
                                     
-                                    break;
-                                case '$':
-                                    if (myString[i + 1] == '#') { addNext = true; }
-                                    else addNext = false;
                                     break;
                                 case '.':
                                     if (int.TryParse(temp, out dump) && int.TryParse(myString[i + 1].ToString(), out dump))
