@@ -32,24 +32,24 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.TokenBox = new System.Windows.Forms.GroupBox();
+            this.TokenBox1 = new System.Windows.Forms.RichTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.TotalError = new System.Windows.Forms.Label();
             this.ErrorLabel = new System.Windows.Forms.Label();
             this.totalbreaker_label = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.totalLines = new System.Windows.Forms.Label();
+            this.label_totalLines = new System.Windows.Forms.Label();
+            this.totalWords = new System.Windows.Forms.Label();
+            this.label_totalwords = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.BreakerOcc = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BreakerBox = new System.Windows.Forms.ComboBox();
-            this.totalLines = new System.Windows.Forms.Label();
-            this.label_totalLines = new System.Windows.Forms.Label();
-            this.totalWords = new System.Windows.Forms.Label();
-            this.label_totalwords = new System.Windows.Forms.Label();
-            this.TokenBox = new System.Windows.Forms.GroupBox();
-            this.TokenBox1 = new System.Windows.Forms.RichTextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fILEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eDITToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,10 +65,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.TokenBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -93,6 +93,7 @@
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Control;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.DetectUrls = false;
             this.richTextBox1.Font = new System.Drawing.Font("Consolas", 12F);
             this.richTextBox1.Location = new System.Drawing.Point(6, 19);
             this.richTextBox1.Name = "richTextBox1";
@@ -123,6 +124,48 @@
             this.tabPage1.Size = new System.Drawing.Size(572, 471);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Lexical Analyzer";
+            // 
+            // TokenBox
+            // 
+            this.TokenBox.Controls.Add(this.TokenBox1);
+            this.TokenBox.Location = new System.Drawing.Point(261, 6);
+            this.TokenBox.Name = "TokenBox";
+            this.TokenBox.Size = new System.Drawing.Size(305, 459);
+            this.TokenBox.TabIndex = 7;
+            this.TokenBox.TabStop = false;
+            this.TokenBox.Text = "Tokenizer";
+            // 
+            // TokenBox1
+            // 
+            this.TokenBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TokenBox1.DetectUrls = false;
+            this.TokenBox1.Font = new System.Drawing.Font("Consolas", 12F);
+            this.TokenBox1.Location = new System.Drawing.Point(6, 16);
+            this.TokenBox1.Name = "TokenBox1";
+            this.TokenBox1.ReadOnly = true;
+            this.TokenBox1.Size = new System.Drawing.Size(293, 437);
+            this.TokenBox1.TabIndex = 0;
+            this.TokenBox1.Text = "";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.richTextBox1);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(243, 459);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Word Seprator";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(572, 471);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Syntax Analyzer";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -182,6 +225,46 @@
             this.label3.TabIndex = 15;
             this.label3.Text = "Total Breaker:";
             // 
+            // totalLines
+            // 
+            this.totalLines.AutoSize = true;
+            this.totalLines.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.totalLines.ForeColor = System.Drawing.Color.DimGray;
+            this.totalLines.Location = new System.Drawing.Point(145, 40);
+            this.totalLines.Name = "totalLines";
+            this.totalLines.Size = new System.Drawing.Size(0, 19);
+            this.totalLines.TabIndex = 11;
+            // 
+            // label_totalLines
+            // 
+            this.label_totalLines.AutoSize = true;
+            this.label_totalLines.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label_totalLines.Location = new System.Drawing.Point(6, 40);
+            this.label_totalLines.Name = "label_totalLines";
+            this.label_totalLines.Size = new System.Drawing.Size(117, 19);
+            this.label_totalLines.TabIndex = 10;
+            this.label_totalLines.Text = "Total Lines:";
+            // 
+            // totalWords
+            // 
+            this.totalWords.AutoSize = true;
+            this.totalWords.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
+            this.totalWords.ForeColor = System.Drawing.Color.DimGray;
+            this.totalWords.Location = new System.Drawing.Point(145, 16);
+            this.totalWords.Name = "totalWords";
+            this.totalWords.Size = new System.Drawing.Size(0, 19);
+            this.totalWords.TabIndex = 9;
+            // 
+            // label_totalwords
+            // 
+            this.label_totalwords.AutoSize = true;
+            this.label_totalwords.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label_totalwords.Location = new System.Drawing.Point(6, 16);
+            this.label_totalwords.Name = "label_totalwords";
+            this.label_totalwords.Size = new System.Drawing.Size(117, 19);
+            this.label_totalwords.TabIndex = 8;
+            this.label_totalwords.Text = "Total Words:";
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.BreakerOcc);
@@ -233,87 +316,6 @@
             this.BreakerBox.Size = new System.Drawing.Size(188, 21);
             this.BreakerBox.TabIndex = 13;
             this.BreakerBox.SelectedIndexChanged += new System.EventHandler(this.selectBreaker);
-            // 
-            // totalLines
-            // 
-            this.totalLines.AutoSize = true;
-            this.totalLines.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.totalLines.ForeColor = System.Drawing.Color.DimGray;
-            this.totalLines.Location = new System.Drawing.Point(145, 40);
-            this.totalLines.Name = "totalLines";
-            this.totalLines.Size = new System.Drawing.Size(0, 19);
-            this.totalLines.TabIndex = 11;
-            // 
-            // label_totalLines
-            // 
-            this.label_totalLines.AutoSize = true;
-            this.label_totalLines.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label_totalLines.Location = new System.Drawing.Point(6, 40);
-            this.label_totalLines.Name = "label_totalLines";
-            this.label_totalLines.Size = new System.Drawing.Size(117, 19);
-            this.label_totalLines.TabIndex = 10;
-            this.label_totalLines.Text = "Total Lines:";
-            // 
-            // totalWords
-            // 
-            this.totalWords.AutoSize = true;
-            this.totalWords.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold);
-            this.totalWords.ForeColor = System.Drawing.Color.DimGray;
-            this.totalWords.Location = new System.Drawing.Point(145, 16);
-            this.totalWords.Name = "totalWords";
-            this.totalWords.Size = new System.Drawing.Size(0, 19);
-            this.totalWords.TabIndex = 9;
-            // 
-            // label_totalwords
-            // 
-            this.label_totalwords.AutoSize = true;
-            this.label_totalwords.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label_totalwords.Location = new System.Drawing.Point(6, 16);
-            this.label_totalwords.Name = "label_totalwords";
-            this.label_totalwords.Size = new System.Drawing.Size(117, 19);
-            this.label_totalwords.TabIndex = 8;
-            this.label_totalwords.Text = "Total Words:";
-            // 
-            // TokenBox
-            // 
-            this.TokenBox.Controls.Add(this.TokenBox1);
-            this.TokenBox.Location = new System.Drawing.Point(261, 6);
-            this.TokenBox.Name = "TokenBox";
-            this.TokenBox.Size = new System.Drawing.Size(305, 459);
-            this.TokenBox.TabIndex = 7;
-            this.TokenBox.TabStop = false;
-            this.TokenBox.Text = "Tokenizer";
-            // 
-            // TokenBox1
-            // 
-            this.TokenBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TokenBox1.Font = new System.Drawing.Font("Consolas", 12F);
-            this.TokenBox1.Location = new System.Drawing.Point(6, 16);
-            this.TokenBox1.Name = "TokenBox1";
-            this.TokenBox1.ReadOnly = true;
-            this.TokenBox1.Size = new System.Drawing.Size(293, 437);
-            this.TokenBox1.TabIndex = 0;
-            this.TokenBox1.Text = "";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.richTextBox1);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(243, 459);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Word Seprator";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1212, 471);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Syntax Analyzer";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -440,12 +442,12 @@
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.TokenBox.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.TokenBox.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox3.ResumeLayout(false);

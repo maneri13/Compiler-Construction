@@ -21,6 +21,11 @@ namespace Compiler_Construction
         public static string At = "[@]";
         public static string Dot = "[.]";
     };
+    static class Breakers
+    {
+        public static char[] breakers = { ' ','\t', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
+        '{', '}', '[', ']', '.', '\'', '\"' };
+    }
     static class ClassName
     {
         public static string[,] keywords = {

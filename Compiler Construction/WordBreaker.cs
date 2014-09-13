@@ -14,10 +14,6 @@ namespace Compiler_Construction
 
     public class WordBreaker
     {
-        char[] breakers = { ' ','\t', '\n', '<', '>' , '+', '-', '*', '/', '=', '&', '|', '!', '#', '$', ',', ';', ':', '(', ')',
-        '{', '}', '[', ']', '.', '\'', '\"' };
-        //string[] output = new string[100];
-
         public List<string> totalBreaker = new List<string>();
 
         public List<string> distinctBreaker = new List<string>();
@@ -42,7 +38,7 @@ namespace Compiler_Construction
                     newLine = false;
                 }
 
-                foreach (char j in breakers)
+                foreach (char j in Breakers.breakers)
                 {
                     if (myString[i] == j)
                     {
@@ -55,9 +51,7 @@ namespace Compiler_Construction
                             switch (myString[i])
                             {
                                 case '\t':
-
                                     break;
-                                
                                 case '\n':
                                     newLine = true;
                                     break;
@@ -115,14 +109,11 @@ namespace Compiler_Construction
                                             {
                                                 addNext = false;
                                                 newLine = true;
-                                                break;
-                                                
+                                                break;   
                                             }
-                                            
                                             i++;
                                         }
                                     }
-
                                     else if (myString[i + 1] == '$')
                                     {
                                         isMultiComment = true;
@@ -149,9 +140,6 @@ namespace Compiler_Construction
                                             line++;
                                         }
                                     }
-
-
-                                    
                                     break;
                                 case '.':
                                     if (int.TryParse(temp, out dump) && int.TryParse(myString[i + 1].ToString(), out dump))
@@ -173,7 +161,6 @@ namespace Compiler_Construction
                                     i++;
                                     while (i < myString.Length && myString[i]!='\n' )
                                     {
-                                        
                                             if(myString[i]=='\\')
                                             {
                                                 temp += myString[i];
@@ -194,9 +181,6 @@ namespace Compiler_Construction
                                             {
                                                 temp += myString[i];
                                             }
-                                                
-                                                
-                                        
                                         i++;
                                     }
                                     if (i < myString.Length && myString[i] == '\n')
@@ -303,15 +287,11 @@ namespace Compiler_Construction
                 }
                 
             }   // for (i)
-            
             if (temp != "")
             {
                 output.Add(new token(line, temp));
                 temp = "";
             }
-
-            
-
             return output;
         }
 

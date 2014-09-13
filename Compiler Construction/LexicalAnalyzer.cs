@@ -7,11 +7,14 @@ using System.Text.RegularExpressions;
 
 namespace Compiler_Construction
 {
-    
 
     class LexicalAnalyzer
     {
-
+        /// <summary>
+        /// Integer DFA to check any integer constant
+        /// </summary>
+        /// <param name="input">integer in string format</param>
+        /// <returns>true if pass through DFA, otherwise false</returns>
         public bool checkInt(string input)
         {
             int cState = 0;
@@ -67,6 +70,11 @@ namespace Compiler_Construction
             return valid;
         }
 
+        /// <summary>
+        /// Float DFA to check any float constant
+        /// </summary>
+        /// <param name="input">Float in string format</param>
+        /// <returns>true if pass through DFA, otherwise false</returns>
         public bool checkFloat(string input)
         {
             int cState = 0;
@@ -154,8 +162,12 @@ namespace Compiler_Construction
             }
             return valid;
         }
-    
-        // add logic to compare to keywords
+
+        /// <summary>
+        /// Identifier DFA to check any identifier constant
+        /// </summary>
+        /// <param name="input">Identifier in string format</param>
+        /// <returns>true if pass through DFA, otherwise false</returns>
         public bool checkIdentifier(string input)
         {
             int cState = 0;
@@ -215,6 +227,11 @@ namespace Compiler_Construction
             return valid;
         }
 
+        /// <summary>
+        /// String DFA to check any string constant
+        /// </summary>
+        /// <param name="input">Identifier in string format</param>
+        /// <returns>true if pass through DFA, otherwise false</returns>
         public bool checkString(String input) 
         {
             int cState = 0;
@@ -275,6 +292,11 @@ namespace Compiler_Construction
             return valid;
         }
 
+        /// <summary>
+        /// Char DFA to check any Char constant
+        /// </summary>
+        /// <param name="input">Char in string format</param>
+        /// <returns>true if pass through DFA, otherwise false</returns>
         public bool checkChar(String input)
         {
             int cState = 0;
@@ -342,6 +364,11 @@ namespace Compiler_Construction
             return valid;
         }
 
+        /// <summary>
+        /// Keywords DFA to check any Keywords
+        /// </summary>
+        /// <param name="word">Keywords in string format</param>
+        /// <returns>true if pass through DFA, otherwise false</returns>
         public string checkKeyword(string word)
         {
             for (int i = 0; i < ClassName.keywords.Length/2; i++)
@@ -354,6 +381,11 @@ namespace Compiler_Construction
             return "";
         }
 
+        /// <summary>
+        /// Operators method to check any Operators
+        /// </summary>
+        /// <param name="word">Operators in string format</param>
+        /// <returns>true if pass through the method, otherwise false</returns>
         public string checkOperator(string word)
         {
             for (int i = 0; i < ClassName.Operators.Length/2; i++)
@@ -366,6 +398,11 @@ namespace Compiler_Construction
             return "";
         }
 
+        /// <summary>
+        /// Puntuators method to check any Puntuators
+        /// </summary>
+        /// <param name="word">Puntuators in string format</param>
+        /// <returns>true if pass through the method, otherwise false</returns>
         public string checkPunctuators(string word)
         {
             for (int i = 0; i < ClassName.punctuators.Length/2; i++)
@@ -378,6 +415,11 @@ namespace Compiler_Construction
             return "";
         }
 
+        /// <summary>
+        /// Method to generate tokens
+        /// </summary>
+        /// <param name="words">list containing incomplete tokens</param>
+        /// <returns>list containing complete tokens</returns>
         public List<token> getTokens(List<token> words){
 
             for (int i = 0; i < words.Count; i++)
@@ -477,11 +519,5 @@ namespace Compiler_Construction
 
             return words;
         }
-       
-        //public bool checkRE(string str, string pattern){
-        //    bool match = (Regex.IsMatch(str, pattern));
-        //    return match;
-        //}
-    
     }
 }
