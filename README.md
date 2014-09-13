@@ -4,7 +4,7 @@
 
 ### What is this repository for? ###
 
-* Compiler Construction project
+* Compiler Construction project for the most awesome group of UBIT
 * Version 0.1
 
 ### Project Members ###
