@@ -33,13 +33,129 @@ namespace Compiler_Construction
             return false;
         }
 
+        /// Extra Function
+        private bool cp(string classpart)
+        {
+            if (Tokens[tokenIndex].classString == classpart)
+            {
+                tokenIndex++;
+                return true;
+            }
+            else return false;
+        }
 
+        // dummy rule
+        private bool List_Const()
+        {
+            return false;
+        }
 
         //General Rules
 
-        //dummy section
-        private bool List_Const()
+        private bool Id_Constant()
         {
+            //<Id_Constant> -> Id|<Const>
+            if (cp("_identifier"))
+            {
+                return true;
+            }
+            else if (Const())
+            {
+                return true;
+            }
+
+            else return false;
+        }
+
+        private bool Array_Init()
+        {
+            //<Array_Init> -> [] | Null
+            if (cp("_bracket_square_open"))
+            {
+                if (cp("_bracket_square_close"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return true;
+
+
+        }
+
+        private bool Array_Index()
+        {
+            //<Array_Index> -> [<Id_Constant>] | Null
+            if (cp("_bracket_square_open"))
+            {
+                if (Id_Constant())
+                {
+                    if (cp("_bracket_square_close"))
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return true;
+        }
+
+        private bool Access_Modifier()
+        {
+            //<Access_Modifier> -> _access_modifier|Null
+            if (cp("_accessmodifier"))
+            {
+                return true;
+            }
+            else return true;
+        }
+
+        private bool List_Param()
+        {
+            //<List_Param> -> <DT_Id><Array_Init> Id<List_Param_B>|Null
+            if (DT_Id())
+            {
+                if (Array_Init())
+                {
+                    if (cp("_identifier"))
+                    {
+                        if (List_Param_B())
+                        {
+                            return true;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return true;
+        }
+
+        private bool List_Param_B()
+        {
+            //<List_Param_B> -> Null |, <DT_Id> <Array_Init> Id<List_Param>
+            if (cp("_comma"))
+            {
+                if (DT_Id())
+                {
+                    if (Array_Init())
+                    {
+                        if (cp("_identifier"))
+                        {
+                            if (List_Param())
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return true;
         }
 
@@ -66,15 +182,13 @@ namespace Compiler_Construction
         private bool DT_Id()
         {
             //<DT_Id> -> DT|Id
-            if (Tokens[tokenIndex].classString == "_datatype")
+            if (cp("_datatype"))
             {
-                tokenIndex++;
                 return true;
             }
 
-            else if (Tokens[tokenIndex].classString == "_identifier")
+            else if (cp("_identifier"))
             {
-                tokenIndex++;
                 return true;
             }
             else return false;
@@ -83,14 +197,13 @@ namespace Compiler_Construction
         private bool Static_Shared()
         {
             //<Static_Shared> -> _static | _shared
-            if (Tokens[tokenIndex].classString == "_static")
+            if (cp("_static"))
             {
-                tokenIndex++;
                 return true;
             }
-            else if (Tokens[tokenIndex].classString == "_shared")
+            else if (cp("_shared"))
             {
-                tokenIndex++;
+                
                 return true;
             }
             else
@@ -118,9 +231,9 @@ namespace Compiler_Construction
             {
                 return true;
             }
-            else if (Tokens[tokenIndex].classString == "_void")
+            else if (cp("_void"))
             {
-                tokenIndex++;
+                
                 return true;
             }
             else return false;
@@ -129,9 +242,9 @@ namespace Compiler_Construction
         // VARIABLE DECLARATION
         private bool Variable_Dec()
         {
-            if (Tokens[tokenIndex].classString == "_datatype")
+            if (cp("_datatype"))
             {
-                tokenIndex++;
+                
                 if (Variable_Link())
                 {
                     return true;
@@ -143,9 +256,8 @@ namespace Compiler_Construction
 
         private bool Variable_Link()
         {
-            if (Tokens[tokenIndex].classString == "_identifier")
+            if (cp("_identifier"))
             {
-                tokenIndex++;
                 if (Variable_Link2())
                 {
                     return true;
@@ -157,10 +269,9 @@ namespace Compiler_Construction
 
         private bool Variable_Link2()
         {
-            if (Tokens[tokenIndex].classString == "_assignment" && Tokens[tokenIndex].wordString == "=")
+            if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
                 // to be confirmed
             {
-                tokenIndex++;
                 if (Variable_Assign())
                 {
                     if (List_Variable())
@@ -180,9 +291,8 @@ namespace Compiler_Construction
 
         private bool Variable_Assign()
         {
-            if (Tokens[tokenIndex].classString == "_identifier")
+            if (cp("_identifier"))
             {
-                tokenIndex++;
                 return true;
             }
             else if (Const())
@@ -194,10 +304,10 @@ namespace Compiler_Construction
 
         private bool List_Variable()
         {
-            if (Tokens[tokenIndex].classString == "_comma")
+            if (cp("_comma"))
             {
                 tokenIndex++;
-                if (Tokens[tokenIndex].classString == "_identifier")
+                if (cp("_identifier"))
                 {
                     tokenIndex++;
                     if (Variable_Link2())
@@ -208,9 +318,8 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else if (Tokens[tokenIndex].classString == "_terminator")
+            else if (cp("_terminator"))
             {
-                tokenIndex++;
                 return true;
             }
             else return false;
@@ -229,6 +338,7 @@ namespace Compiler_Construction
                 {
                     return true;
                 }
+                else return false;
             }
             else return false;
             
@@ -237,13 +347,13 @@ namespace Compiler_Construction
         private bool Object_Link()
         {
             //<Object_Link> ->Id <Object_Creation_Exp>
-            if (Tokens[tokenIndex].classString=="_identifier")
+            if (cp("_identifier"))
             {
-                tokenIndex++;
                 if (Object_Creation_Exp())
                 {
                     return true;
                 }
+                else return false;
             }
             else return false;
 
@@ -252,12 +362,10 @@ namespace Compiler_Construction
         private bool Object_List()
         {
             //<Object_List> -> , Id<Object_Creation_Exp>|;
-            if (Tokens[tokenIndex].classString=="_comma")
+            if (cp("_comma"))
             {
-                tokenIndex++;
-                if (Tokens[tokenIndex].classString=="_identifier")
+                if (cp("_identifier"))
                 {
-                    tokenIndex++;
                     if (Object_Creation_Exp())
                     {
                         return true;
@@ -273,22 +381,18 @@ namespace Compiler_Construction
         private bool Object_Creation_Exp()
         {
             // <Object_Creation_Exp> -> = new <DT_Id> (<List_Const>) <Object_List> |<Object_List>
-            if (Tokens[tokenIndex].classString == "_assignment" && Tokens[tokenIndex].wordString == "=")
+            if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
             {
-                tokenIndex++;
-                if (Tokens[tokenIndex].classString == "_new")
+                if (cp("_new"))
                 {
-                    tokenIndex++;
                     if (DT_Id())
                     {
-                        if (Tokens[tokenIndex].classString == "_bracket_parentheses_open")
+                        if (cp("_bracket_parentheses_open"))
                         {
-                            tokenIndex++;
                             if (List_Const())
                             {
-                                if (Tokens[tokenIndex].classString == "_bracket_parentheses_close")
+                                if (cp("_bracket_parentheses_close"))
                                 {
-                                    tokenIndex++;
                                     if (Object_List())
                                     {
                                         return true;
