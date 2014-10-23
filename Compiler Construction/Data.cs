@@ -56,6 +56,7 @@ namespace Compiler_Construction
                                {"virtual","_virtual_override"},
                                {"base","_base"},
                                {"static","_static"},
+                               {"shared","_shared"},
                                {"public","_accessmodifier"},
                                {"protected","_accessmodifier"},
                                {"private","_accessmodifier"},
