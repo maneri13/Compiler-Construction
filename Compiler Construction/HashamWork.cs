@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 
 namespace Compiler_Construction
 {
@@ -45,6 +46,10 @@ namespace Compiler_Construction
         }
 
         // dummy rule
+
+        private bool M_St() { return true;}
+
+        private bool Body() { return true;}
         private bool List_Const()
         {
             // <List_Const>-><exp><List_Const_B> | Null
@@ -376,21 +381,6 @@ namespace Compiler_Construction
 
         }
 
-        private bool Object_Link()
-        {
-            //<Object_Link> ->Id <Object_Creation_Exp>
-            if (cp("_identifier"))
-            {
-                if (Object_Creation_Exp())
-                {
-                    return true;
-                }
-                else return false;
-            }
-            else return false;
-
-        }
-
         private bool Object_List()
         {
             //<Object_List> -> , Id<Object_Creation_Exp>|;
@@ -413,6 +403,22 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
+        private bool Object_Link()
+        {
+            //<Object_Link> ->Id <Object_Creation_Exp>
+            if (cp("_identifier"))
+            {
+                if (Object_Creation_Exp())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+
+        }
+
 
         private bool Object_Creation_Exp()
         {
@@ -452,6 +458,159 @@ namespace Compiler_Construction
             else return false;
 
         }
+       // *#
+        // ARRAY DECLARATION
+        private bool Array_Link()
+        {
+            //<Array_Link> ->  [] Id  <List_Array>
+            if (cp("_bracket_square_open"))
+            {
+                if (cp("_bracket_square_close"))
+                {
+                    if (cp("_identifier"))
+                    {
+                        if (List_Array())
+                        {
+                            return true;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+
+            else return false;
+        }
+
+        private bool List_Array()
+        {
+            //<List_Array>->;|=<Array_Asign>
+            if (cp("_terminator"))
+            {
+                return true;
+            }
+            
+            else if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
+            {
+                if (Array_Assign())
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            else return false;
+        }
+
+        private bool Array_Assign()
+        {
+
+            //<Array_Asign> -> new <DT_Id> [<A-temp> | <Array_C>
+            if (cp("_new"))
+            {
+                if (DT_Id())
+                {
+                    if (cp("_bracket_square_open"))
+                    {
+                        if (A_Temp())
+                        {
+                           return true; 
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+          
+            else if (Array_C())
+            {
+                return true;
+            }
+            else  return false;
+        }
+
+        private bool A_Temp()
+        {
+            //<A-temp> -> <Id_Constant>] <Array_Const> | ]<Array_C>
+
+            if (Id_Constant())
+            {
+                if (cp("_bracket_square_close"))
+                {
+                    if (Array_Const())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else if (Array_C())
+            {
+                return true;
+            }
+            else return false;
+
+        }
+
+        private bool Array_Const()
+        {
+            //<Array_Const> -> <Array_C>|;
+            if (Array_C())
+            {
+                return true;
+            }
+            else if (cp("_terminator"))
+            {
+                return true;
+            }
+            else return false;
+
+        }
+
+        private bool Array_C()
+        {
+            //<Array_C> -> { <Const> <Array_C2>
+            if (cp("_bracket_curly_open"))
+            {
+                if (Const())
+                {
+                    if (Array_C2())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+
+        }
+
+        private bool Array_C2()
+        {
+            //<Array_C2> -> , <Const> <Array_C2> | };
+            if (cp("_comma"))
+            {
+                if (Const())
+                {
+                    if (Array_C2())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else if (cp("_bracket_curly_close"))
+            {
+             return true;   
+            }
+            else return false;
+        }
+        //#*
 
         /*------------------------------------ STATEMENTS --------------------------*/
 
@@ -715,8 +874,95 @@ namespace Compiler_Construction
             // Null case
             else return true;
         }
+        //*#
+        private bool Foreach_St()
+        {
+            //<Foreach_St>-> foreach(<Foreach_Assg> )<Body>
+            if (cp("_foreach"))
+            {
+                if (cp("_bracket_parentheses_open"))
+                {
+                    if (Foreach_Assg())
+                    {
+                        if (cp("_bracket_parentheses_close"))
+                        {
+                            if (Body())
+                            {
+                                return true;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
 
+        private bool Foreach_Assg()
+        {
+            //<Foreach_Assg>-> DT Id in Id
+            if (cp("_datatype"))
+            {
+                if (cp("_identifier"))
+                {
+                    if (cp("_in"))
+                    {
+                        if (cp("_in"))
+                        {
+                            return true;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
 
+                else return false;
+            }
+            else return false;
+        }
+
+        private bool Do_While_St()
+        {
+            //<Do_While_St>->do{<M_St>}while(<exp>);
+
+            if (cp("_do"))
+            {
+                if (cp("_bracket_curly_open"))
+                {
+                    if (M_St())
+                    {
+                        if (cp("_bracket_curly_close"))
+                        {
+                            if (cp("_while"))
+                            {
+                                if (cp("_bracket_parentheses_open"))
+                                {
+                                    if (exp())
+                                    {
+                                        if (cp("_bracket_parentheses_close"))
+                                        {
+                                            return true;
+                                        }
+                                        else return false;
+                                    }
+                                    else return false;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+        // #*
     }
 
   

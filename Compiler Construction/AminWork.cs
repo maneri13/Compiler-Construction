@@ -45,6 +45,18 @@ namespace Compiler_Construction
         }
 
         // dummy rule
+        private bool M_St()
+        {
+            return false;
+        }
+
+        private bool Body()
+        {
+            return false;
+        }
+
+
+
         private bool List_Const()
         {
             // <List_Const>-><exp><List_Const_B> | Null
@@ -269,6 +281,28 @@ namespace Compiler_Construction
             else return false;
         }
 
+        //*#
+        private bool Asgn()
+        {
+            if (cp("_identifier"))
+            {
+                if (Array_Index())
+                {
+                    if (cp("_assignment"))
+                    {
+                        if (exp())
+                        {
+                            return true;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
         /*------------------------------------ DECLARATION --------------------------*/
         // VARIABLE DECLARATION
         private bool Variable_Dec()
@@ -451,6 +485,63 @@ namespace Compiler_Construction
             }
             else return false;
 
+        }
+
+        // METHOD DECLARATION
+
+        private bool Method_Link()
+        {
+            if (Return_Type())
+            {
+                if (Method_Link2())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        private bool Method_Link2()
+        {
+            if (cp("_identifier"))
+            {
+                if (Method_Link3())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        private bool Method_Link3()
+        {
+            if (cp("_bracket_parentheses_open"))
+            {
+                if (List_Param())
+                {
+                    if (cp("_bracket_parentheses_close"))
+                    {
+                        if (cp("_bracket_curly_open"))
+                        {
+                            if (M_St())
+                            {
+                                if (cp("_bracket_curly_close"))
+                                {
+                                    return true;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
         }
 
         /*------------------------------------ STATEMENTS --------------------------*/
@@ -715,6 +806,167 @@ namespace Compiler_Construction
             // Null case
             else return true;
         }
+
+        //*#
+        // while
+        private bool While_St()
+        {
+            if (cp("_while"))
+            {
+                if (cp("_bracket_parentheses_open"))
+                {
+                    if (exp())
+                    {
+                        if (cp("_bracket_parentheses_close"))
+                        {
+                            if (Body())
+                            {
+                                return true;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        private bool For_St()
+        {
+            // <For_St>->for(<AD><C>;<A_D>)<Body>
+            if (cp("_for"))
+            {
+                if (cp("_bracket_parentheses_open"))
+                {
+                    if (AD())
+                    {
+                        if (C())
+                        {
+                            if (cp("_terminator"))
+                            {
+                                if (A_D())
+                                {
+                                    if (cp("_bracket_parentheses_close"))
+                                    {
+                                        if (Body())
+                                        {
+                                            return true;
+                                        }
+                                        else return false;
+                                    }
+                                    else return false;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        // for
+        private bool AD()
+        {
+            // <AD>-> <Variable_Dec>|<Asgn>;|;
+            if (Variable_Dec())
+            {
+                return true;
+            }
+
+            else if (Asgn())
+            {
+                return true;
+            }
+
+            else if (cp("_terminator"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+       
+        private bool C()
+        {
+            // <C>-><exp>|Null
+            // need to review
+            if (exp())
+            {
+                return true;
+            }
+            else return true;
+            
+        }
+
+        private bool A_D()
+        {
+            // <A_D>-> Id <Id_A_D> | Inc_Dec Id |Null
+            if (true)
+            {
+                if (cp("identifier"))
+                {
+                    if (Id_A_D())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+
+                else if (cp("_inc_dec"))
+                {
+                    if (cp("identifier"))
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+
+                else return true;
+            }
+        }
+
+        private bool Id_A_D()
+        {
+            // <Id_A_D> -> Inc_Dec | <Array_Index> AsgOp <exp>
+            if (cp("_inc_dec"))
+            {
+                return true;
+            }
+
+            else if (Array_Index())
+            {
+                if (cp("_assignment"))
+                {
+                    if (exp())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            
+            else return false;
+        }
+
+
+
+        //#*
+
+
+
+
+
 
     }
 }
