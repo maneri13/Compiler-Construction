@@ -18,6 +18,7 @@ namespace Compiler_Construction
         List<token> wordBreakerOutput;
         List<token> TokenOutput;
         LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
+        SyntaxAnalyzer mySyntaxAnalyzer = new SyntaxAnalyzer();
         public Form1()
         {
             InitializeComponent();
@@ -101,10 +102,19 @@ namespace Compiler_Construction
                 }
                 TokenBox1.Text += "("+ s.lineNumber + " , " + s.wordString + " , " + s.classString + ")\n";
             }
-            
-           
 
-            
+
+
+            bool abc = mySyntaxAnalyzer.syntaxAnlysis(TokenOutput);
+
+            if (abc)
+            {
+                MessageBox.Show("DADA ho gya !");
+            }
+            else
+            {
+                MessageBox.Show("shuru say karo bc ");
+            }
         }
 
         private void selectBreaker(object sender, EventArgs e)
