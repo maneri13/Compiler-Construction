@@ -66,7 +66,8 @@ namespace Compiler_Construction
                                {"void", "_void"},
                                {"main", "_main"},
                                {"function", "_function"},
-                               {"in", "_in"}
+                               {"in", "_in"},
+                               {"const", "_const"}
                            };
 
 
