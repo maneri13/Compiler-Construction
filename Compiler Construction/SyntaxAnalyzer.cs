@@ -18,7 +18,7 @@ namespace Compiler_Construction
             tokenIndex = 0;
             try
             {
-                if (Variable_Dec())
+                if (Object_Dec())
                 {
                     return true;
                 }
@@ -33,7 +33,54 @@ namespace Compiler_Construction
             return false;
         }
 
+        // Extra Function
+        private bool cp(string classpart)
+        {
+            if (Tokens[tokenIndex].classString == classpart)
+            {
+                tokenIndex++;
+                return true;
+            }
+            else return false;
+        }
 
+        // dummy rule
+        private bool List_Const()
+        {
+            // <List_Const>-><exp><List_Const_B> | Null
+            if (exp())
+            {
+                if (List_Const_B())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return true;
+        }
+
+        private bool List_Const_B()
+        {
+            // <List_Const_B>->,< exp><List_Const>|Null
+            if (cp("_comma"))
+            {
+                if (exp())
+                {
+                    if (List_Const())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return true;
+        }
+
+        private bool Class_Member_Child()
+        {
+            return false;
+        }
 
         /*------------------------------------ GENERAL RULES --------------------------*/
         private bool Const()
@@ -54,28 +101,182 @@ namespace Compiler_Construction
                     
             }
         }
-        private bool List_Const()
-        {
-            return false;
-        }
+        
         private bool Id_Constant()
         {
-            return false;
-        }
-        private bool Class_Member_Child()
-        {
-            return false;
+            //<Id_Constant> -> Id|<Const>
+            if (cp("_identifier"))
+            {
+                return true;
+            }
+            else if (Const())
+            {
+                return true;
+            }
+
+            else return false;
         }
 
+        private bool Array_Init()
+        {
+            //<Array_Init> -> [] | Null
+            if (cp("_bracket_square_open"))
+            {
+                if (cp("_bracket_square_close"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return true;
+
+
+        }
+
+        private bool Array_Index()
+        {
+            //<Array_Index> -> [<Id_Constant>] | Null
+            if (cp("_bracket_square_open"))
+            {
+                if (Id_Constant())
+                {
+                    if (cp("_bracket_square_close"))
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return true;
+        }
+
+        private bool Access_Modifier()
+        {
+            //<Access_Modifier> -> _access_modifier|Null
+            if (cp("_accessmodifier"))
+            {
+                return true;
+            }
+            else return true;
+        }
+
+        private bool List_Param()
+        {
+            //<List_Param> -> <DT_Id><Array_Init> Id<List_Param_B>|Null
+            if (DT_Id())
+            {
+                if (Array_Init())
+                {
+                    if (cp("_identifier"))
+                    {
+                        if (List_Param_B())
+                        {
+                            return true;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return true;
+        }
+
+        private bool List_Param_B()
+        {
+            //<List_Param_B> -> Null |, <DT_Id> <Array_Init> Id<List_Param>
+            if (cp("_comma"))
+            {
+                if (DT_Id())
+                {
+                    if (Array_Init())
+                    {
+                        if (cp("_identifier"))
+                        {
+                            if (List_Param())
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        private bool DT_Id()
+        {
+            //<DT_Id> -> DT|Id
+            if (cp("_datatype"))
+            {
+                return true;
+            }
+
+            else if (cp("_identifier"))
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        private bool Static_Shared()
+        {
+            //<Static_Shared> -> _static | _shared
+            if (cp("_static"))
+            {
+                return true;
+            }
+            else if (cp("_shared"))
+            {
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private bool Static_Shared_Constant()
+        {
+            //<Static_Shared _Constant> -> <Static_Shared> | const
+            if (Static_Shared())
+            {
+                return true;
+            }
+            else if (Const())
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        private bool Return_Type()
+        {
+            //<Return_Type> -> <DT_Id>| void
+            if (DT_Id())
+            {
+                return true;
+            }
+            else if (cp("_void"))
+            {
+
+                return true;
+            }
+            else return false;
+        }
 
         /*------------------------------------ DECLARATION --------------------------*/
         // VARIABLE DECLARATION
         private bool Variable_Dec()
         {
             // <Variable_Dec> -> DT <Variable_Link>
-            if (Tokens[tokenIndex].classString == "_datatype")
+            if (cp("_datatype"))
             {
-                tokenIndex++;
+
                 if (Variable_Link())
                 {
                     return true;
@@ -84,12 +285,12 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool Variable_Link()
         {
             // <Variable_Link> -> Id <Varaiable_Link2>
-            if (Tokens[tokenIndex].classString == "_identifier")
+            if (cp("_identifier"))
             {
-                tokenIndex++;
                 if (Variable_Link2())
                 {
                     return true;
@@ -98,12 +299,13 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool Variable_Link2()
         {
             // <Varaiable_Link2> -> =  <Variable_Assign> <List_Variable> | <List_Variable>
-            if (Tokens[tokenIndex].classString == "_assignment" && Tokens[tokenIndex].wordString == "=") // to be confirmed
+            if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
+            // to be confirmed
             {
-                tokenIndex++;
                 if (Variable_Assign())
                 {
                     if (List_Variable())
@@ -120,12 +322,12 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool Variable_Assign()
         {
             // <Variable_Assign> -> Id <Variable_Link2> | <Const>
-            if (Tokens[tokenIndex].classString == "_identifier")
+            if (cp("_identifier"))
             {
-                tokenIndex++;
                 return true;
             }
             else if (Const())
@@ -134,15 +336,14 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool List_Variable()
         {
             // <List_Variable> -> , Id <Variable_Link2> <List_Variable> | ;
-            if (Tokens[tokenIndex].classString == "_comma")
+            if (cp("_comma"))
             {
-                tokenIndex++;
-                if (Tokens[tokenIndex].classString == "_identifier")
+                if (cp("_identifier"))
                 {
-                    tokenIndex++;
                     if (Variable_Link2())
                     {
                         return true;
@@ -151,9 +352,101 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else if (Tokens[tokenIndex].classString == "_terminator")
+            else if (cp("_terminator"))
             {
-                tokenIndex++;
+                return true;
+            }
+            else return false;
+
+        }
+
+        // OBJECT DECLARATION
+        private bool Object_Dec()
+        {
+            //<Object_Dec>-><DT_Id> <Object_Link>
+            if (DT_Id())
+            {
+                if (Object_Link())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+
+        }
+
+        private bool Object_Link()
+        {
+            //<Object_Link> ->Id <Object_Creation_Exp>
+            if (cp("_identifier"))
+            {
+                if (Object_Creation_Exp())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+
+        }
+
+        private bool Object_List()
+        {
+            //<Object_List> -> , Id<Object_Creation_Exp>|;
+            if (cp("_comma"))
+            {
+                if (cp("_identifier"))
+                {
+                    if (Object_Creation_Exp())
+                    {
+                        return true;
+                    }
+                    else return false;
+
+                }
+                else return false;
+            }
+            else if (cp("_terminator"))
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        private bool Object_Creation_Exp()
+        {
+            // <Object_Creation_Exp> -> = new <DT_Id> (<List_Const>) <Object_List> |<Object_List>
+            if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
+            {
+                if (cp("_new"))
+                {
+                    if (DT_Id())
+                    {
+                        if (cp("_bracket_parentheses_open"))
+                        {
+                            if (List_Const())
+                            {
+                                if (cp("_bracket_parentheses_close"))
+                                {
+                                    if (Object_List())
+                                    {
+                                        return true;
+                                    }
+                                    else return false;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else if (Object_List())
+            {
                 return true;
             }
             else return false;
@@ -186,12 +479,12 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool O_()
         {
             // <O’> -> || <A> <O’> | Null
-            if (Tokens[tokenIndex].classString == "_or")
+            if (cp("_or"))
             {
-                tokenIndex++;
                 if (A())
                 {
                     if (O_())
@@ -205,6 +498,7 @@ namespace Compiler_Construction
             // Null case
             else return true;
         }
+
         private bool A()
         {
             // <A> -> <RE> <A’>
@@ -218,12 +512,12 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool A_()
         {
             // <A’> -> && <RE> <A’> | Null
-            if (Tokens[tokenIndex].classString == "_and")
+            if (cp("_and"))
             {
-                tokenIndex++;
                 if (RE())
                 {
                     if (A_())
@@ -237,6 +531,7 @@ namespace Compiler_Construction
             // Null case
             else return true;
         }
+
         private bool RE()
         {
             // <RE> -> <PM> <RE’>
@@ -250,12 +545,12 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool RE_()
         {
             // <RE’> -> Rel_Op <PM> <RE’> | Null
-            if (Tokens[tokenIndex].classString == "_relational")
+            if (cp("_relational"))
             {
-                tokenIndex++;
                 if (PM())
                 {
                     if (RE_())
@@ -269,6 +564,7 @@ namespace Compiler_Construction
             // Null case
             else return true;
         }
+
         private bool PM()
         {
             // <PM> -> <MD> <PM’>
@@ -282,12 +578,12 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool PM_()
         {
             // <PM’> -> P_M <MD> <PM’> | Null
-            if (Tokens[tokenIndex].classString == "_plus_minus")
+            if (cp("_plus_minus"))
             {
-                tokenIndex++;
                 if (MD())
                 {
                     if (PM_())
@@ -301,6 +597,7 @@ namespace Compiler_Construction
             // Null case
             else return true;
         }
+
         private bool MD()
         {
             // <MD> -> <OP> <MD’>
@@ -314,12 +611,12 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool MD_()
         {
             // <MD’> -> M_D_M <OP> <MD’> | Null
-            if (Tokens[tokenIndex].classString == "_multiply_divide_mode")
+            if (cp("_multiply_divide_mode"))
             {
-                tokenIndex++;
                 if (OP())
                 {
                     if (MD_())
@@ -333,12 +630,12 @@ namespace Compiler_Construction
             // Null case
             else return true;
         }
+
         private bool OP()
         {
             // <OP> -> Id<id_op>  | <Const> |!<OP> | (<exp>) | Inc_Dec  Id
-            if (Tokens[tokenIndex].classString == "_identifier")
+            if (cp("_identifier"))
             {
-                tokenIndex++;
                 if (id_op())
                 {
                     return true;
@@ -349,33 +646,29 @@ namespace Compiler_Construction
             {
                 return true;
             }
-            else if (Tokens[tokenIndex].classString == "_not")
+            else if (cp("_not"))
             {
-                tokenIndex++;
                 if (OP())
                 {
                     return true;
                 }
                 else return false;
             }
-            else if (Tokens[tokenIndex].classString == "_bracket_parentheses_open")
+            else if (cp("_bracket_parentheses_open"))
             {
-                tokenIndex++;
                 if (exp())
                 {
-                    if (Tokens[tokenIndex].classString == "_bracket_parentheses_close")
+                    if (cp("_bracket_parentheses_close"))
                     {
-                        tokenIndex++;
                         return true;
                     }
                     else return false;
                 }
                 else return false;
             }
-            else if (Tokens[tokenIndex].classString == "_inc_dec")
+            else if (cp("_inc_dec"))
             {
-                tokenIndex++;
-                if (Tokens[tokenIndex].classString == "_identifier")
+                if (cp("_identifier"))
                 {
                     return true;
                 }
@@ -383,30 +676,28 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
         private bool id_op()
         {
             // <id_op> -> Null | (<List_Const>) | [ <Id_Constant> ] | <Class_Member_Child> | Inc_Dec
-            if (Tokens[tokenIndex].classString == "_bracket_parentheses_open")
+            if (cp("_bracket_parentheses_open"))
             {
-                tokenIndex++;
                 if (List_Const())
                 {
-                    if (Tokens[tokenIndex].classString == "_bracket_parentheses_close")
+                    if (cp("_bracket_parentheses_close"))
                     {
-                        tokenIndex++;
                         return true;
                     }
                     else return false;
                 }
                 else return false;
             }
-            else if (Tokens[tokenIndex].classString == "_bracket_square_open")
+            else if (cp("_bracket_square_open"))
             {
                 if (Id_Constant())
                 {
-                    if (Tokens[tokenIndex].classString == "_bracket_square_close")
+                    if (cp("_bracket_square_close"))
                     {
-                        tokenIndex++;
                         return true;
                     }
                     else return false;
@@ -417,7 +708,7 @@ namespace Compiler_Construction
             {
                 return true;
             }
-            else if (Tokens[tokenIndex].classString == "_inc_dec")
+            else if (cp("_inc_dec"))
             {
                 return true;
             }
