@@ -104,7 +104,7 @@ namespace Compiler_Construction
             }
 
 
-
+            TokenOutput.Add(new token(TokenOutput.Last().lineNumber,"$","_end_marker"));
             bool abc = mySyntaxAnalyzer.syntaxAnlysis(TokenOutput);
 
             if (abc)

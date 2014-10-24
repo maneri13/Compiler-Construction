@@ -8,10 +8,11 @@ namespace Compiler_Construction
 {
     class AminWork
     {
+        HashamWork obj1 = new HashamWork(), obj;
         List<token> Tokens;
         public int tokenIndex;
 
-
+        
         public bool syntaxAnlysis(List<token> tokens)
         {
             Tokens = tokens;

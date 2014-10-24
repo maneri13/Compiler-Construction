@@ -67,7 +67,8 @@ namespace Compiler_Construction
                                {"main", "_main"},
                                {"function", "_function"},
                                {"in", "_in"},
-                               {"const", "_const"}
+                               {"const", "_const"},
+                               {"$" , "_end_marker"}
                            };
 
 
