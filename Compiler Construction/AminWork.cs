@@ -310,7 +310,8 @@ namespace Compiler_Construction
             // <Variable_Dec> -> DT <Variable_Link>
             if (cp("_datatype"))
             {
-
+                
+                
                 if (Variable_Link())
                 {
                     return true;
