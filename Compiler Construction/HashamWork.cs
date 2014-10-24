@@ -19,14 +19,13 @@ namespace Compiler_Construction
             tokenIndex = 0;
             try
             {
-                if (Object_Dec())
+                if (For_St())
                 {
                     return true;
                 }
             }
             catch
             {
-
                 return false;
             }
 
@@ -47,15 +46,8 @@ namespace Compiler_Construction
 
         // dummy rule
 
-        private bool M_St()
-        {
-            return false;
-        }
 
-        private bool Body()
-        {
-            return false;
-        }
+
 
         private bool Class_Dec()
         {
@@ -301,6 +293,198 @@ namespace Compiler_Construction
             }
             else return false;
         }
+
+        private bool S_St()
+        {
+            // <S_St> -> Id<Id_S_St> | DT<DT_S_St> | <While_St> | <For_St> | <Do_While_St> 
+            // | <Foreach_St> | <If_Else> | <Return> | <GoTo> | inc_dec id | const DT <Variable_Link>
+            if (cp("_identifier"))
+            {
+                if (Id_S_St())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else if (cp("_datatype"))
+            {
+                if (DT_S_St())
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            else if (While_St())
+            {
+                return true;
+            }
+
+            else if (For_St())
+            {
+                return true;
+            }
+
+            else if (Do_While_St())
+            {
+                return true;
+            }
+
+            else if (Foreach_St())
+            {
+                return true;
+            }
+
+            else if (If_Else())
+            {
+                return true;
+            }
+
+            else if (Return())
+            {
+                return true;
+            }
+
+            else if (GoTo())
+            {
+                return true;
+            }
+
+            else if (cp("_inc_dec"))
+            {
+                if (cp("_identifier"))
+                {
+                    if (cp("_terminator"))
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+
+            else if (cp("_const"))
+            {
+                if (cp("_datatype"))
+                {
+                    if (Variable_Link())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+
+            else return false;
+        }
+
+        private bool Id_S_St()
+        {
+            if (Array_Link())
+            {
+                return true;
+            }
+
+            else if (Object_Link())
+            {
+                return true;
+            }
+
+            else if (cp("_colon"))
+            {
+                return true;
+            }
+
+            else if (cp("_inc_dec"))
+            {
+                if (cp("_terminator"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            else if (Class_Member_Child())
+            {
+                return true;
+            }
+
+            else return false;
+        }
+
+        private bool DT_S_St()
+        {
+            if (Array_Link())
+            {
+                return true;
+            }
+
+            else if (cp("_identifier"))
+            {
+                if (DT_S_St2())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        private bool DT_S_St2()
+        {
+            if (Object_Creation_Exp())
+            {
+                return true;
+            }
+
+            else if (Variable_Link2())
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        private bool M_St()
+        {
+            if (S_St())
+            {
+                if (M_St())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return true;
+        }
+
+        private bool Body()
+        {
+            if (cp("_terminator"))
+            {
+                return true;
+            }
+
+            else if (S_St())
+            {
+                return true;
+            }
+
+            else if (cp("_bracket_curly_open"))
+            {
+                if (M_St())
+                {
+                    if (cp("_bracket_curly_close"))
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
 
         /*------------------------------------ DECLARATION --------------------------*/
         // VARIABLE DECLARATION
@@ -1215,7 +1399,11 @@ namespace Compiler_Construction
 
             else if (Asgn())
             {
-                return true;
+                if (cp("_terminator"))
+                {
+                    return true;
+                }
+                else return false;
             }
 
             else if (cp("_terminator"))
@@ -1243,28 +1431,27 @@ namespace Compiler_Construction
         private bool A_D()
         {
             // <A_D>-> Id <Id_A_D> | Inc_Dec Id |Null
-            if (true)
+
+            if (cp("_identifier"))
             {
-                if (cp("identifier"))
+                if (Id_A_D())
                 {
-                    if (Id_A_D())
-                    {
-                        return true;
-                    }
-                    else return false;
+                    return true;
                 }
-
-                else if (cp("_inc_dec"))
-                {
-                    if (cp("identifier"))
-                    {
-                        return true;
-                    }
-                    else return false;
-                }
-
-                else return true;
+                else return false;
             }
+
+            else if (cp("_inc_dec"))
+            {
+                if (cp("_identifier"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            else return true;
+
         }
 
         private bool Id_A_D()
@@ -1408,7 +1595,11 @@ namespace Compiler_Construction
             {
                 if (cp("_identifier"))
                 {
-                    return true;
+                    if (cp("_terminator"))
+                    {
+                        return true;
+                    }
+                    else return false;
                 }
                 else return false;
             }
@@ -1449,6 +1640,7 @@ namespace Compiler_Construction
         private bool O_Else()
         {
             // <O_Else>-> else <Body>|Null
+            if (tokenIndex >= Tokens.Count()) { return true; }
             if (cp("_else"))
             {
                 if (Body())
