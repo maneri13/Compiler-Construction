@@ -63,6 +63,14 @@
             this.Lexical = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.fetchBar = new System.Windows.Forms.ProgressBar();
+            this.lexicalBar = new System.Windows.Forms.ProgressBar();
+            this.syntaxBar = new System.Windows.Forms.ProgressBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.symantecBar = new System.Windows.Forms.ProgressBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.TokenBox.SuspendLayout();
@@ -84,7 +92,7 @@
             this.codeBlock.ForeColor = System.Drawing.Color.Gold;
             this.codeBlock.Location = new System.Drawing.Point(6, 16);
             this.codeBlock.Name = "codeBlock";
-            this.codeBlock.Size = new System.Drawing.Size(628, 557);
+            this.codeBlock.Size = new System.Drawing.Size(628, 497);
             this.codeBlock.TabIndex = 2;
             this.codeBlock.TabStop = false;
             this.codeBlock.Text = "";
@@ -384,6 +392,14 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.symantecBar);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.syntaxBar);
+            this.groupBox3.Controls.Add(this.lexicalBar);
+            this.groupBox3.Controls.Add(this.fetchBar);
             this.groupBox3.Controls.Add(this.codeBlock);
             this.groupBox3.Location = new System.Drawing.Point(594, 58);
             this.groupBox3.Name = "groupBox3";
@@ -426,6 +442,74 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Compiler";
             // 
+            // fetchBar
+            // 
+            this.fetchBar.Location = new System.Drawing.Point(6, 522);
+            this.fetchBar.Name = "fetchBar";
+            this.fetchBar.Size = new System.Drawing.Size(100, 23);
+            this.fetchBar.TabIndex = 3;
+            // 
+            // lexicalBar
+            // 
+            this.lexicalBar.Location = new System.Drawing.Point(182, 522);
+            this.lexicalBar.Name = "lexicalBar";
+            this.lexicalBar.Size = new System.Drawing.Size(100, 23);
+            this.lexicalBar.TabIndex = 4;
+            // 
+            // syntaxBar
+            // 
+            this.syntaxBar.Location = new System.Drawing.Point(358, 522);
+            this.syntaxBar.Name = "syntaxBar";
+            this.syntaxBar.Size = new System.Drawing.Size(100, 23);
+            this.syntaxBar.TabIndex = 5;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label4.Location = new System.Drawing.Point(6, 551);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(99, 19);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Code Fetch";
+            // 
+            // symantecBar
+            // 
+            this.symantecBar.Location = new System.Drawing.Point(534, 522);
+            this.symantecBar.Name = "symantecBar";
+            this.symantecBar.Size = new System.Drawing.Size(100, 23);
+            this.symantecBar.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label5.Location = new System.Drawing.Point(195, 551);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(72, 19);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Lexical";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label6.Location = new System.Drawing.Point(377, 551);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 19);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Syntax";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label7.Location = new System.Drawing.Point(544, 551);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 19);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Symantec";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -451,6 +535,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -495,6 +580,14 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label TotalError;
         private System.Windows.Forms.Label ErrorLabel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ProgressBar symantecBar;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ProgressBar syntaxBar;
+        private System.Windows.Forms.ProgressBar lexicalBar;
+        private System.Windows.Forms.ProgressBar fetchBar;
 
     }
 }

@@ -8,18 +8,17 @@ namespace Compiler_Construction
 {
     class AminWork
     {
-        HashamWork obj1 = new HashamWork(), obj;
         List<token> Tokens;
         public int tokenIndex;
 
-        
+
         public bool syntaxAnlysis(List<token> tokens)
         {
             Tokens = tokens;
             tokenIndex = 0;
             try
             {
-                if (For_St())
+                if (Class_Dec())
                 {
                     return true;
                 }
@@ -44,15 +43,15 @@ namespace Compiler_Construction
             else return false;
         }
 
-        // dummy rule
-
-
-
-
-        private bool Class_Dec()
+       private bool S()
         {
-            return false;
+            if (cp("_end_marker"))
+            {
+                return true;
+            }
+            else return false;
         }
+
 
         /*------------------------------------ GENERAL RULES --------------------------*/
         private bool Const()
@@ -166,7 +165,7 @@ namespace Compiler_Construction
                     {
                         if (cp("_identifier"))
                         {
-                            if (List_Param())
+                            if (List_Param_B())
                             {
                                 return true;
                             }
@@ -262,7 +261,7 @@ namespace Compiler_Construction
             {
                 if (exp())
                 {
-                    if (List_Const())
+                    if (List_Const_B())
                     {
                         return true;
                     }
@@ -519,17 +518,13 @@ namespace Compiler_Construction
 
         private bool Variable_Link2()
         {
-            // <Varaiable_Link2> -> =  <Variable_Assign> <List_Variable> | <List_Variable>
+            // <Varaiable_Link2> -> =  <Variable_Value>| <List_Variable>
             if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
             // to be confirmed
             {
-                if (Variable_Assign())
+                if (Variable_Value())
                 {
-                    if (List_Variable())
-                    {
-                        return true;
-                    }
-                    else return false;
+                    return true;
                 }
                 else return false;
             }
@@ -540,17 +535,39 @@ namespace Compiler_Construction
             else return false;
         }
 
-        private bool Variable_Assign()
+        private bool Variable_Value()
         {
             // <Variable_Assign> -> Id <Variable_Link2> | <Const>
-            if (cp("_identifier"))
+            if (Id_Constant())
             {
-                return true;
+                if (List_Variable())
+                {
+                    return true;
+                }
+                else return false;
             }
-            else if (Const())
+
+            else if (cp("_new"))
             {
-                return true;
+                if (cp("_datatype"))
+                {
+                    if (cp("_bracket_parentheses_open"))
+                    {
+                        if (cp("_bracket_parentheses_close"))
+                        {
+                            if (List_Variable())
+                            {
+                                return true;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
             }
+
             else return false;
         }
 
@@ -578,20 +595,20 @@ namespace Compiler_Construction
         }
 
         // OBJECT DECLARATION
-        private bool Object_Dec()
-        {
-            //<Object_Dec>-><DT_Id> <Object_Link>
-            if (DT_Id())
-            {
-                if (Object_Link())
-                {
-                    return true;
-                }
-                else return false;
-            }
-            else return false;
+        //private bool Object_Dec()
+        //{
+        //    //<Object_Dec>-><DT_Id> <Object_Link>
+        //    if (DT_Id())
+        //    {
+        //        if (Object_Link())
+        //        {
+        //            return true;
+        //        }
+        //        else return false;
+        //    }
+        //    else return false;
 
-        }
+        //}
 
         private bool Object_Link()
         {
@@ -638,7 +655,7 @@ namespace Compiler_Construction
             {
                 if (cp("_new"))
                 {
-                    if (DT_Id())
+                    if (cp("_identifier"))
                     {
                         if (cp("_bracket_parentheses_open"))
                         {
@@ -874,7 +891,12 @@ namespace Compiler_Construction
             }
             else if (cp("_bracket_curly_close"))
             {
-                return true;
+                if (cp("_terminator"))
+                {
+
+                    return true;
+                }
+                else return false;
             }
             else return false;
         }
@@ -965,13 +987,17 @@ namespace Compiler_Construction
             // <Namespace_Dec> -> namespace Id {<Namespace_Member> }
             if (cp("_namespace"))
             {
-                if (cp("_bracket_curly_open"))
+                if (cp("_identifier"))
                 {
-                    if (Namespace_Member())
+                    if (cp("_bracket_curly_open"))
                     {
-                        if (cp("_bracket_curly_close"))
+                        if (Namespace_Member())
                         {
-                            return true;
+                            if (cp("_bracket_curly_close"))
+                            {
+                                return true;
+                            }
+                            else return false;
                         }
                         else return false;
                     }
@@ -1004,6 +1030,184 @@ namespace Compiler_Construction
             else return true;
         }
 
+        // CLASS DECLARATION
+        private bool Class_Dec()
+        {
+            if (Access_Modifier())
+            {
+                if (Class_Link())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            // Null case
+            else return false;
+        }
+        private bool Class_Link()
+        {
+            if (cp("_class"))
+            {
+                if (cp("_identifier"))
+                {
+                    if (Class_Base())
+                    {
+                        if (cp("_bracket_curly_open"))
+                        {
+                            if (Class_Body())
+                            {
+                                if (cp("_bracket_curly_close"))
+                                {
+                                    return true;
+                                }
+                                else return false;
+                            }
+                            else return false;
+                        }
+                        else return false;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+        private bool Class_Base()
+        {
+            if (cp("_colon"))
+            {
+                if (cp("_identifier"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return true;
+        }
+        private bool Class_Body()
+        {
+            if (Class_Member())
+            {
+                if (Class_Body())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return true;
+        }
+        private bool Class_Member()
+        {
+            if (Access_Modifier())
+            {
+                if (Member_Link())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
+        private bool Member_Link()
+        {
+            if (Static_Shared())
+            {
+                if (SS_A())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else if (cp("_const"))
+            {
+                if (Variable_Dec())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else if (cp("_virtual_override"))
+            {
+                if (Method_Link())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else if (Constructor_Dec())
+            {
+                return true;
+            }
+            else if (Class_Link())
+            {
+                return true;
+            }
+            else return false;
+        }
+        private bool SS_A()
+        {
+            if (cp("_datatype"))
+            {
+                if (cp("_identifier"))
+                {
+                    if (DT_A())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else if (cp("_identifier"))
+            {
+                if (cp("_identifier"))
+                {
+                    if (Id_A())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else if (cp("_void"))
+            {
+                if (cp("_identifier"))
+                {
+                    if (Method_Link3())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+        }
+        private bool DT_A()
+        {
+            if (Variable_Link2())
+            {
+                return true;
+            }
+            else if (Method_Link3())
+            {
+                return true;
+            }
+            else return false;
+        }
+        private bool Id_A()
+        {
+            if (Method_Link3())
+            {
+                return true;
+            }
+            else if (Object_Creation_Exp())
+            {
+                return true;
+            }
+            else return false;
+        }
         /*------------------------------------ STATEMENTS --------------------------*/
 
         // Expression
@@ -1277,7 +1481,11 @@ namespace Compiler_Construction
                 {
                     if (Id_CMC())
                     {
-                        return true;
+                        if (cp("_terminator"))
+                        {
+                            return true;
+                        }
+                        else return false;
                     }
                     else return false;
                 }
@@ -1289,7 +1497,11 @@ namespace Compiler_Construction
                 {
                     if (cp("_bracket_parentheses_close"))
                     {
-                        return true;
+                        if (cp("_terminator"))
+                        {
+                            return true;
+                        }
+                        else return false;
                     }
                     else return false;
                 }
@@ -1514,7 +1726,7 @@ namespace Compiler_Construction
                 {
                     if (cp("_in"))
                     {
-                        if (cp("_in"))
+                        if (cp("_identifier"))
                         {
                             return true;
                         }
@@ -1549,7 +1761,11 @@ namespace Compiler_Construction
                                     {
                                         if (cp("_bracket_parentheses_close"))
                                         {
-                                            return true;
+                                            if (cp("_terminator"))
+                                            {
+                                                return true;
+                                            }
+                                            else return false;
                                         }
                                         else return false;
                                     }

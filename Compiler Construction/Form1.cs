@@ -38,12 +38,15 @@ namespace Compiler_Construction
             totalWords.Text = "";
             totalbreaker_label.Text = "";
             totalLines.Text = "";
-            
+
+            syntaxBar.Value = 0;
+            syntaxBar.Value = 0;
+
             wordBreakerOutput = new List<token>();
             TokenOutput = new List<token>();
             
             wordBreakerOutput = myWordBreaker.breakString(codeBlock.Text);
-
+            fetchBar.Value = 100;
             if (wordBreakerOutput.Count > 0)
             {
                 totalLines.Text = wordBreakerOutput.Last().lineNumber.ToString();
@@ -93,12 +96,14 @@ namespace Compiler_Construction
             
 
             TokenOutput = myLexicalAnalyzer.getTokens(wordBreakerOutput);
+            lexicalBar.Value = 100;
             foreach (token s in TokenOutput)
             {
                if (s.classString == "_invalid")
                 {
                     totalError++;
                     TotalError.Text = totalError.ToString();
+                    lexicalBar.Value = 0;
                 }
                 TokenBox1.Text += "("+ s.lineNumber + " , " + s.wordString + " , " + s.classString + ")\n";
             }
@@ -109,11 +114,11 @@ namespace Compiler_Construction
 
             if (abc)
             {
-                MessageBox.Show("DADA ho gya !");
+                syntaxBar.Value = 100;
             }
             else
             {
-                MessageBox.Show("shuru say karo bc ");
+                syntaxBar.Value = 0;
             }
         }
 
