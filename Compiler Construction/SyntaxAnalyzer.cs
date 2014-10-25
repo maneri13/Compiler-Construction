@@ -46,6 +46,15 @@ namespace Compiler_Construction
             else return false;
         }
 
+        private bool cp2(string classpart)
+        {
+            if (Tokens[tokenIndex].classString == classpart)
+            {
+                return true;
+            }
+            else return false;
+        }
+
         private bool S()
         {
             if (cp("_end_marker"))
@@ -102,7 +111,13 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // Follow Set
+            else if (cp2("_identifier"))
+            {
+                return true;
+            }
+
+            else return false;
 
 
         }
@@ -122,7 +137,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // Follow Set
+            else if (cp2("_assignment"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool Access_Modifier()
@@ -134,7 +154,12 @@ namespace Compiler_Construction
 
                 return true;
             }
-            else return true;
+            // Follow Set
+            else if (cp2("_static") || cp2("_shared") || cp2("_const") || cp2("_void") || cp2("_identifier") || cp2("_class"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool List_Param()
@@ -156,7 +181,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // Follow Set
+            else if (cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool List_Param_B()
@@ -182,7 +212,12 @@ namespace Compiler_Construction
                 }
                 return false;
             }
-            return true;
+            // Follow Set
+            else if (cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool DT_Id()
@@ -256,7 +291,13 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // Follow Set
+            else if (cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
+
         }
 
         private bool List_Const_B()
@@ -274,8 +315,14 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // Follow Set
+            else if (cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
         }
+
         private bool Asgn()
         {
             if (cp("_identifier"))
@@ -295,22 +342,6 @@ namespace Compiler_Construction
                 else return false;
             }
             else return false;
-        }
-
-        private bool Asgn2()
-        {
-
-
-            if (cp("_assignment"))
-            {
-                if (exp())
-                {
-                    return true;
-                }
-                else return false;
-            }
-            else return false;
-
         }
 
         private bool S_St()
@@ -423,23 +454,14 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else if (Asgn2())
-            {
-                if (cp("_terminator"))
-                {
-                    return true;
-                }
-                else return false;
-            }
+
             else if (Class_Member_Child())
             {
                 return true;
             }
 
-
             else return false;
         }
-
 
         private bool DT_S_St()
         {
@@ -461,25 +483,12 @@ namespace Compiler_Construction
 
         private bool DT_S_St2()
         {
-
-
-            if (Variable_Link2())
-            {
-                return true;
-            }
-            else if (DT_S_ST3())
-            {
-                return true;
-            }
-            else return false;
-        }
-        private bool DT_S_ST3()
-        {
             if (Object_Creation_Exp())
             {
                 return true;
             }
-            else if (Asgn2())
+
+            else if (Variable_Link2())
             {
                 return true;
             }
@@ -496,7 +505,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // Follow Set
+            else if (cp2("_bracket_curly_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool Body()
@@ -1006,7 +1020,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // follow set
+            else if (cp2("_bracket_curly_open"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool Constructor_BT()
@@ -1069,7 +1088,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // follow set
+            else if (cp2("_bracket_curly_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         // CLASS DECLARATION
@@ -1128,11 +1152,13 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else
+            // follow set
+            else if (cp2("_bracket_curly_open"))
             {
-
                 return true;
             }
+            else return false;
+
         }
         private bool Class_Body()
         {
@@ -1144,7 +1170,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+                // Follow Set
+            else if (cp2("_bracket_curly_close"))
+            {
+                return true;
+            }
+            else return false;
         }
         private bool Class_Member()
         {
@@ -1298,6 +1329,7 @@ namespace Compiler_Construction
             {
                 return true;
             }
+
             else return false;
         }
 
@@ -1312,8 +1344,10 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
+
             else return false;
         }
+        // all rules till id_op use follow set
 
         private bool O_()
         {
@@ -1328,10 +1362,14 @@ namespace Compiler_Construction
                     }
                     else return false;
                 }
+                else if (cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+                {
+                    return true;
+                }
                 else return false;
             }
             // Null case
-            else return true;
+            else return false;
         }
 
         private bool A()
@@ -1344,6 +1382,10 @@ namespace Compiler_Construction
                     return true;
                 }
                 else return false;
+            }
+            else if (cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
             }
             else return false;
         }
@@ -1363,8 +1405,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
+            else if (cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
             // Null case
-            else return true;
+            else return false;
         }
 
         private bool RE()
@@ -1377,6 +1423,10 @@ namespace Compiler_Construction
                     return true;
                 }
                 else return false;
+            }
+            else if (cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
             }
             else return false;
         }
@@ -1394,10 +1444,15 @@ namespace Compiler_Construction
                     }
                     else return false;
                 }
+
                 else return false;
             }
+            else if (cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
             // Null case
-            else return true;
+            else return false;
         }
 
         private bool PM()
@@ -1410,6 +1465,10 @@ namespace Compiler_Construction
                     return true;
                 }
                 else return false;
+            }
+            else if (cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
             }
             else return false;
         }
@@ -1429,8 +1488,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
+            else if (cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
             // Null case
-            else return true;
+            else return false;
         }
 
         private bool MD()
@@ -1443,6 +1506,10 @@ namespace Compiler_Construction
                     return true;
                 }
                 else return false;
+            }
+            else if (cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
             }
             else return false;
         }
@@ -1463,7 +1530,11 @@ namespace Compiler_Construction
                 else return false;
             }
             // Null case
-            else return true;
+            else if (cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool OP()
@@ -1509,6 +1580,10 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
+            else if (cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
             else return false;
         }
 
@@ -1547,8 +1622,12 @@ namespace Compiler_Construction
             {
                 return true;
             }
+            else if (cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
             // Null case
-            else return true;
+            else return false;
         }
 
         // CLASS MEMBER ACCESS
@@ -1591,6 +1670,12 @@ namespace Compiler_Construction
             {
                 return true;
             }
+            // follow set
+            else if (cp("bracket_curly_close") || cp("_else") || cp("_multiply_divide_mode") || cp("_plus_minus") || cp("_relational") || cp("_and") || cp("_or") ||
+            cp("_comma") || cp("_terminator") || cp("_bracket_parentheses_close"))
+            {
+                return true;
+            }
             else return false;
         }
 
@@ -1618,6 +1703,13 @@ namespace Compiler_Construction
             {
                 return true;
             }
+            // follow set
+            else if (cp("bracket_curly_close") || cp("_else") || cp("_multiply_divide_mode") || cp("_plus_minus") || cp("_relational") || cp("_and") || cp("_or") ||
+                 cp("_comma") || cp("_terminator") || cp("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+
 
             else return false;
         }
@@ -1708,10 +1800,10 @@ namespace Compiler_Construction
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+
+            else return false;
+
         }
 
         private bool C()
@@ -1722,7 +1814,12 @@ namespace Compiler_Construction
             {
                 return true;
             }
-            else return true;
+            // follow set
+            else if (cp("_terminator"))
+            {
+                return true;
+            }
+            else return false;
 
         }
 
@@ -1747,8 +1844,13 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
+            // follow set
+            else if (cp("_bracket_parentheses_open"))
+            {
+                return true;
+            }
 
-            else return true;
+            else return false;
 
         }
 
@@ -1951,7 +2053,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+            // follow set
+            else if (cp("_else") || cp("_bracket_curly_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
 
