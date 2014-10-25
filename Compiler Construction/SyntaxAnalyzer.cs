@@ -276,7 +276,6 @@ namespace Compiler_Construction
             }
             else return true;
         }
-
         private bool Asgn()
         {
             if (cp("_identifier"))
@@ -296,6 +295,22 @@ namespace Compiler_Construction
                 else return false;
             }
             else return false;
+        }
+
+        private bool Asgn2()
+        {
+
+
+            if (cp("_assignment"))
+            {
+                if (exp())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+
         }
 
         private bool S_St()
@@ -408,14 +423,23 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-
+            else if (Asgn2())
+            {
+                if (cp("_terminator"))
+                {
+                    return true;
+                }
+                else return false;
+            }
             else if (Class_Member_Child())
             {
                 return true;
             }
 
+
             else return false;
         }
+
 
         private bool DT_S_St()
         {
@@ -437,12 +461,25 @@ namespace Compiler_Construction
 
         private bool DT_S_St2()
         {
+
+
+            if (Variable_Link2())
+            {
+                return true;
+            }
+            else if (DT_S_ST3())
+            {
+                return true;
+            }
+            else return false;
+        }
+        private bool DT_S_ST3()
+        {
             if (Object_Creation_Exp())
             {
                 return true;
             }
-
-            else if (Variable_Link2())
+            else if (Asgn2())
             {
                 return true;
             }

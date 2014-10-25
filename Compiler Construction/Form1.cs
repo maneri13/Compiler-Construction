@@ -18,7 +18,7 @@ namespace Compiler_Construction
         List<token> wordBreakerOutput;
         List<token> TokenOutput;
         LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
-        AminWork mySyntaxAnalyzer = new AminWork();
+        SyntaxAnalyzer mySyntaxAnalyzer = new SyntaxAnalyzer();
         public Form1()
         {
             InitializeComponent();
