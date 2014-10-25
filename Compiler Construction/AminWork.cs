@@ -47,6 +47,15 @@ namespace Compiler_Construction
             else return false;
         }
 
+        private bool cp2(string classpart)
+        {
+            if (Tokens[tokenIndex].classString == classpart)
+            {
+                return true;
+            }
+            else return false;
+        }
+
        private bool S()
         {
             if (cp("_end_marker"))
@@ -104,7 +113,7 @@ namespace Compiler_Construction
                 else return false;
             }
                 // Follow Set
-            else if (cp("_identifier"))
+            else if (cp2("_identifier"))
             {
                 return true;
             }
@@ -130,7 +139,7 @@ namespace Compiler_Construction
                 else return false;
             }
                 // Follow Set
-            else if (cp("_assignment"))
+            else if (cp2("_assignment"))
             {
                 return true;
             }
@@ -147,7 +156,7 @@ namespace Compiler_Construction
                 return true;
             }
                 // Follow Set
-            else if (cp("_static") || cp("_shared") || cp("_const") || cp("_void") || cp("_identifier") || cp("_class"))
+            else if (cp2("_static") || cp2("_shared") || cp2("_const") || cp2("_void") || cp2("_identifier") || cp2("_class"))
             {
                 return true;
             }
@@ -174,7 +183,7 @@ namespace Compiler_Construction
                 else return false;
             }
                 // Follow Set
-            else if (cp("_bracket_parentheses_close"))
+            else if (cp2("_bracket_parentheses_close"))
             {
                 return true;
             }
@@ -205,7 +214,7 @@ namespace Compiler_Construction
                 return false;
             }
                 // Follow Set
-            else if (cp("_bracket_parentheses_close"))
+            else if (cp2("_bracket_parentheses_close"))
             {
                 return true;
             }
@@ -284,7 +293,7 @@ namespace Compiler_Construction
                 else return false;
             }
                 // Follow Set
-            else if (cp("_bracket_parentheses_close"))
+            else if (cp2("_bracket_parentheses_close"))
             {
                 return true;
             }
@@ -308,7 +317,7 @@ namespace Compiler_Construction
                 else return false;
             }
                 // Follow Set
-            else if (cp("_bracket_parentheses_close"))
+            else if (cp2("_bracket_parentheses_close"))
             {
                 return true;
             }
@@ -498,7 +507,7 @@ namespace Compiler_Construction
                 else return false;
             }
                 // Follow Set
-            else if (cp("_bracket_curly_close"))
+            else if (cp2("_bracket_curly_close"))
             {
                 return true;
             }
