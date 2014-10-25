@@ -103,7 +103,13 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+                // Follow Set
+            else if (cp("_identifier"))
+            {
+                return true;
+            }
+
+            else return false;
 
 
         }
@@ -123,7 +129,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+                // Follow Set
+            else if (cp("_assignment"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool Access_Modifier()
@@ -135,7 +146,12 @@ namespace Compiler_Construction
                 
                 return true;
             }
-            else return true;
+                // Follow Set
+            else if (cp("_static") || cp("_shared") || cp("_const") || cp("_void") || cp("_identifier") || cp("_class"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool List_Param()
@@ -157,7 +173,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+                // Follow Set
+            else if (cp("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool List_Param_B()
@@ -183,7 +204,12 @@ namespace Compiler_Construction
                 }
                 return false;
             }
-            return true;
+                // Follow Set
+            else if (cp("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool DT_Id()
@@ -257,7 +283,13 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+                // Follow Set
+            else if (cp("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
+            
         }
 
         private bool List_Const_B()
@@ -275,7 +307,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+                // Follow Set
+            else if (cp("_bracket_parentheses_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool Asgn()
@@ -460,7 +497,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            else return true;
+                // Follow Set
+            else if (cp("_bracket_curly_close"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool Body()
