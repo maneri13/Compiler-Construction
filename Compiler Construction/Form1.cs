@@ -108,8 +108,11 @@ namespace Compiler_Construction
                 TokenBox1.Text += "("+ s.lineNumber + " , " + s.wordString + " , " + s.classString + ")\n";
             }
 
-
-            TokenOutput.Add(new token(TokenOutput.Last().lineNumber,"$","_end_marker"));
+            if (TokenOutput.Count > 0)
+            {
+                TokenOutput.Add(new token(TokenOutput.Last().lineNumber, "$", "_end_marker"));
+            }
+            
             bool abc = mySyntaxAnalyzer.syntaxAnlysis(TokenOutput);
 
             if (abc)
