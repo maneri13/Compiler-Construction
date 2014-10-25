@@ -10,24 +10,26 @@ namespace Compiler_Construction
     {
         List<token> Tokens;
         public int tokenIndex;
-
-
         public bool syntaxAnlysis(List<token> tokens)
         {
             Tokens = tokens;
             tokenIndex = 0;
             try
             {
-                if (Class_Dec())
+                if (Namespace_Dec())
                 {
-                    return true;
+                    if (S())
+                    {
+                        return true;
+                    }
+
                 }
             }
-            catch 
+            catch
             {
                 return false;
             }
-          
+
 
             return false;
         }
@@ -37,14 +39,22 @@ namespace Compiler_Construction
         {
             if (Tokens[tokenIndex].classString == classpart)
             {
+
                 tokenIndex++;
                 return true;
             }
             else return false;
         }
 
-        // dummy rule
-       
+        private bool S()
+        {
+            if (cp("_end_marker"))
+            {
+                return true;
+            }
+            else return false;
+        }
+
 
         /*------------------------------------ GENERAL RULES --------------------------*/
         private bool Const()
@@ -59,13 +69,13 @@ namespace Compiler_Construction
                 case "_bool_constant":
                     tokenIndex++;
                     return true;
-                    
+
                 default:
                     return false;
-                    
+
             }
         }
-        
+
         private bool Id_Constant()
         {
             //<Id_Constant> -> Id|<Const>
@@ -117,9 +127,11 @@ namespace Compiler_Construction
 
         private bool Access_Modifier()
         {
+
             //<Access_Modifier> -> _access_modifier|Null
             if (cp("_accessmodifier"))
             {
+
                 return true;
             }
             else return true;
@@ -299,13 +311,13 @@ namespace Compiler_Construction
                 else return false;
             }
             else if (cp("_datatype"))
-	        {
+            {
                 if (DT_S_St())
                 {
                     return true;
                 }
                 else return false;
-	        }
+            }
 
             else if (While_St())
             {
@@ -909,7 +921,7 @@ namespace Compiler_Construction
                         {
                             if (Constructor_Base())
                             {
-                                if(cp("_bracket_curly_open"))
+                                if (cp("_bracket_curly_open"))
                                 {
                                     if (M_St())
                                     {
@@ -1026,6 +1038,7 @@ namespace Compiler_Construction
         // CLASS DECLARATION
         private bool Class_Dec()
         {
+
             if (Access_Modifier())
             {
                 if (Class_Link())
@@ -1039,6 +1052,7 @@ namespace Compiler_Construction
         }
         private bool Class_Link()
         {
+
             if (cp("_class"))
             {
                 if (cp("_identifier"))
@@ -1067,15 +1081,21 @@ namespace Compiler_Construction
         }
         private bool Class_Base()
         {
+
             if (cp("_colon"))
             {
                 if (cp("_identifier"))
                 {
+
                     return true;
                 }
                 else return false;
             }
-            else return true;
+            else
+            {
+
+                return true;
+            }
         }
         private bool Class_Body()
         {
@@ -1141,25 +1161,17 @@ namespace Compiler_Construction
         {
             if (cp("_datatype"))
             {
-                if (cp("_identifier"))
+                if (DT_OArray())
                 {
-                    if (DT_A())
-                    {
-                        return true;
-                    }
-                    else return false;
+                    return true;
                 }
                 else return false;
             }
             else if (cp("_identifier"))
             {
-                if (cp("_identifier"))
+                if (Id_OArray())
                 {
-                    if (Id_A())
-                    {
-                        return true;
-                    }
-                    else return false;
+                    return true;
                 }
                 else return false;
             }
@@ -1175,6 +1187,44 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
+            else return false;
+        }
+
+        private bool Id_OArray()
+        {
+            if (cp("_identifier"))
+            {
+                if (Id_A())
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            else if (Array_Link())
+            {
+                return true;
+            }
+
+            else return false;
+        }
+
+        private bool DT_OArray()
+        {
+            if (cp("_identifier"))
+            {
+                if (DT_A())
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            else if (Array_Link())
+            {
+                return true;
+            }
+
             else return false;
         }
         private bool DT_A()
@@ -1474,7 +1524,11 @@ namespace Compiler_Construction
                 {
                     if (Id_CMC())
                     {
-                        return true;
+                        if (cp("_terminator"))
+                        {
+                            return true;
+                        }
+                        else return false;
                     }
                     else return false;
                 }
@@ -1486,27 +1540,31 @@ namespace Compiler_Construction
                 {
                     if (cp("_bracket_parentheses_close"))
                     {
-                        return true;
+                        if (cp("_terminator"))
+                        {
+                            return true;
+                        }
+                        else return false;
                     }
                     else return false;
                 }
                 else return false;
             }
-            else return true;
+            else if (cp("_terminator"))
+            {
+                return true;
+            }
+            else return false;
         }
 
         private bool Id_CMC()
         {
-            // <Id_CMC> -> <Class_Member_Child> | [<Id_Constant>] <Class_Member_Child>
-            if (Class_Member_Child())
-            {
-                return true;
-            }
-            else if (cp("_bracket_curly_open"))
+            // <Id_CMC> -> [<Id_Constant>] <Class_Member_Child> | <Class_Member_Child>
+            if (cp("_bracket_square_open"))
             {
                 if (Id_Constant())
                 {
-                    if (cp("_bracket_curly_close"))
+                    if (cp("_bracket_square_close"))
                     {
                         if (Class_Member_Child())
                         {
@@ -1518,6 +1576,12 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
+
+            else if (Class_Member_Child())
+            {
+                return true;
+            }
+
             else return false;
         }
 
@@ -1598,7 +1662,7 @@ namespace Compiler_Construction
             {
                 if (cp("_terminator"))
                 {
-                    return true;    
+                    return true;
                 }
                 else return false;
             }
@@ -1628,27 +1692,27 @@ namespace Compiler_Construction
         private bool A_D()
         {
             // <A_D>-> Id <Id_A_D> | Inc_Dec Id |Null
-           
+
+            if (cp("_identifier"))
+            {
+                if (Id_A_D())
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            else if (cp("_inc_dec"))
+            {
                 if (cp("_identifier"))
                 {
-                    if (Id_A_D())
-                    {
-                        return true;
-                    }
-                    else return false;
+                    return true;
                 }
+                else return false;
+            }
 
-                else if (cp("_inc_dec"))
-                {
-                    if (cp("_identifier"))
-                    {
-                        return true;
-                    }
-                    else return false;
-                }
+            else return true;
 
-                else return true;
-            
         }
 
         private bool Id_A_D()
@@ -1837,7 +1901,7 @@ namespace Compiler_Construction
             }
             else return false;
         }
-        
+
         private bool O_Else()
         {
             // <O_Else>-> else <Body>|Null
