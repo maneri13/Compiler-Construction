@@ -348,16 +348,19 @@ namespace Compiler_Construction
         private bool Asgn2()
         {
 
-
-            if (cp("_assignment"))
+            if (Array_Index())
             {
-                if (exp())
+                if (cp("_assignment"))
                 {
-                    return true;
+                    if (exp())
+                    {
+                        return true;
+                    }
+                    else return false;
                 }
                 else return false;
             }
-            else return false;
+           else return false;
 
         }
 
@@ -448,12 +451,7 @@ namespace Compiler_Construction
 
         private bool Id_S_St()
         {
-            if (Array_Link())
-            {
-                return true;
-            }
-
-            else if (Object_Link())
+            if (Object_Link())
             {
                 return true;
             }
@@ -1687,7 +1685,7 @@ return false;}
         // CLASS MEMBER ACCESS
         private bool Class_Member_Child()
         {
-            // <Class_Member_Child> -> .Id <Id_CMC> | (<List_Const>) 
+            // <Class_Member_Child> -> .Id <Id_CMC> | (<List_Const>) | Null
             if (cp("_dot"))
             {
                 if (cp("_identifier"))
@@ -1711,6 +1709,11 @@ return false;}
                     else return false;
                 }
                 else return false;
+            }
+
+            else if (Asgn2())
+            {
+                return true;
             }
             
             // follow set
