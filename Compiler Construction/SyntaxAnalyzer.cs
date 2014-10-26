@@ -1411,13 +1411,14 @@ return false;}
                     }
                     else return false;
                 }
-                else if (cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
-                {
-                    return true;
-                }
                 else return false;
+                
             }
-            // Null case
+                // Follow set
+            else if (cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
+            {
+                return true;
+            }
             else return false;
         }
 
@@ -1720,8 +1721,8 @@ return false;}
                 return true;
             }
             // follow set
-            else if (cp("bracket_curly_close") || cp("_else") || cp("_multiply_divide_mode") || cp("_plus_minus") || cp("_relational") || cp("_and") || cp("_or") ||
-            cp("_comma") || cp("_terminator") || cp("_bracket_parentheses_close"))
+            else if (cp2("bracket_curly_close") || cp2("_else") || cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") ||
+            cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
                 return true;
             }
@@ -1753,8 +1754,8 @@ return false;}
                 return true;
             }
             // follow set
-            else if (cp("bracket_curly_close") || cp("_else") || cp("_multiply_divide_mode") || cp("_plus_minus") || cp("_relational") || cp("_and") || cp("_or") ||
-                 cp("_comma") || cp("_terminator") || cp("_bracket_parentheses_close"))
+            else if (cp2("bracket_curly_close") || cp2("_else") || cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") ||
+                 cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
                 return true;
             }
@@ -1864,7 +1865,7 @@ return false;}
                 return true;
             }
             // follow set
-            else if (cp("_terminator"))
+            else if (cp2("_terminator"))
             {
                 return true;
             }
@@ -1894,7 +1895,7 @@ return false;}
                 else return false;
             }
             // follow set
-            else if (cp("_bracket_parentheses_open"))
+            else if (cp2("_bracket_parentheses_open"))
             {
                 return true;
             }
@@ -2103,7 +2104,7 @@ return false;}
                 else return false;
             }
             // follow set
-            else if (cp("_else") || cp("_bracket_curly_close"))
+            else if (cp2("_else") || cp2("_bracket_curly_close"))
             {
                 return true;
             }
