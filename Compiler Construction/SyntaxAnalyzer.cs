@@ -481,7 +481,11 @@ namespace Compiler_Construction
             }
             else if (Class_Member_Child())
             {
-                return true;
+                if (cp("_terminator"))
+                {
+                    return true;
+                }
+                else return false;
             }
 
 
@@ -1683,18 +1687,14 @@ return false;}
         // CLASS MEMBER ACCESS
         private bool Class_Member_Child()
         {
-            // <Class_Member_Child> -> .Id <Id_CMC> | (<List_Const>) | Null
+            // <Class_Member_Child> -> .Id <Id_CMC> | (<List_Const>) 
             if (cp("_dot"))
             {
                 if (cp("_identifier"))
                 {
                     if (Id_CMC())
                     {
-                        if (cp("_terminator"))
-                        {
-                            return true;
-                        }
-                        else return false;
+                        return true;
                     }
                     else return false;
                 }
@@ -1706,20 +1706,13 @@ return false;}
                 {
                     if (cp("_bracket_parentheses_close"))
                     {
-                        if (cp("_terminator"))
-                        {
-                            return true;
-                        }
-                        else return false;
+                        return true;
                     }
                     else return false;
                 }
                 else return false;
             }
-            else if (cp("_terminator"))
-            {
-                return true;
-            }
+            
             // follow set
             else if (cp2("bracket_curly_close") || cp2("_else") || cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") ||
             cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
@@ -1731,8 +1724,13 @@ return false;}
 
         private bool Id_CMC()
         {
-            // <Id_CMC> -> [<Id_Constant>] <Class_Member_Child> | <Class_Member_Child>
-            if (cp("_bracket_square_open"))
+            // <Id_CMC> -> <Class_Member_Child> | [<Id_Constant>] <Class_Member_Child>
+            if (Class_Member_Child())
+            {
+                return true;
+            }
+            
+            else if (cp("_bracket_square_open"))
             {
                 if (Id_Constant())
                 {
