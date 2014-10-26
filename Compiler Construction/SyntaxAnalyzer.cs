@@ -76,7 +76,7 @@ namespace Compiler_Construction
                 case "_float_constant":
                 case "_string_constant":
                 case "_char_constant":
-                case "_bool_constant":
+                case "_boolean":
                     tokenIndex++;
                     return true;
 
