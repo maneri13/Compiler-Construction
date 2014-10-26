@@ -41,6 +41,7 @@ namespace Compiler_Construction
 
             syntaxBar.Value = 0;
             syntaxBar.Value = 0;
+            syntaxErrorBox.Visible = false;
 
             wordBreakerOutput = new List<token>();
             TokenOutput = new List<token>();
@@ -121,6 +122,7 @@ namespace Compiler_Construction
             }
             else
             {
+                 
                 syntaxBar.Value = 0;
             }
         }

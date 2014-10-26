@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Compiler_Construction
 {
@@ -28,10 +29,17 @@ namespace Compiler_Construction
             }
             catch
             {
+                Program.compiler.error_classPart.Text = Tokens[tokenIndex].classString;
+                Program.compiler.error_valuePart.Text = Tokens[tokenIndex].wordString;
+                Program.compiler.error_lineNo.Text = Tokens[tokenIndex].lineNumber.ToString();
+                Program.compiler.syntaxErrorBox.Visible = true;
                 return false;
             }
 
-
+            Program.compiler.error_classPart.Text = Tokens[tokenIndex].classString;
+            Program.compiler.error_valuePart.Text = Tokens[tokenIndex].wordString;
+            Program.compiler.error_lineNo.Text = Tokens[tokenIndex].lineNumber.ToString();
+            Program.compiler.syntaxErrorBox.Visible = true;
             return false;
         }
 

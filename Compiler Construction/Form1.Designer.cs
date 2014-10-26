@@ -72,6 +72,14 @@
             this.Lexical = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.error_valuePart = new System.Windows.Forms.Label();
+            this.error_classPart = new System.Windows.Forms.Label();
+            this.error_lineNo = new System.Windows.Forms.Label();
+            this.syntaxErrorBox = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.TokenBox.SuspendLayout();
@@ -82,6 +90,7 @@
             this.menuStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.syntaxErrorBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // codeBlock
@@ -169,6 +178,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.syntaxErrorBox);
             this.tabPage2.Controls.Add(this.CFG);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
@@ -182,7 +192,7 @@
             // 
             this.CFG.Location = new System.Drawing.Point(6, 6);
             this.CFG.Name = "CFG";
-            this.CFG.Size = new System.Drawing.Size(560, 459);
+            this.CFG.Size = new System.Drawing.Size(359, 459);
             this.CFG.TabIndex = 0;
             // 
             // groupBox4
@@ -520,6 +530,84 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Compiler";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label8.Location = new System.Drawing.Point(10, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(171, 19);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Syntax Error Value";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(13, 39);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(42, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Line no";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 59);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Class Part";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(13, 79);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 13);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Value Part";
+            // 
+            // error_valuePart
+            // 
+            this.error_valuePart.AutoSize = true;
+            this.error_valuePart.Location = new System.Drawing.Point(72, 79);
+            this.error_valuePart.Name = "error_valuePart";
+            this.error_valuePart.Size = new System.Drawing.Size(0, 13);
+            this.error_valuePart.TabIndex = 7;
+            // 
+            // error_classPart
+            // 
+            this.error_classPart.AutoSize = true;
+            this.error_classPart.Location = new System.Drawing.Point(72, 59);
+            this.error_classPart.Name = "error_classPart";
+            this.error_classPart.Size = new System.Drawing.Size(0, 13);
+            this.error_classPart.TabIndex = 6;
+            // 
+            // error_lineNo
+            // 
+            this.error_lineNo.AutoSize = true;
+            this.error_lineNo.Location = new System.Drawing.Point(72, 39);
+            this.error_lineNo.Name = "error_lineNo";
+            this.error_lineNo.Size = new System.Drawing.Size(0, 13);
+            this.error_lineNo.TabIndex = 5;
+            // 
+            // syntaxErrorBox
+            // 
+            this.syntaxErrorBox.Controls.Add(this.label8);
+            this.syntaxErrorBox.Controls.Add(this.error_valuePart);
+            this.syntaxErrorBox.Controls.Add(this.label9);
+            this.syntaxErrorBox.Controls.Add(this.error_classPart);
+            this.syntaxErrorBox.Controls.Add(this.label10);
+            this.syntaxErrorBox.Controls.Add(this.error_lineNo);
+            this.syntaxErrorBox.Controls.Add(this.label11);
+            this.syntaxErrorBox.Location = new System.Drawing.Point(371, 6);
+            this.syntaxErrorBox.Name = "syntaxErrorBox";
+            this.syntaxErrorBox.Size = new System.Drawing.Size(195, 99);
+            this.syntaxErrorBox.TabIndex = 8;
+            this.syntaxErrorBox.TabStop = false;
+            this.syntaxErrorBox.Text = "Syntax Error";
+            this.syntaxErrorBox.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -549,6 +637,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.syntaxErrorBox.ResumeLayout(false);
+            this.syntaxErrorBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -600,6 +690,14 @@
         private System.Windows.Forms.ProgressBar lexicalBar;
         private System.Windows.Forms.ProgressBar fetchBar;
         public System.Windows.Forms.TreeView CFG;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        public System.Windows.Forms.Label error_valuePart;
+        public System.Windows.Forms.Label error_classPart;
+        public System.Windows.Forms.Label error_lineNo;
+        public System.Windows.Forms.GroupBox syntaxErrorBox;
 
     }
 }
