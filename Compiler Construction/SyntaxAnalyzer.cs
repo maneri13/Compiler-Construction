@@ -8,6 +8,7 @@ namespace Compiler_Construction
 {
     class SyntaxAnalyzer
     {
+        private bool errorFlag = false;
         List<token> Tokens;
         public int tokenIndex;
         public bool syntaxAnlysis(List<token> tokens)
@@ -344,6 +345,22 @@ namespace Compiler_Construction
             else return false;
         }
 
+        private bool Asgn2()
+        {
+
+
+            if (cp("_assignment"))
+            {
+                if (exp())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+
+        }
+
         private bool S_St()
         {
             // <S_St> -> Id<Id_S_St> | DT<DT_S_St> | <While_St> | <For_St> | <Do_While_St> 
@@ -454,14 +471,23 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-
+            else if (Asgn2())
+            {
+                if (cp("_terminator"))
+                {
+                    return true;
+                }
+                else return false;
+            }
             else if (Class_Member_Child())
             {
                 return true;
             }
 
+
             else return false;
         }
+
 
         private bool DT_S_St()
         {
@@ -483,12 +509,25 @@ namespace Compiler_Construction
 
         private bool DT_S_St2()
         {
+
+
+            if (Variable_Link2())
+            {
+                return true;
+            }
+            else if (DT_S_ST3())
+            {
+                return true;
+            }
+            else return false;
+        }
+        private bool DT_S_ST3()
+        {
             if (Object_Creation_Exp())
             {
                 return true;
             }
-
-            else if (Variable_Link2())
+            else if (Asgn2())
             {
                 return true;
             }
@@ -497,6 +536,11 @@ namespace Compiler_Construction
 
         private bool M_St()
         {
+              // Follow Set
+            if (cp2("_bracket_curly_close"))
+            {
+                return true;
+            }
             if (S_St())
             {
                 if (M_St())
@@ -505,13 +549,10 @@ namespace Compiler_Construction
                 }
                 else return false;
             }
-            // Follow Set
-            else if (cp2("_bracket_curly_close"))
-            {
-                return true;
-            }
+          
             else return false;
         }
+
 
         private bool Body()
         {
@@ -533,7 +574,8 @@ namespace Compiler_Construction
                     {
                         return true;
                     }
-                    else return false;
+
+                    else {  return false; }
                 }
                 else return false;
             }
@@ -767,6 +809,7 @@ namespace Compiler_Construction
                     return true;
                 }
                 else return false;
+                
             }
             else return false;
         }
@@ -787,9 +830,13 @@ namespace Compiler_Construction
                                 {
                                     return true;
                                 }
-                                else return false;
+                                else
+                                {
+return false;}
+                                
                             }
                             else return false;
+                            
                         }
                         else return false;
                     }
@@ -1169,6 +1216,7 @@ namespace Compiler_Construction
                     return true;
                 }
                 else return false;
+               
             }
                 // Follow Set
             else if (cp2("_bracket_curly_close"))
@@ -1252,6 +1300,7 @@ namespace Compiler_Construction
                         return true;
                     }
                     else return false;
+                   
                 }
                 else return false;
             }
