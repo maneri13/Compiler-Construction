@@ -15,7 +15,7 @@ namespace Compiler_Construction
         public TreeNode currentNode;
         public bool syntaxAnlysis(List<token> tokens)
         {
-            currentNode = Program.compiler.CFG.Nodes.Add("<S>");
+            currentNode  = Program.compiler.CFG.Nodes.Add("<S>");
             Tokens = tokens;
             tokenIndex = 0;
             try
@@ -31,24 +31,17 @@ namespace Compiler_Construction
             }
             catch
             {
-                if (Tokens.Count > 0)
-                {
-                    Program.compiler.error_classPart.Text = Tokens[tokenIndex].classString;
-                    Program.compiler.error_valuePart.Text = Tokens[tokenIndex].wordString;
-                    Program.compiler.error_lineNo.Text = Tokens[tokenIndex].lineNumber.ToString();
-                    Program.compiler.syntaxErrorBox.Visible = true;
-                }
-                
-                return false;
-            }
-            if (Tokens.Count > 0)
-            {
-                currentNode.Nodes.Add("ERROR");
                 Program.compiler.error_classPart.Text = Tokens[tokenIndex].classString;
                 Program.compiler.error_valuePart.Text = Tokens[tokenIndex].wordString;
                 Program.compiler.error_lineNo.Text = Tokens[tokenIndex].lineNumber.ToString();
                 Program.compiler.syntaxErrorBox.Visible = true;
+                return false;
             }
+
+            Program.compiler.error_classPart.Text = Tokens[tokenIndex].classString;
+            Program.compiler.error_valuePart.Text = Tokens[tokenIndex].wordString;
+            Program.compiler.error_lineNo.Text = Tokens[tokenIndex].lineNumber.ToString();
+            Program.compiler.syntaxErrorBox.Visible = true;
             return false;
         }
 
@@ -59,7 +52,7 @@ namespace Compiler_Construction
             {
 
                 tokenIndex++;
-                currentNode.Nodes.Add("(" + classpart + ")", "( " + classpart + " )");
+                currentNode.Nodes.Add(classpart);
                 return true;
             }
             else return false;
@@ -77,9 +70,8 @@ namespace Compiler_Construction
         private bool S()
         {
             
-            if (cp2("_end_marker"))
+            if (cp("_end_marker"))
             {
-                Program.compiler.CFG.Nodes.Add("( " + "_end_marker" + " )");
                 currentNode = currentNode.Parent; return true;
             }
             else return false;
@@ -89,7 +81,7 @@ namespace Compiler_Construction
         /*------------------------------------ GENERAL RULES --------------------------*/
         private bool Const()
         {
-            currentNode = currentNode.Nodes.Add("<" + System.Reflection.MethodBase.GetCurrentMethod().Name + ">", "< " + System.Reflection.MethodBase.GetCurrentMethod().Name + " >");
+            currentNode = currentNode.Nodes.Add("<Const>");
             // <Const> -> Int_Const | Float_Const | String_Const | Char_Const | Bool_Const 
             switch (Tokens[tokenIndex].classString)
             {
@@ -111,14 +103,16 @@ namespace Compiler_Construction
         private bool Id_Constant()
         {
 
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Id_Constant> -> Id|<Const>
             if (cp("_identifier"))
             {
+                currentNode = currentNode.Parent;
                 currentNode = currentNode.Parent; return true;
             }
             else if (Const())
             {
+                currentNode = currentNode.Parent;
                 currentNode = currentNode.Parent; return true;
             }
 
@@ -126,8 +120,7 @@ namespace Compiler_Construction
         }
 
         private bool Array_Init()
-        {
-            currentNode = currentNode.Nodes.Add("<" + System.Reflection.MethodBase.GetCurrentMethod().Name + ">", "< " + System.Reflection.MethodBase.GetCurrentMethod().Name + " >");
+        { currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Array_Init> -> [] | Null
             if (cp("_bracket_square_open"))
             {
@@ -140,8 +133,6 @@ namespace Compiler_Construction
             // Follow Set
             else if (cp2("_identifier"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
 
@@ -151,8 +142,7 @@ namespace Compiler_Construction
         }
 
         private bool Array_Index()
-        {
-            currentNode = currentNode.Nodes.Add("< " + System.Reflection.MethodBase.GetCurrentMethod().Name + " >");
+        { currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Array_Index> -> [<Id_Constant>] | Null
             if (cp("_bracket_square_open"))
             {
@@ -169,8 +159,6 @@ namespace Compiler_Construction
             // Follow Set
             else if (cp2("_assignment"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -178,7 +166,7 @@ namespace Compiler_Construction
 
         private bool Access_Modifier()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Access_Modifier> -> _access_modifier|Null
             if (cp("_accessmodifier"))
             {
@@ -188,8 +176,6 @@ namespace Compiler_Construction
             // Follow Set
             else if (cp2("_static") || cp2("_shared") || cp2("_const") || cp2("_void") || cp2("_identifier") || cp2("_class"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -197,7 +183,7 @@ namespace Compiler_Construction
 
         private bool List_Param()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<List_Param> -> <DT_Id><Array_Init> Id<List_Param_B>|Null
             if (DT_Id())
             {
@@ -218,8 +204,6 @@ namespace Compiler_Construction
             // Follow Set
             else if (cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -227,7 +211,7 @@ namespace Compiler_Construction
 
         private bool List_Param_B()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<List_Param_B> -> Null |, <DT_Id> <Array_Init> Id<List_Param>
             if (cp("_comma"))
             {
@@ -252,8 +236,6 @@ namespace Compiler_Construction
             // Follow Set
             else if (cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -261,7 +243,7 @@ namespace Compiler_Construction
 
         private bool DT_Id()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<DT_Id> -> DT|Id
             if (cp("_datatype"))
             {
@@ -277,7 +259,7 @@ namespace Compiler_Construction
 
         private bool Static_Shared()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Static_Shared> -> _static | _shared
             if (cp("_static"))
             {
@@ -294,7 +276,7 @@ namespace Compiler_Construction
 
         private bool Static_Shared_Constant()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Static_Shared _Constant> -> <Static_Shared> | const
             if (Static_Shared())
             {
@@ -309,7 +291,7 @@ namespace Compiler_Construction
 
         private bool Return_Type()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Return_Type> -> <DT_Id>| void
             if (DT_Id())
             {
@@ -325,7 +307,7 @@ namespace Compiler_Construction
 
         private bool List_Const()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <List_Const>-><exp><List_Const_B> | Null
             if (exp())
             {
@@ -338,8 +320,6 @@ namespace Compiler_Construction
             // Follow Set
             else if (cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -348,7 +328,7 @@ namespace Compiler_Construction
 
         private bool List_Const_B()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <List_Const_B>->,< exp><List_Const>|Null
             if (cp("_comma"))
             {
@@ -365,8 +345,6 @@ namespace Compiler_Construction
             // Follow Set
             else if (cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -374,7 +352,7 @@ namespace Compiler_Construction
 
         private bool Asgn()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (cp("_identifier"))
             {
                 if (Array_Index())
@@ -396,7 +374,7 @@ namespace Compiler_Construction
 
         private bool Asgn2()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (Array_Index())
             {
@@ -416,7 +394,7 @@ namespace Compiler_Construction
 
         private bool S_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <S_St> -> Id<Id_S_St> | DT<DT_S_St> | <While_St> | <For_St> | <Do_While_St> 
             // | <Foreach_St> | <If_Else> | <Return> | <GoTo> | inc_dec id | const DT <Variable_Link>
             if (cp("_identifier"))
@@ -502,7 +480,7 @@ namespace Compiler_Construction
 
         private bool Id_S_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Object_Link())
             {
                 currentNode = currentNode.Parent; return true;
@@ -545,7 +523,7 @@ namespace Compiler_Construction
 
         private bool DT_S_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Array_Link())
             {
                 currentNode = currentNode.Parent; return true;
@@ -564,7 +542,7 @@ namespace Compiler_Construction
 
         private bool DT_S_St2()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
 
             if (Variable_Link2())
@@ -579,7 +557,7 @@ namespace Compiler_Construction
         }
         private bool DT_S_ST3()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Object_Creation_Exp())
             {
                 currentNode = currentNode.Parent; return true;
@@ -593,12 +571,10 @@ namespace Compiler_Construction
 
         private bool M_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
               // Follow Set
             if (cp2("_bracket_curly_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             if (S_St())
@@ -616,7 +592,7 @@ namespace Compiler_Construction
 
         private bool Body()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (cp("_terminator"))
             {
                 currentNode = currentNode.Parent; return true;
@@ -648,7 +624,7 @@ namespace Compiler_Construction
         // VARIABLE DECLARATION
         private bool Variable_Dec()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Variable_Dec> -> DT <Variable_Link>
             if (cp("_datatype"))
             {
@@ -664,7 +640,7 @@ namespace Compiler_Construction
 
         private bool Variable_Link()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Variable_Link> -> Id <Varaiable_Link2>
             if (cp("_identifier"))
             {
@@ -679,7 +655,7 @@ namespace Compiler_Construction
 
         private bool Variable_Link2()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Varaiable_Link2> -> =  <Variable_Value>| <List_Variable>
             if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
             // to be confirmed
@@ -699,7 +675,7 @@ namespace Compiler_Construction
 
         private bool Variable_Value()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Variable_Assign> -> Id <Variable_Link2> | <Const>
             if (Id_Constant())
             {
@@ -736,7 +712,7 @@ namespace Compiler_Construction
 
         private bool List_Variable()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <List_Variable> -> , Id <Variable_Link2> <List_Variable> | ;
             if (cp("_comma"))
             {
@@ -776,7 +752,7 @@ namespace Compiler_Construction
 
         private bool Object_Link()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Object_Link> ->Id <Object_Creation_Exp>
             if (cp("_identifier"))
             {
@@ -792,7 +768,7 @@ namespace Compiler_Construction
 
         private bool Object_List()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Object_List> -> , Id<Object_Creation_Exp>|;
             if (cp("_comma"))
             {
@@ -816,7 +792,7 @@ namespace Compiler_Construction
 
         private bool Object_Creation_Exp()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Object_Creation_Exp> -> = new <DT_Id> (<List_Const>) <Object_List> |<Object_List>
             if (Tokens[tokenIndex].wordString == "=" && cp("_assignment"))
             {
@@ -858,7 +834,7 @@ namespace Compiler_Construction
 
         private bool Method_Link()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Return_Type())
             {
                 if (Method_Link2())
@@ -872,8 +848,8 @@ namespace Compiler_Construction
 
         private bool Method_Link2()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
-           currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >"); if (cp("_identifier"))
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
+           currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name); if (cp("_identifier"))
             {
                 if (Method_Link3())
                 {
@@ -887,7 +863,7 @@ namespace Compiler_Construction
 
         private bool Method_Link3()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (cp("_bracket_parentheses_open"))
             {
                 if (List_Param())
@@ -922,7 +898,7 @@ return false;}
         // ARRAY DECLARATION
         private bool Array_Link()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Array_Link> ->  [] Id  <List_Array>
             if (cp("_bracket_square_open"))
             {
@@ -946,7 +922,7 @@ return false;}
 
         private bool List_Array()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<List_Array>->;|=<Array_Asign>
             if (cp("_terminator"))
             {
@@ -967,7 +943,7 @@ return false;}
 
         private bool Array_Assign()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Array_Asign> -> new <DT_Id> [<A-temp> | <Array_C>
             if (cp("_new"))
             {
@@ -995,7 +971,7 @@ return false;}
 
         private bool A_Temp()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<A-temp> -> <Id_Constant>] <Array_Const> | ]<Array_C>
 
             if (Id_Constant())
@@ -1020,7 +996,7 @@ return false;}
 
         private bool Array_Const()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Array_Const> -> <Array_C>|;
             if (Array_C())
             {
@@ -1036,7 +1012,7 @@ return false;}
 
         private bool Array_C()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Array_C> -> { <Const> <Array_C2>
             if (cp("_bracket_curly_open"))
             {
@@ -1056,7 +1032,7 @@ return false;}
 
         private bool Array_C2()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Array_C2> -> , <Const> <Array_C2> | };
             if (cp("_comma"))
             {
@@ -1086,7 +1062,7 @@ return false;}
         // CONSTRUCTION DECLARATION
         private bool Constructor_Dec()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Constructor _Dec> ->  Id(<List_Param>) <Constructor_Base> { <M_St> }
             if (cp("_identifier"))
             {
@@ -1125,7 +1101,7 @@ return false;}
 
         private bool Constructor_Base()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Constructor _Base> -> Null | : <Constructor_BT> (<List_Param>)
             if (cp("_colon"))
             {
@@ -1150,8 +1126,6 @@ return false;}
             // follow set
             else if (cp2("_bracket_curly_open"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1159,7 +1133,7 @@ return false;}
 
         private bool Constructor_BT()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Constructor _BT> -> base | this
             if (cp("_base"))
             {
@@ -1175,7 +1149,7 @@ return false;}
         // NAMESPACE DECLARATION
         private bool Namespace_Dec()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Namespace_Dec> -> namespace Id {<Namespace_Member> }
             if (cp("_namespace"))
             {
@@ -1202,7 +1176,7 @@ return false;}
 
         private bool Namespace_Member()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Namespace_Member> -> <Class_Dec><Namespace_Member> | <Namespace_Dec><Namespace_Member> | Null
             if (Class_Dec())
             {
@@ -1223,8 +1197,6 @@ return false;}
             // follow set
             else if (cp2("_bracket_curly_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1233,7 +1205,7 @@ return false;}
         // CLASS DECLARATION
         private bool Class_Dec()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (Access_Modifier())
             {
@@ -1248,7 +1220,7 @@ return false;}
         }
         private bool Class_Link()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (cp("_class"))
             {
@@ -1278,7 +1250,7 @@ return false;}
         }
         private bool Class_Base()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (cp("_colon"))
             {
@@ -1292,8 +1264,6 @@ return false;}
             // follow set
             else if (cp2("_bracket_curly_open"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1301,7 +1271,7 @@ return false;}
         }
         private bool Class_Body()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Class_Member())
             {
                 if (Class_Body())
@@ -1314,15 +1284,13 @@ return false;}
                 // Follow Set
             else if (cp2("_bracket_curly_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
         }
         private bool Class_Member()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Access_Modifier())
             {
                 if (Member_Link())
@@ -1335,7 +1303,7 @@ return false;}
         }
         private bool Member_Link()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Static_Shared())
             {
                 if (SS_A())
@@ -1372,7 +1340,7 @@ return false;}
         }
         private bool SS_A()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (cp("_datatype"))
             {
                 if (DT_OArray())
@@ -1407,7 +1375,7 @@ return false;}
 
         private bool Id_OArray()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (cp("_identifier"))
             {
                 if (Id_A())
@@ -1427,7 +1395,7 @@ return false;}
 
         private bool DT_OArray()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (cp("_identifier"))
             {
                 if (DT_A())
@@ -1446,7 +1414,7 @@ return false;}
         }
         private bool DT_A()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Variable_Link2())
             {
                 currentNode = currentNode.Parent; return true;
@@ -1459,7 +1427,7 @@ return false;}
         }
         private bool Id_A()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (Method_Link3())
             {
                 currentNode = currentNode.Parent; return true;
@@ -1475,7 +1443,7 @@ return false;}
         // Expression
         private bool exp()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <exp> -> <O>
             if (O())
             {
@@ -1487,7 +1455,7 @@ return false;}
 
         private bool O()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <O> -> <A> <O’>
             if (A())
             {
@@ -1504,7 +1472,7 @@ return false;}
 
         private bool O_()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <O’> -> || <A> <O’> | Null
             if (cp("_or"))
             {
@@ -1522,8 +1490,6 @@ return false;}
                 // Follow set
             else if (cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1531,7 +1497,7 @@ return false;}
 
         private bool A()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <A> -> <RE> <A’>
             if (RE())
             {
@@ -1543,8 +1509,6 @@ return false;}
             }
             else if (cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1552,7 +1516,7 @@ return false;}
 
         private bool A_()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <A’> -> && <RE> <A’> | Null
             if (cp("_and"))
             {
@@ -1568,8 +1532,6 @@ return false;}
             }
             else if (cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             // Null case
@@ -1578,7 +1540,7 @@ return false;}
 
         private bool RE()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <RE> -> <PM> <RE’>
             if (PM())
             {
@@ -1590,8 +1552,6 @@ return false;}
             }
             else if (cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1599,7 +1559,7 @@ return false;}
 
         private bool RE_()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <RE’> -> Rel_Op <PM> <RE’> | Null
             if (cp("_relational"))
             {
@@ -1616,8 +1576,6 @@ return false;}
             }
             else if (cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             // Null case
@@ -1626,7 +1584,7 @@ return false;}
 
         private bool PM()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <PM> -> <MD> <PM’>
             if (MD())
             {
@@ -1638,8 +1596,6 @@ return false;}
             }
             else if (cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                  return true;
             }
             else return false;
@@ -1647,7 +1603,7 @@ return false;}
 
         private bool PM_()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <PM’> -> P_M <MD> <PM’> | Null
             if (cp("_plus_minus"))
             {
@@ -1663,8 +1619,6 @@ return false;}
             }
             else if (cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                  return true;
             }
             // Null case
@@ -1673,7 +1627,7 @@ return false;}
 
         private bool MD()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <MD> -> <OP> <MD’>
             if (OP())
             {
@@ -1685,8 +1639,6 @@ return false;}
             }
             else if (cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1694,7 +1646,7 @@ return false;}
 
         private bool MD_()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <MD’> -> M_D_M <OP> <MD’> | Null
             if (cp("_multiply_divide_mode"))
             {
@@ -1711,8 +1663,6 @@ return false;}
             // Null case
             else if (cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1720,7 +1670,7 @@ return false;}
 
         private bool OP()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <OP> -> Id<id_op>  | <Const> |!<OP> | (<exp>) | Inc_Dec  Id
             if (cp("_identifier"))
             {
@@ -1764,8 +1714,6 @@ return false;}
             }
             else if (cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1773,7 +1721,7 @@ return false;}
 
         private bool id_op()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <id_op> -> Null | (<List_Const>) | [ <Id_Constant> ] | <Class_Member_Child> | Inc_Dec
             if (cp("_bracket_parentheses_open"))
             {
@@ -1809,8 +1757,6 @@ return false;}
             }
             else if (cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") || cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             // Null case
@@ -1820,7 +1766,7 @@ return false;}
         // CLASS MEMBER ACCESS
         private bool Class_Member_Child()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Class_Member_Child> -> .Id <Id_CMC> | (<List_Const>) | Null
             if (cp("_dot"))
             {
@@ -1856,8 +1802,6 @@ return false;}
             else if (cp2("bracket_curly_close") || cp2("_else") || cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") ||
             cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;
@@ -1865,7 +1809,7 @@ return false;}
 
         private bool Id_CMC()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Id_CMC> -> <Class_Member_Child> | [<Id_Constant>] <Class_Member_Child>
             if (Class_Member_Child())
             {
@@ -1897,8 +1841,6 @@ return false;}
             else if (cp2("bracket_curly_close") || cp2("_else") || cp2("_multiply_divide_mode") || cp2("_plus_minus") || cp2("_relational") || cp2("_and") || cp2("_or") ||
                  cp2("_comma") || cp2("_terminator") || cp2("_bracket_parentheses_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
               return true;
             }
 
@@ -1909,7 +1851,7 @@ return false;}
         // while
         private bool While_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             if (cp("_while"))
             {
                 if (cp("_bracket_parentheses_open"))
@@ -1936,7 +1878,7 @@ return false;}
         // for
         private bool For_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <For_St>->for(<AD><C>;<A_D>)<Body>
             if (cp("_for"))
             {
@@ -1975,7 +1917,7 @@ return false;}
 
         private bool AD()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <AD>-> <Variable_Dec>|<Asgn>;|;
             if (Variable_Dec())
             {
@@ -2003,7 +1945,7 @@ return false;}
 
         private bool C()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <C>-><exp>|Null
             // need to review
             if (exp())
@@ -2013,8 +1955,6 @@ return false;}
             // follow set
             else if (cp2("_terminator"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
               return true;
             }
             else return false;
@@ -2023,7 +1963,7 @@ return false;}
 
         private bool A_D()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <A_D>-> Id <Id_A_D> | Inc_Dec Id |Null
 
             if (cp("_identifier"))
@@ -2046,8 +1986,6 @@ return false;}
             // follow set
             else if (cp2("_bracket_parentheses_open"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
 
@@ -2057,7 +1995,7 @@ return false;}
 
         private bool Id_A_D()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Id_A_D> -> Inc_Dec | <Array_Index> AsgOp <exp>
             if (cp("_inc_dec"))
             {
@@ -2083,7 +2021,7 @@ return false;}
         // Foreach
         private bool Foreach_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Foreach_St>-> foreach(<Foreach_Assg> )<Body>
             if (cp("_foreach"))
             {
@@ -2110,7 +2048,7 @@ return false;}
 
         private bool Foreach_Assg()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Foreach_Assg>-> DT Id in Id
             if (cp("_datatype"))
             {
@@ -2135,7 +2073,7 @@ return false;}
         // Do while
         private bool Do_While_St()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             //<Do_While_St>->do{<M_St>}while(<exp>);
 
             if (cp("_do"))
@@ -2180,7 +2118,7 @@ return false;}
         // RETURN
         private bool Return()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <Return> -> return <exp>;
             if (cp("_return"))
             {
@@ -2200,7 +2138,7 @@ return false;}
         // GOTO
         private bool GoTo()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <GoTo> -> goto Id
             if (cp("_goto"))
             {
@@ -2220,7 +2158,7 @@ return false;}
         // IF ELSE
         private bool If_Else()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <If_Else>-> if(<exp>)<Body><O_Else>
             if (cp("_if"))
             {
@@ -2251,7 +2189,7 @@ return false;}
 
         private bool O_Else()
         {
-            currentNode = currentNode.Nodes.Add("<"+System.Reflection.MethodBase.GetCurrentMethod().Name+">","< "+System.Reflection.MethodBase.GetCurrentMethod().Name+" >");
+            currentNode = currentNode.Nodes.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             // <O_Else>-> else <Body>|Null
             if (tokenIndex >= Tokens.Count()) { currentNode = currentNode.Parent; return true; }
             if (cp("_else"))
@@ -2265,8 +2203,6 @@ return false;}
             // follow set
             else if (cp2("_else") || cp2("_bracket_curly_close"))
             {
-                currentNode.Nodes.Add("(NULL)","( " + "NULL" + " )");
-                currentNode = currentNode.Parent;
                 return true;
             }
             else return false;

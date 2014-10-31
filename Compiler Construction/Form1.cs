@@ -17,6 +17,8 @@ namespace Compiler_Construction
         WordBreaker myWordBreaker;
         List<token> wordBreakerOutput;
         List<token> TokenOutput;
+        TreeNode[] searchResult;
+        int treeIndex = 1;
         LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
         SyntaxAnalyzer mySyntaxAnalyzer = new SyntaxAnalyzer();
         public Form1()
@@ -26,7 +28,7 @@ namespace Compiler_Construction
 
         private void Lexical_Click(object sender, EventArgs e)
         {
-
+            CFG.Nodes.Clear();
             myWordBreaker = new WordBreaker();
             int totalError = 0;
             BreakerBox.Items.Clear();
@@ -42,6 +44,7 @@ namespace Compiler_Construction
             syntaxBar.Value = 0;
             syntaxBar.Value = 0;
             syntaxErrorBox.Visible = false;
+            button2.Enabled = false;
 
             wordBreakerOutput = new List<token>();
             TokenOutput = new List<token>();
@@ -92,6 +95,8 @@ namespace Compiler_Construction
                 {
                     j++;
                 }
+
+                
             }
             
             
@@ -125,6 +130,14 @@ namespace Compiler_Construction
                  
                 syntaxBar.Value = 0;
             }
+             if (checkBox2.Checked)
+             {
+                 CFG.ExpandAll();
+             }
+             else
+             {
+                 CFG.CollapseAll();
+             }
         }
 
         private void selectBreaker(object sender, EventArgs e)
@@ -154,6 +167,55 @@ namespace Compiler_Construction
                 Lexical.Enabled = true;
                 codeBlock.TextChanged -= Lexical_Click;
                 
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                CFG.ExpandAll();
+            }
+            else
+            {
+                CFG.CollapseAll();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (treeItem.Text != "")
+            {
+                CFG.SelectedNode = CFG.TopNode;
+                searchResult = CFG.Nodes.Find(treeItem.Text,true);
+                CFG.SelectedNode = CFG.TopNode;
+                if (searchResult.Length > 0)
+                {
+                    
+                    treeIndex = 1;
+                    CFG.SelectedNode = searchResult[0];
+                    CFG.Focus();
+                    button2.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("No Such Node");
+                }
+            }
+        }
+
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            if (treeIndex < searchResult.Length)
+            {
+                CFG.SelectedNode = searchResult[treeIndex];
+                CFG.Focus();
+                treeIndex++;
+            }
+            else
+            {
+                button2.Enabled = false;
             }
         }
 
