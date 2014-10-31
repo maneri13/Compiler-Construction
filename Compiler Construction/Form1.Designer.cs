@@ -119,6 +119,7 @@
             this.codeBlock.TabIndex = 2;
             this.codeBlock.TabStop = false;
             this.codeBlock.Text = "";
+            this.codeBlock.TextChanged += new System.EventHandler(this.codeBlock_TextChanged);
             // 
             // richTextBox1
             // 

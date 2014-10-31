@@ -19,6 +19,7 @@ namespace Compiler_Construction
         List<token> TokenOutput;
         TreeNode[] searchResult;
         int treeIndex = 1;
+        int lineNumer = 1;
         LexicalAnalyzer myLexicalAnalyzer = new LexicalAnalyzer();
         SyntaxAnalyzer mySyntaxAnalyzer = new SyntaxAnalyzer();
         public Form1()
@@ -35,7 +36,6 @@ namespace Compiler_Construction
             
             richTextBox1.Text = "";
             TokenBox1.Text = "";
-            lineBox.Text = "";
 
             TotalError.Text = "";
             totalWords.Text = "";
@@ -119,12 +119,7 @@ namespace Compiler_Construction
             {
                 TokenOutput.Add(new token(TokenOutput.Last().lineNumber, "$", "_end_marker"));
 
-                int totallines = TokenOutput[TokenOutput.Count - 1].lineNumber;
-
-                for (int i = 0; i < totallines; i++)
-                {
-                    lineBox.Text += i+1 + "\n";
-                }
+               
             }
             
             
@@ -225,6 +220,23 @@ namespace Compiler_Construction
             {
                 button2.Enabled = false;
             }
+        }
+
+        private void codeBlock_TextChanged(object sender, EventArgs e)
+        {
+            lineBox.Text = "";
+            lineNumer = 1;
+            lineBox.Text += lineNumer.ToString() + "\n";
+            foreach (char item in codeBlock.Text)
+            {
+                if (item == '\n')
+                {
+                    lineNumer++;
+                    lineBox.Text += lineNumer.ToString() + "\n";
+
+                }
+            }
+            
         }
 
         
