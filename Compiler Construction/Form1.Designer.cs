@@ -36,6 +36,19 @@
             this.TokenBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.treeItem = new System.Windows.Forms.TextBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.syntaxErrorBox = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.error_valuePart = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.error_classPart = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.error_lineNo = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.CFG = new System.Windows.Forms.TreeView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.TotalError = new System.Windows.Forms.Label();
@@ -72,25 +85,24 @@
             this.Lexical = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.error_valuePart = new System.Windows.Forms.Label();
-            this.error_classPart = new System.Windows.Forms.Label();
-            this.error_lineNo = new System.Windows.Forms.Label();
-            this.syntaxErrorBox = new System.Windows.Forms.GroupBox();
+            this.lineBox = new System.Windows.Forms.RichTextBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.TokenBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.syntaxErrorBox.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.syntaxErrorBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // codeBlock
@@ -101,9 +113,9 @@
             this.codeBlock.DetectUrls = false;
             this.codeBlock.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.codeBlock.ForeColor = System.Drawing.Color.Gold;
-            this.codeBlock.Location = new System.Drawing.Point(6, 16);
+            this.codeBlock.Location = new System.Drawing.Point(34, 16);
             this.codeBlock.Name = "codeBlock";
-            this.codeBlock.Size = new System.Drawing.Size(628, 497);
+            this.codeBlock.Size = new System.Drawing.Size(600, 497);
             this.codeBlock.TabIndex = 2;
             this.codeBlock.TabStop = false;
             this.codeBlock.Text = "";
@@ -117,7 +129,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(6, 19);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(231, 434);
+            this.richTextBox1.Size = new System.Drawing.Size(549, 434);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             // 
@@ -135,8 +147,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
-            this.tabPage1.Controls.Add(this.TokenBox);
-            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.splitContainer1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -147,9 +158,9 @@
             // TokenBox
             // 
             this.TokenBox.Controls.Add(this.TokenBox1);
-            this.TokenBox.Location = new System.Drawing.Point(261, 6);
+            this.TokenBox.Location = new System.Drawing.Point(3, 3);
             this.TokenBox.Name = "TokenBox";
-            this.TokenBox.Size = new System.Drawing.Size(305, 459);
+            this.TokenBox.Size = new System.Drawing.Size(560, 459);
             this.TokenBox.TabIndex = 7;
             this.TokenBox.TabStop = false;
             this.TokenBox.Text = "Tokenizer";
@@ -162,22 +173,24 @@
             this.TokenBox1.Location = new System.Drawing.Point(6, 16);
             this.TokenBox1.Name = "TokenBox1";
             this.TokenBox1.ReadOnly = true;
-            this.TokenBox1.Size = new System.Drawing.Size(293, 437);
+            this.TokenBox1.Size = new System.Drawing.Size(554, 437);
             this.TokenBox1.TabIndex = 0;
             this.TokenBox1.Text = "";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.richTextBox1);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(243, 459);
+            this.groupBox1.Size = new System.Drawing.Size(555, 459);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Word Seprator";
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox6);
+            this.tabPage2.Controls.Add(this.checkBox2);
             this.tabPage2.Controls.Add(this.syntaxErrorBox);
             this.tabPage2.Controls.Add(this.CFG);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
@@ -187,6 +200,134 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Syntax Analyzer";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.button2);
+            this.groupBox6.Controls.Add(this.button1);
+            this.groupBox6.Controls.Add(this.treeItem);
+            this.groupBox6.Location = new System.Drawing.Point(371, 135);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(195, 75);
+            this.groupBox6.TabIndex = 10;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Search Tree";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(100, 46);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(89, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Find Next";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(7, 46);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(89, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Find";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // treeItem
+            // 
+            this.treeItem.Location = new System.Drawing.Point(7, 20);
+            this.treeItem.Name = "treeItem";
+            this.treeItem.Size = new System.Drawing.Size(182, 20);
+            this.treeItem.TabIndex = 0;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(371, 6);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(87, 17);
+            this.checkBox2.TabIndex = 9;
+            this.checkBox2.Text = "Expand Tree";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // syntaxErrorBox
+            // 
+            this.syntaxErrorBox.Controls.Add(this.label8);
+            this.syntaxErrorBox.Controls.Add(this.error_valuePart);
+            this.syntaxErrorBox.Controls.Add(this.label9);
+            this.syntaxErrorBox.Controls.Add(this.error_classPart);
+            this.syntaxErrorBox.Controls.Add(this.label10);
+            this.syntaxErrorBox.Controls.Add(this.error_lineNo);
+            this.syntaxErrorBox.Controls.Add(this.label11);
+            this.syntaxErrorBox.Location = new System.Drawing.Point(371, 29);
+            this.syntaxErrorBox.Name = "syntaxErrorBox";
+            this.syntaxErrorBox.Size = new System.Drawing.Size(195, 99);
+            this.syntaxErrorBox.TabIndex = 8;
+            this.syntaxErrorBox.TabStop = false;
+            this.syntaxErrorBox.Text = "Syntax Error";
+            this.syntaxErrorBox.Visible = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Consolas", 12F);
+            this.label8.Location = new System.Drawing.Point(10, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(171, 19);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Syntax Error Value";
+            // 
+            // error_valuePart
+            // 
+            this.error_valuePart.AutoSize = true;
+            this.error_valuePart.Location = new System.Drawing.Point(72, 79);
+            this.error_valuePart.Name = "error_valuePart";
+            this.error_valuePart.Size = new System.Drawing.Size(0, 13);
+            this.error_valuePart.TabIndex = 7;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(13, 39);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(42, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Line no";
+            // 
+            // error_classPart
+            // 
+            this.error_classPart.AutoSize = true;
+            this.error_classPart.Location = new System.Drawing.Point(72, 59);
+            this.error_classPart.Name = "error_classPart";
+            this.error_classPart.Size = new System.Drawing.Size(0, 13);
+            this.error_classPart.TabIndex = 6;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 59);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Class Part";
+            // 
+            // error_lineNo
+            // 
+            this.error_lineNo.AutoSize = true;
+            this.error_lineNo.Location = new System.Drawing.Point(72, 39);
+            this.error_lineNo.Name = "error_lineNo";
+            this.error_lineNo.Size = new System.Drawing.Size(0, 13);
+            this.error_lineNo.TabIndex = 5;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(13, 79);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 13);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Value Part";
             // 
             // CFG
             // 
@@ -339,7 +480,7 @@
             // BreakerBox
             // 
             this.BreakerBox.FormattingEnabled = true;
-            this.BreakerBox.Location = new System.Drawing.Point(6, 41);
+            this.BreakerBox.Location = new System.Drawing.Point(6, 47);
             this.BreakerBox.Name = "BreakerBox";
             this.BreakerBox.Size = new System.Drawing.Size(188, 21);
             this.BreakerBox.TabIndex = 13;
@@ -412,6 +553,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.lineBox);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
@@ -530,83 +672,35 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Compiler";
             // 
-            // label8
+            // lineBox
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Consolas", 12F);
-            this.label8.Location = new System.Drawing.Point(10, 16);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(171, 19);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Syntax Error Value";
+            this.lineBox.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.lineBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lineBox.Font = new System.Drawing.Font("Consolas", 12F);
+            this.lineBox.ForeColor = System.Drawing.Color.Gold;
+            this.lineBox.Location = new System.Drawing.Point(4, 16);
+            this.lineBox.Name = "lineBox";
+            this.lineBox.ReadOnly = true;
+            this.lineBox.Size = new System.Drawing.Size(24, 497);
+            this.lineBox.TabIndex = 11;
+            this.lineBox.Text = "";
             // 
-            // label9
+            // splitContainer1
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(13, 39);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(42, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "Line no";
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
             // 
-            // label10
+            // splitContainer1.Panel1
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 59);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(54, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Class Part";
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             // 
-            // label11
+            // splitContainer1.Panel2
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(13, 79);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(56, 13);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "Value Part";
-            // 
-            // error_valuePart
-            // 
-            this.error_valuePart.AutoSize = true;
-            this.error_valuePart.Location = new System.Drawing.Point(72, 79);
-            this.error_valuePart.Name = "error_valuePart";
-            this.error_valuePart.Size = new System.Drawing.Size(0, 13);
-            this.error_valuePart.TabIndex = 7;
-            // 
-            // error_classPart
-            // 
-            this.error_classPart.AutoSize = true;
-            this.error_classPart.Location = new System.Drawing.Point(72, 59);
-            this.error_classPart.Name = "error_classPart";
-            this.error_classPart.Size = new System.Drawing.Size(0, 13);
-            this.error_classPart.TabIndex = 6;
-            // 
-            // error_lineNo
-            // 
-            this.error_lineNo.AutoSize = true;
-            this.error_lineNo.Location = new System.Drawing.Point(72, 39);
-            this.error_lineNo.Name = "error_lineNo";
-            this.error_lineNo.Size = new System.Drawing.Size(0, 13);
-            this.error_lineNo.TabIndex = 5;
-            // 
-            // syntaxErrorBox
-            // 
-            this.syntaxErrorBox.Controls.Add(this.label8);
-            this.syntaxErrorBox.Controls.Add(this.error_valuePart);
-            this.syntaxErrorBox.Controls.Add(this.label9);
-            this.syntaxErrorBox.Controls.Add(this.error_classPart);
-            this.syntaxErrorBox.Controls.Add(this.label10);
-            this.syntaxErrorBox.Controls.Add(this.error_lineNo);
-            this.syntaxErrorBox.Controls.Add(this.label11);
-            this.syntaxErrorBox.Location = new System.Drawing.Point(371, 6);
-            this.syntaxErrorBox.Name = "syntaxErrorBox";
-            this.syntaxErrorBox.Size = new System.Drawing.Size(195, 99);
-            this.syntaxErrorBox.TabIndex = 8;
-            this.syntaxErrorBox.TabStop = false;
-            this.syntaxErrorBox.Text = "Syntax Error";
-            this.syntaxErrorBox.Visible = false;
+            this.splitContainer1.Panel2.Controls.Add(this.TokenBox);
+            this.splitContainer1.Size = new System.Drawing.Size(566, 465);
+            this.splitContainer1.SplitterDistance = 188;
+            this.splitContainer1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -627,6 +721,11 @@
             this.TokenBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.syntaxErrorBox.ResumeLayout(false);
+            this.syntaxErrorBox.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -637,8 +736,10 @@
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.syntaxErrorBox.ResumeLayout(false);
-            this.syntaxErrorBox.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -698,6 +799,13 @@
         public System.Windows.Forms.Label error_classPart;
         public System.Windows.Forms.Label error_lineNo;
         public System.Windows.Forms.GroupBox syntaxErrorBox;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox treeItem;
+        private System.Windows.Forms.Button button2;
+        public System.Windows.Forms.RichTextBox lineBox;
+        private System.Windows.Forms.SplitContainer splitContainer1;
 
     }
 }
